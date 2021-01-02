@@ -16,4 +16,11 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.20'
     implementation 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testImplementation 'com.h2database:h2:1.4.197'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
 }

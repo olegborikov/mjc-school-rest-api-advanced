@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String ADD = "INSERT INTO gift_certificate (gift_certificate_name, description, price, "
-            + "duration, create_date, last_update_date) VALUE (?, ?, ?, ?, ?, ?)";
+            + "duration, create_date, last_update_date) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_ALL = "SELECT gift_certificate_id, gift_certificate_name, description, price, "
             + "duration, create_date, last_update_date FROM gift_certificate";
     private static final String UPDATE = "UPDATE gift_certificate SET "

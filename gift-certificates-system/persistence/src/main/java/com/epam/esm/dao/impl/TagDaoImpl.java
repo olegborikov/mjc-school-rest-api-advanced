@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.List;
 
 public class TagDaoImpl implements TagDao {
-    private static final String ADD = "INSERT INTO tag (tag_name) VALUE (?)";
+    private static final String ADD = "INSERT INTO tag (tag_name) VALUES (?)";
     private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
     private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
     private JdbcTemplate jdbcTemplate;
