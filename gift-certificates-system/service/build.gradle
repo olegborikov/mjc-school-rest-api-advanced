@@ -4,3 +4,24 @@ plugins {
 
 group 'com.epam.esm'
 version '1.0'
+
+ext {
+    springVersion = '5.2.12.RELEASE'
+}
+
+dependencies {
+    implementation project(":persistence")
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation "org.springframework:spring-core:$springVersion"
+    implementation "org.springframework:spring-context:$springVersion"
+    implementation 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
+

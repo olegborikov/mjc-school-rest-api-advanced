@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String ADD = "INSERT INTO gift_certificate (gift_certificate_name, description, price, "
             + "duration, create_date, last_update_date) VALUES (?, ?, ?, ?, ?, ?)";

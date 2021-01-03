@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class TagDaoImpl implements TagDao {
     private static final String ADD = "INSERT INTO tag (tag_name) VALUES (?)";
     private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
