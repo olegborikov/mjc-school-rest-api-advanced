@@ -10,9 +10,9 @@ import java.sql.SQLException;
 public class TagMapper implements RowMapper<Tag> {
     @Override
     public Tag mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Tag tag = new Tag();
-        tag.setId(rs.getLong(ColumnName.TAG_ID));
-        tag.setName(rs.getString(ColumnName.TAG_NAME));
-        return tag;
+        return Tag.builder()
+                .id(rs.getLong(ColumnName.TAG_ID))
+                .name(rs.getString(ColumnName.TAG_NAME))
+                .build();
     }
 }

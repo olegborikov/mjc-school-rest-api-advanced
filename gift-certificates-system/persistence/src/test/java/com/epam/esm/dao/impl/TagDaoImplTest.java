@@ -35,7 +35,7 @@ class TagDaoImplTest {
         new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .setScriptEncoding("UTF-8")
-                .addScript("classpath:script/tag_drop.sql")
+                .addScript("classpath:script/tag_delete.sql")
                 .build();
         tagDao = null;
     }
@@ -75,7 +75,7 @@ class TagDaoImplTest {
     }
 
     @Test
-    void findAllCorrectDataShouldReturnListOfTags() {
+    void findAllShouldReturnListOfTags() {
         List<Tag> tags = tagDao.findAll();
         long actual = tags.size();
         long expected = 4;
@@ -98,7 +98,7 @@ class TagDaoImplTest {
     }
 
     @Test
-    void removeCorrectDataShouldReturnFalse() {
+    void removeIncorrectDataShouldReturnFalse() {
         long id = -1;
         boolean actual = tagDao.remove(id);
         assertFalse(actual);
