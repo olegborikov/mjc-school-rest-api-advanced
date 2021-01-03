@@ -23,7 +23,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public boolean addGiftCertificate(GiftCertificate giftCertificate) {
         boolean isAdded = false;
-        if (giftCertificate.getId() > 0 && giftCertificate.getDuration() > 0
+        if (giftCertificate.getDuration() > 0
                 && GiftCertificateValidator.isNameCorrect(giftCertificate.getName())
                 && GiftCertificateValidator.isDescriptionCorrect(giftCertificate.getDescription())
                 && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())

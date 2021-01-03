@@ -21,7 +21,7 @@ public class TagServiceImpl implements TagService {
 
     public boolean addTag(Tag tag) {
         boolean isAdded = false;
-        if (tag.getId() > 0 && TagValidator.isNameCorrect(tag.getName())) {
+        if (TagValidator.isNameCorrect(tag.getName())) {
             isAdded = tagDao.add(tag);
         }
         return isAdded;
