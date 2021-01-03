@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,7 +58,7 @@ class TagDaoImplTest {
         tagDao.add(tag);
         long actual = tag.getId();
         long expected = 5;
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -79,7 +80,25 @@ class TagDaoImplTest {
         List<Tag> tags = tagDao.findAll();
         long actual = tags.size();
         long expected = 4;
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void findByIdCorrectDataShouldReturnTagOptional() {
+        long id = 1;
+        Tag expected = Tag.builder()
+                .id(1L)
+                .name("home")
+                .build();
+        Optional<Tag> actual = tagDao.findById(id);
+        assertEquals(actual, Optional.of(expected));
+    }
+
+    @Test
+    void findByIdIncorrectDataShouldReturnEmptyOptional() {
+        long id = -1;
+        Optional<Tag> actual = tagDao.findById(id);
+        assertFalse(actual.isPresent());
     }
 
     @Test

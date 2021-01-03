@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,7 +70,7 @@ class GiftCertificateDaoImplTest {
         giftCertificateDao.add(giftCertificate);
         long actual = giftCertificate.getId();
         long expected = 5;
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -96,7 +97,30 @@ class GiftCertificateDaoImplTest {
         List<GiftCertificate> tags = giftCertificateDao.findAll();
         long actual = tags.size();
         long expected = 4;
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void findByIdCorrectDataShouldReturnGiftCertificateOptional() {
+        long id = 1;
+        GiftCertificate expected = GiftCertificate.builder()
+                .id(1L)
+                .name("Spa house")
+                .description("Very good and not expensive")
+                .price(new BigDecimal("100.1"))
+                .duration(1)
+                .createDate(LocalDateTime.of(2020, 8, 2, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2021, 1, 2, 16, 0, 0))
+                .build();
+        Optional<GiftCertificate> actual = giftCertificateDao.findById(id);
+        assertEquals(Optional.of(expected), actual);
+    }
+
+    @Test
+    void findByIdIncorrectDataShouldReturnEmptyOptional() {
+        long id = -1;
+        Optional<GiftCertificate> actual = giftCertificateDao.findById(id);
+        assertFalse(actual.isPresent());
     }
 
     @Test
