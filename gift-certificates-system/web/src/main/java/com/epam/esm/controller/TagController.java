@@ -1,8 +1,12 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.TagDto;
+import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.handler.ErrorHandler;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +27,7 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public TagDto tagById(@PathVariable long id) {
+    public TagDto tagById(@PathVariable String id) {
         return tagService.findTagById(id);
     }
 
@@ -33,8 +37,19 @@ public class TagController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTag(@PathVariable long id) {
+    public void deleteTag(@PathVariable String id) {
         tagService.removeTag(id);
     }
 
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorHandler handleResourceNotFoundException(ResourceNotFoundException exception){
+        return new ErrorHandler(exception.getMessage(), 44);
+    }
+
+    @ExceptionHandler(value = IncorrectParametersException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorHandler handleIncorrectParametersException(IncorrectParametersException exception){
+        return new ErrorHandler(exception.getMessage(), 40);
+    }
 }

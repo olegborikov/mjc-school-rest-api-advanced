@@ -6,6 +6,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TagValidatorTest {
     @Test
+    void isIdCorrectCorrectDataShouldReturnTrue() {
+        String id = "5";
+        boolean actual = TagValidator.isIdCorrect(id);
+        assertTrue(actual);
+    }
+
+    @Test
+    void isIdCorrectIncorrectDataShouldReturnFalse() {
+        String id = "dsa";
+        boolean actual = TagValidator.isIdCorrect(id);
+        assertFalse(actual);
+    }
+
+    @Test
     void isNameCorrectCorrectDataShouldReturnTrue() {
         String name = "Travel";
         boolean actual = TagValidator.isNameCorrect(name);

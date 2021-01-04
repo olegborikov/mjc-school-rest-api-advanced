@@ -12,7 +12,7 @@ public interface TagService {
 
     List<TagDto> findAllTags();
 
-    TagDto findTagById(long id);
+    TagDto findTagById(String id);
 
-    void removeTag(long id);
+    void removeTag(String id);
 }
