@@ -19,12 +19,12 @@ public class TagController {
     }
 
     @GetMapping
-    public List<Tag> findTags() {
+    public List<Tag> tags() {
         return tagService.findAllTags();
     }
 
     @GetMapping("/{id}")
-    public Tag findTagsById(@PathVariable long id)  {
+    public Tag tagById(@PathVariable long id)  {
         Optional<Tag> foundTagOptional = tagService.findTagById(id);
         return foundTagOptional.orElseThrow(null); // TODO: 04.01.2021
     }
