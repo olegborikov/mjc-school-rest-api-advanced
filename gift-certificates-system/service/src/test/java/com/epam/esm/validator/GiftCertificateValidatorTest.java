@@ -4,9 +4,24 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GiftCertificateValidatorTest {
+    @Test
+    void isIdCorrectCorrectDataShouldReturnTrue() {
+        String id = "5";
+        boolean actual = GiftCertificateValidator.isIdCorrect(id);
+        assertTrue(actual);
+    }
+
+    @Test
+    void isIdCorrectIncorrectDataShouldReturnFalse() {
+        String id = "dsa";
+        boolean actual = GiftCertificateValidator.isIdCorrect(id);
+        assertFalse(actual);
+    }
+
     @Test
     void isNameCorrectCorrectDataShouldReturnTrue() {
         String name = "Quest";

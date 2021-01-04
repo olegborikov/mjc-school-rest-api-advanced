@@ -12,9 +12,9 @@ public interface GiftCertificateService {
 
     List<GiftCertificateDto> findAllGiftCertificates();
 
-    GiftCertificateDto findGiftCertificateById(long id);
+    GiftCertificateDto findGiftCertificateById(String id);
 
     GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto);
 
-    void removeGiftCertificate(long id);
+    void removeGiftCertificate(String id);
 }

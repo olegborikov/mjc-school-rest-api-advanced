@@ -58,7 +58,7 @@ public class TagServiceImpl implements TagService {
             long parsedId = NumberUtils.createLong(id);
             Optional<Tag> foundTag = tagDao.findById(parsedId);
             return foundTag.map(tag -> modelMapper.map(tag, TagDto.class))
-                    .orElseThrow(() -> new ResourceNotFoundException("Tag with id " + id + "not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Tag with id " + id + " not found."));
         } else {
             throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
         }
@@ -70,7 +70,7 @@ public class TagServiceImpl implements TagService {
             long parsedId = NumberUtils.createLong(id);
             boolean isRemoved = tagDao.remove(parsedId);
             if (!isRemoved) {
-                throw new ResourceNotFoundException("Tag with id " + id + "not found.");
+                throw new ResourceNotFoundException("Tag with id " + id + " not found.");
             }
         } else {
             throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
