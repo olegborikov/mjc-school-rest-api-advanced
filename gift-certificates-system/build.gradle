@@ -16,9 +16,11 @@ allprojects {
     }
 
     dependencies {
-        implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
-        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3'
         implementation "org.springframework:spring-core:$springVersion"
         implementation "org.springframework:spring-context:$springVersion"
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3'
+        implementation 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
     }
 }

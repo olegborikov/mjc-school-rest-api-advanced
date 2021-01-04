@@ -42,12 +42,12 @@ class TagDaoImplTest {
     }
 
     @Test
-    void addCorrectDataShouldReturnTrue() {
+    void addCorrectDataShouldReturnTag() {
         Tag tag = Tag.builder()
                 .name("Shop")
                 .build();
-        boolean actual = tagDao.add(tag);
-        assertTrue(actual);
+        Tag actual = tagDao.add(tag);
+        assertNotNull(actual);
     }
 
     @Test

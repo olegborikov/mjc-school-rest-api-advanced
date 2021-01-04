@@ -1,6 +1,5 @@
 package com.epam.esm.dao.impl;
 
-import com.epam.esm.dao.ColumnName;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.mapper.TagMapper;
 import com.epam.esm.entity.Tag;
@@ -31,18 +30,18 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public boolean add(Tag tag) {
+    public Tag add(Tag tag) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        boolean isAdded = jdbcTemplate.update(connection -> {
+        jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(ADD, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, tag.getName());
             return statement;
-        }, keyHolder) > 0;
+        }, keyHolder);
         Number key = keyHolder.getKey();
         if (key != null) {
             tag.setId(key.longValue());
         }
-        return isAdded;
+        return tag;
     }
 
     @Override
@@ -52,17 +51,8 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Optional<Tag> findById(long id) {
-        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, rs -> {
-            if (rs.next()) {
-                Tag tag = Tag.builder()
-                        .id(rs.getLong(ColumnName.TAG_ID))
-                        .name(rs.getString(ColumnName.TAG_NAME))
-                        .build();
-                return Optional.of(tag);
-            } else {
-                return Optional.empty();
-            }
-        });
+        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, tagMapper).stream()
+                .findFirst();
     }
 
     @Override

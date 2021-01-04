@@ -1,6 +1,5 @@
 package com.epam.esm.dao.impl;
 
-import com.epam.esm.dao.ColumnName;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.mapper.GiftCertificateMapper;
 import com.epam.esm.entity.GiftCertificate;
@@ -10,10 +9,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +36,9 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public boolean add(GiftCertificate giftCertificate) {
+    public GiftCertificate add(GiftCertificate giftCertificate) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        boolean isAdded = jdbcTemplate.update(connection -> {
+        jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(ADD, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, giftCertificate.getName());
             statement.setString(2, giftCertificate.getDescription());
@@ -50,12 +47,12 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             statement.setObject(5, giftCertificate.getCreateDate());
             statement.setObject(6, giftCertificate.getLastUpdateDate());
             return statement;
-        }, keyHolder) > 0;
+        }, keyHolder);
         Number key = keyHolder.getKey();
         if (key != null) {
             giftCertificate.setId(key.longValue());
         }
-        return isAdded;
+        return giftCertificate;
     }
 
     @Override
@@ -65,24 +62,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public Optional<GiftCertificate> findById(long id) {
-        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, rs -> {
-            if (rs.next()) {
-                GiftCertificate giftCertificate = GiftCertificate.builder()
-                        .id(rs.getLong(ColumnName.GIFT_CERTIFICATE_ID))
-                        .name(rs.getString(ColumnName.GIFT_CERTIFICATE_NAME))
-                        .description(rs.getString(ColumnName.DESCRIPTION))
-                        .price(BigDecimal.valueOf(rs.getDouble(ColumnName.PRICE)))
-                        .duration(rs.getInt(ColumnName.DURATION))
-                        .createDate(LocalDateTime.of(rs.getDate(ColumnName.CREATE_DATE).toLocalDate(),
-                                rs.getTime(ColumnName.CREATE_DATE).toLocalTime()))
-                        .lastUpdateDate(LocalDateTime.of(rs.getDate(ColumnName.LAST_UPDATE_DATE).toLocalDate(),
-                                rs.getTime(ColumnName.LAST_UPDATE_DATE).toLocalTime()))
-                        .build();
-                return Optional.of(giftCertificate);
-            } else {
-                return Optional.empty();
-            }
-        });
+        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, giftCertificateMapper).stream()
+                .findFirst();
     }
 
     @Override

@@ -1,18 +1,22 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private GiftCertificateDao giftCertificateDao;
+    private ModelMapper modelMapper;
 
     @Autowired
     @Override
@@ -20,51 +24,74 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         this.giftCertificateDao = giftCertificateDao;
     }
 
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     @Override
-    public boolean addGiftCertificate(GiftCertificate giftCertificate) {
-        boolean isAdded = false;
+    public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto) {
+        GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
         if (giftCertificate.getDuration() > 0
                 && GiftCertificateValidator.isNameCorrect(giftCertificate.getName())
                 && GiftCertificateValidator.isDescriptionCorrect(giftCertificate.getDescription())
                 && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())
                 && giftCertificate.getCreateDate().isBefore(giftCertificate.getLastUpdateDate())) {
-            isAdded = giftCertificateDao.add(giftCertificate);
+            GiftCertificate addedGiftCertificate = giftCertificateDao.add(giftCertificate);
+            return modelMapper.map(addedGiftCertificate, GiftCertificateDto.class);
+        } else {
+            return null;// TODO: 04.01.2021
         }
-        return isAdded;
     }
 
     @Override
-    public List<GiftCertificate> findAllGiftCertificates() {
-        return giftCertificateDao.findAll();
+    public List<GiftCertificateDto> findAllGiftCertificates() {
+        List<GiftCertificate> giftCertificates = giftCertificateDao.findAll();
+        return giftCertificates.stream()
+                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<GiftCertificate> findGiftCertificateById(long id) {
-        Optional<GiftCertificate> foundGiftCertificate = Optional.empty();
+    public GiftCertificateDto findGiftCertificateById(long id) {
         if (id > 0) {
-            foundGiftCertificate = giftCertificateDao.findById(id);
+            Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
+            return foundGiftCertificate
+                    .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+                    .orElse(null); // TODO: 04.01.2021
+        } else {
+            return null; // TODO: 04.01.2021
         }
-        return foundGiftCertificate;
     }
 
     @Override
-    public boolean updateGiftCertificate(GiftCertificate giftCertificate) {
-        boolean isUpdated = false;
-        if (giftCertificate.getId() > 0 && giftCertificate.getDuration() > 0
+    public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
+        GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        if (giftCertificate.getDuration() > 0
                 && GiftCertificateValidator.isNameCorrect(giftCertificate.getName())
                 && GiftCertificateValidator.isDescriptionCorrect(giftCertificate.getDescription())
-                && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())) {
-            isUpdated = giftCertificateDao.add(giftCertificate);
+                && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())
+                && giftCertificate.getCreateDate().isBefore(giftCertificate.getLastUpdateDate())) {
+            boolean isUpdated = giftCertificateDao.update(giftCertificate);
+            if (isUpdated) {
+                return giftCertificateDto;
+            } else {
+                return null;// TODO: 04.01.2021
+            }
+        } else {
+            return null;// TODO: 04.01.2021
         }
-        return isUpdated;
     }
 
     @Override
-    public boolean removeGiftCertificate(long id) {
-        boolean isRemoved = false;
+    public void removeGiftCertificate(long id) {
         if (id > 0) {
-            isRemoved = giftCertificateDao.remove(id);
+            boolean isRemoved = giftCertificateDao.remove(id);
+            if (!isRemoved) {
+                // TODO: 04.01.2021
+            }
+        } else {
+            // TODO: 04.01.2021
         }
-        return isRemoved;
     }
 }

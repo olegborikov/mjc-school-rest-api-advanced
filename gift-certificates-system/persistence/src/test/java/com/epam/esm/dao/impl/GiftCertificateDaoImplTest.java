@@ -44,7 +44,7 @@ class GiftCertificateDaoImplTest {
     }
 
     @Test
-    void addCorrectDataShouldReturnTrue() {
+    void addCorrectDataShouldReturnGiftCertificate() {
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .name("qwerty")
                 .description("qwerty")
@@ -53,8 +53,8 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
                 .build();
-        boolean actual = giftCertificateDao.add(giftCertificate);
-        assertTrue(actual);
+        GiftCertificate actual = giftCertificateDao.add(giftCertificate);
+        assertNotNull(actual);
     }
 
     @Test

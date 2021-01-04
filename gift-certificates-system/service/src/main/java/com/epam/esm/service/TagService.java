@@ -1,19 +1,18 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.entity.Tag;
+import com.epam.esm.dto.TagDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TagService {
     void setTagDao(TagDao tagDao);
 
-    boolean addTag(Tag tag);
+    TagDto addTag(TagDto tagDto);
 
-    List<Tag> findAllTags();
+    List<TagDto> findAllTags();
 
-    Optional<Tag> findTagById(long id);
+    TagDto findTagById(long id);
 
-    boolean removeTag(long id);
+    void removeTag(long id);
 }
