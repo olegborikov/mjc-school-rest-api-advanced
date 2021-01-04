@@ -1,7 +1,6 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.NotFoundException;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +24,9 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public Tag findTagsById(@PathVariable long id) throws NotFoundException {
+    public Tag findTagsById(@PathVariable long id)  {
         Optional<Tag> foundTagOptional = tagService.findTagById(id);
-        return foundTagOptional.orElseThrow(NotFoundException::new);
+        return foundTagOptional.orElseThrow(null); // TODO: 04.01.2021
     }
 
     @PostMapping
@@ -41,10 +40,10 @@ public class TagController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTag(@PathVariable long id) throws NotFoundException {
+    public void deleteTag(@PathVariable long id) {
         boolean isRemoved = tagService.removeTag(id);
         if(!isRemoved){
-            throw new NotFoundException();
+            // TODO: 03.01.2021  
         }
     }
 }

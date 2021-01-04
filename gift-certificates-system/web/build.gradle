@@ -6,17 +6,9 @@ plugins {
 group 'com.epam.esm'
 version '1.0'
 
-ext {
-    springVersion = '5.2.12.RELEASE'
-}
-
 dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3'
-    implementation "org.springframework:spring-core:$springVersion"
-    implementation "org.springframework:spring-context:$springVersion"
+    implementation project(':persistence')
+    implementation project(':service')
     implementation "org.springframework:spring-webmvc:$springVersion"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
-    implementation project(':service')
-    implementation project(':persistence')
 }
