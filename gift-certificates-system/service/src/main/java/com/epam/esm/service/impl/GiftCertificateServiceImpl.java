@@ -43,9 +43,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             message.append(", duration should be positive number.");
             message.append(" Name: ").append(giftCertificateDto.getName());
             message.append(", name should be string with length in range from 1 to 100 symbols.");
-            message.append(" Description: ").append(giftCertificateDto.getName());
+            message.append(" Description: ").append(giftCertificateDto.getDescription());
             message.append(", description should be string with length in range from 1 to 1000 symbols.");
-            message.append(" Price: ").append(giftCertificateDto.getName());
+            message.append(" Price: ").append(giftCertificateDto.getPrice());
             message.append(", price should be positive number before 100000000 and have two numbers in scale.");
             message.append("Create date should be before last update date.");
             throw new IncorrectParametersException(message.toString());
@@ -96,9 +96,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             message.append(", duration should be positive number.");
             message.append(" Name: ").append(giftCertificateDto.getName());
             message.append(", name should be string with length in range from 1 to 100 symbols.");
-            message.append(" Description: ").append(giftCertificateDto.getName());
+            message.append(" Description: ").append(giftCertificateDto.getDuration());
             message.append(", description should be string with length in range from 1 to 1000 symbols.");
-            message.append(" Price: ").append(giftCertificateDto.getName());
+            message.append(" Price: ").append(giftCertificateDto.getPrice());
             message.append(", price should be positive number before 100000000 and have two numbers in scale.");
             message.append("Create date should be before last update date.");
             throw new IncorrectParametersException(message.toString());
