@@ -4,7 +4,7 @@ import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.impl.GiftCertificateDaoImpl;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import org.junit.jupiter.api.AfterEach;
@@ -102,7 +102,7 @@ class GiftCertificateServiceImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate);
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             giftCertificateService.addGiftCertificate(giftCertificateDto);
         });
     }
@@ -181,7 +181,7 @@ class GiftCertificateServiceImplTest {
                 .build();
         when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate));
         String id = "a";
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             giftCertificateService.findGiftCertificateById(id);
         });
     }
@@ -240,7 +240,7 @@ class GiftCertificateServiceImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(true);
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             giftCertificateService.updateGiftCertificate(giftCertificateDto);
         });
     }
@@ -265,7 +265,7 @@ class GiftCertificateServiceImplTest {
     void removeGiftCertificateIncorrectDataShouldThrowException() {
         when(giftCertificateDao.remove(any(Long.class))).thenReturn(true);
         String id = "a";
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             giftCertificateService.removeGiftCertificate(id);
         });
     }

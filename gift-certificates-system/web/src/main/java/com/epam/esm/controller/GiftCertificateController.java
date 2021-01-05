@@ -1,7 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.GiftCertificateDto;
-import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.handler.ErrorHandler;
 import com.epam.esm.service.GiftCertificateService;
@@ -52,9 +52,9 @@ public class GiftCertificateController {
         return new ErrorHandler(exception.getMessage(), 44);
     }
 
-    @ExceptionHandler(value = IncorrectParametersException.class)
+    @ExceptionHandler(value = IncorrectParametersValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorHandler handleIncorrectParametersException(IncorrectParametersException exception) {
+    public ErrorHandler handleIncorrectParametersValueException(IncorrectParametersValueException exception) {
         return new ErrorHandler(exception.getMessage(), 40);
     }
 }

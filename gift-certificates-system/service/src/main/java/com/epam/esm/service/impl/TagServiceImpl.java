@@ -3,7 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
@@ -34,7 +34,7 @@ public class TagServiceImpl implements TagService {
             Tag addedTag = tagDao.add(tag);
             return modelMapper.map(addedTag, TagDto.class);
         } else {
-            throw new IncorrectParametersException("Incorrect name value: " + tag.getName()
+            throw new IncorrectParametersValueException("Incorrect name value: " + tag.getName()
                     + ". Name should be string with length in range from 1 to 100 symbols.");
         }
     }
@@ -55,7 +55,7 @@ public class TagServiceImpl implements TagService {
             return foundTag.map(tag -> modelMapper.map(tag, TagDto.class))
                     .orElseThrow(() -> new ResourceNotFoundException("Tag with id " + id + " not found."));
         } else {
-            throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
         }
     }
 
@@ -68,7 +68,7 @@ public class TagServiceImpl implements TagService {
                 throw new ResourceNotFoundException("Tag with id " + id + " not found.");
             }
         } else {
-            throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.mapper.GiftCertificateMapper;
 import com.epam.esm.entity.GiftCertificate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,8 @@ class GiftCertificateDaoImplTest {
                 .addScript("classpath:script/gift_certificate_create.sql")
                 .addScript("classpath:script/gift_certificate_fill_up.sql")
                 .build();
-        giftCertificateDao = new GiftCertificateDaoImpl(new JdbcTemplate(dataSource));
+        GiftCertificateMapper giftCertificateMapper = new GiftCertificateMapper();
+        giftCertificateDao = new GiftCertificateDaoImpl(new JdbcTemplate(dataSource), giftCertificateMapper);
     }
 
     @AfterEach
@@ -49,8 +51,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         GiftCertificate actual = giftCertificateDao.add(giftCertificate);
         assertNotNull(actual);
@@ -63,8 +65,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         giftCertificateDao.add(giftCertificate);
         long actual = giftCertificate.getId();
@@ -83,8 +85,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         assertThrows(DataIntegrityViolationException.class, () -> {
             giftCertificateDao.add(giftCertificate);
@@ -93,8 +95,8 @@ class GiftCertificateDaoImplTest {
 
     @Test
     void findAllShouldReturnListOfGiftCertificates() {
-        List<GiftCertificate> tags = giftCertificateDao.findAll();
-        long actual = tags.size();
+        List<GiftCertificate> giftCertificates = giftCertificateDao.findAll();
+        long actual = giftCertificates.size();
         long expected = 4;
         assertEquals(expected, actual);
     }
@@ -130,8 +132,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         boolean actual = giftCertificateDao.update(giftCertificate);
         assertTrue(actual);
@@ -145,8 +147,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         boolean actual = giftCertificateDao.update(giftCertificate);
         assertFalse(actual);
@@ -164,8 +166,8 @@ class GiftCertificateDaoImplTest {
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
-                .createDate(LocalDateTime.of(2020,12,12,12,0,0))
-                .lastUpdateDate(LocalDateTime.of(2020,12,13,12,0,0))
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         assertThrows(DataIntegrityViolationException.class, () -> {
             giftCertificateDao.update(giftCertificate);

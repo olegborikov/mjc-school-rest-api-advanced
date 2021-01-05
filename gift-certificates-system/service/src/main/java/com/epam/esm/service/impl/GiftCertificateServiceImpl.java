@@ -3,7 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
@@ -48,7 +48,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             message.append(" Price: ").append(giftCertificateDto.getPrice());
             message.append(", price should be positive number before 100000000 and have two numbers in scale.");
             message.append("Create date should be before last update date.");
-            throw new IncorrectParametersException(message.toString());
+            throw new IncorrectParametersValueException(message.toString());
         }
     }
 
@@ -69,7 +69,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                     .orElseThrow(() -> new ResourceNotFoundException("Gift certificate with id " + id + "not found."));
         } else {
-            throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
         }
     }
 
@@ -101,7 +101,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             message.append(" Price: ").append(giftCertificateDto.getPrice());
             message.append(", price should be positive number before 100000000 and have two numbers in scale.");
             message.append("Create date should be before last update date.");
-            throw new IncorrectParametersException(message.toString());
+            throw new IncorrectParametersValueException(message.toString());
         }
     }
 
@@ -114,7 +114,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 throw new ResourceNotFoundException("Gift certificate with id " + id + " not found.");
             }
         } else {
-            throw new IncorrectParametersException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
         }
     }
 }

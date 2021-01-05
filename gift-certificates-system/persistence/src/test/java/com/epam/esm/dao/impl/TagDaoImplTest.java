@@ -1,6 +1,7 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dao.mapper.TagMapper;
 import com.epam.esm.entity.Tag;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,8 @@ class TagDaoImplTest {
                 .addScript("classpath:script/tag_create.sql")
                 .addScript("classpath:script/tag_fill_up.sql")
                 .build();
-        tagDao = new TagDaoImpl(new JdbcTemplate(dataSource));
+        TagMapper tagMapper = new TagMapper();
+        tagDao = new TagDaoImpl(new JdbcTemplate(dataSource), tagMapper);
     }
 
     @AfterEach

@@ -4,7 +4,7 @@ import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.impl.TagDaoImpl;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.IncorrectParametersException;
+import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import org.junit.jupiter.api.AfterEach;
@@ -75,7 +75,7 @@ class TagServiceImplTest {
                 .name(" ")
                 .build();
         when(tagDao.add(any(Tag.class))).thenReturn(tag);
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             tagService.addTag(tagDto);
         });
     }
@@ -129,7 +129,7 @@ class TagServiceImplTest {
                 .build();
         when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
         String id = "a";
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             tagService.findTagById(id);
         });
     }
@@ -154,7 +154,7 @@ class TagServiceImplTest {
     void removeTagIncorrectDataShouldThrowException() {
         when(tagDao.remove(any(Long.class))).thenReturn(true);
         String id = "a";
-        assertThrows(IncorrectParametersException.class, () -> {
+        assertThrows(IncorrectParametersValueException.class, () -> {
             tagService.removeTag(id);
         });
     }

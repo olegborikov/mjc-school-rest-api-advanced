@@ -3,12 +3,14 @@ package com.epam.esm.dao.mapper;
 import com.epam.esm.dao.ColumnName;
 import com.epam.esm.entity.GiftCertificate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+@Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
     @Override
     public GiftCertificate mapRow(ResultSet rs, int rowNum) throws SQLException {

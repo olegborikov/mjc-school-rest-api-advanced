@@ -27,11 +27,12 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             + "last_update_date = ? WHERE gift_certificate_id = ?";
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
     private final JdbcTemplate jdbcTemplate;
-    private final GiftCertificateMapper giftCertificateMapper = new GiftCertificateMapper();
+    private final GiftCertificateMapper giftCertificateMapper;
 
     @Autowired
-    public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate) {
+    public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate, GiftCertificateMapper giftCertificateMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.giftCertificateMapper = giftCertificateMapper;
     }
 
     @Override
