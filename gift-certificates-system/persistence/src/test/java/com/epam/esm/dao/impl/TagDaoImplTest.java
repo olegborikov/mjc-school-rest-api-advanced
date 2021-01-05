@@ -27,8 +27,7 @@ class TagDaoImplTest {
                 .addScript("classpath:script/tag_create.sql")
                 .addScript("classpath:script/tag_fill_up.sql")
                 .build();
-        tagDao = new TagDaoImpl();
-        tagDao.setJdbcTemplate(new JdbcTemplate(dataSource));
+        tagDao = new TagDaoImpl(new JdbcTemplate(dataSource));
     }
 
     @AfterEach

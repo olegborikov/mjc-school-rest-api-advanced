@@ -20,12 +20,11 @@ public class TagDaoImpl implements TagDao {
     private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
     private static final String FIND_BY_ID = "SELECT tag_id, tag_name FROM tag WHERE tag_id = ?";
     private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private final TagMapper tagMapper = new TagMapper();
 
     @Autowired
-    @Override
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public TagDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

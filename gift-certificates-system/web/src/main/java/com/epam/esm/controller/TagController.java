@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/tags")
 public class TagController {
-    private TagService tagService;
+    private final TagService tagService;
 
     @Autowired
-    public void setTagService(TagService tagService) {
+    public TagController(TagService tagService) {
         this.tagService = tagService;
     }
 
@@ -43,13 +43,13 @@ public class TagController {
 
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorHandler handleResourceNotFoundException(ResourceNotFoundException exception){
+    public ErrorHandler handleResourceNotFoundException(ResourceNotFoundException exception) {
         return new ErrorHandler(exception.getMessage(), 44);
     }
 
     @ExceptionHandler(value = IncorrectParametersException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorHandler handleIncorrectParametersException(IncorrectParametersException exception){
+    public ErrorHandler handleIncorrectParametersException(IncorrectParametersException exception) {
         return new ErrorHandler(exception.getMessage(), 40);
     }
 }

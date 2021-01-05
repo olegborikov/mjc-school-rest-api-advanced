@@ -18,17 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class TagServiceImpl implements TagService {
-    private TagDao tagDao;
-    private ModelMapper modelMapper;
+    private final TagDao tagDao;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    @Override
-    public void setTagDao(TagDao tagDao) {
+    public TagServiceImpl(TagDao tagDao, ModelMapper modelMapper) {
         this.tagDao = tagDao;
-    }
-
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

@@ -26,12 +26,11 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             + "gift_certificate_name = ?, description = ?, price = ?, duration = ?, create_date = ?, "
             + "last_update_date = ? WHERE gift_certificate_id = ?";
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateMapper giftCertificateMapper = new GiftCertificateMapper();
 
     @Autowired
-    @Override
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

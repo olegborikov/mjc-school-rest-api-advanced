@@ -1,11 +1,9 @@
 package com.epam.esm.handler;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
-@Data
-@AllArgsConstructor
+@Value
 public class ErrorHandler {
-    private String errorMessage;
-    private int errorCode;
+    String errorMessage;
+    int errorCode;
 }

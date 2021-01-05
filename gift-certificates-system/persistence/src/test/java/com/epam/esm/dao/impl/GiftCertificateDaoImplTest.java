@@ -29,8 +29,7 @@ class GiftCertificateDaoImplTest {
                 .addScript("classpath:script/gift_certificate_create.sql")
                 .addScript("classpath:script/gift_certificate_fill_up.sql")
                 .build();
-        giftCertificateDao = new GiftCertificateDaoImpl();
-        giftCertificateDao.setJdbcTemplate(new JdbcTemplate(dataSource));
+        giftCertificateDao = new GiftCertificateDaoImpl(new JdbcTemplate(dataSource));
     }
 
     @AfterEach

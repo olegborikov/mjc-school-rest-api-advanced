@@ -18,17 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
-    private GiftCertificateDao giftCertificateDao;
-    private ModelMapper modelMapper;
+    private final GiftCertificateDao giftCertificateDao;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    @Override
-    public void setGiftCertificateDao(GiftCertificateDao giftCertificateDao) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, ModelMapper modelMapper) {
         this.giftCertificateDao = giftCertificateDao;
-    }
-
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
