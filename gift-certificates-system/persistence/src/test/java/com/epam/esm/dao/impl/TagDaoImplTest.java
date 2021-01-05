@@ -27,6 +27,8 @@ class TagDaoImplTest {
                 .setScriptEncoding("UTF-8")
                 .addScript("classpath:script/tag_create.sql")
                 .addScript("classpath:script/tag_fill_up.sql")
+                .addScript("classpath:script/gift_certificate_has_tag_create.sql")
+                .addScript("classpath:script/gift_certificate_has_tag_fill_up.sql")
                 .build();
         TagMapper tagMapper = new TagMapper();
         tagDao = new TagDaoImpl(new JdbcTemplate(dataSource), tagMapper);
@@ -38,6 +40,7 @@ class TagDaoImplTest {
                 .setType(EmbeddedDatabaseType.H2)
                 .setScriptEncoding("UTF-8")
                 .addScript("classpath:script/tag_delete.sql")
+                .addScript("classpath:script/gift_certificate_has_tag_delete.sql")
                 .build();
         tagDao = null;
     }
@@ -92,7 +95,7 @@ class TagDaoImplTest {
                 .name("home")
                 .build();
         Optional<Tag> actual = tagDao.findById(id);
-        assertEquals(actual, Optional.of(expected));
+        assertEquals(Optional.of(expected), actual);
     }
 
     @Test
@@ -122,5 +125,20 @@ class TagDaoImplTest {
         long id = -1;
         boolean actual = tagDao.remove(id);
         assertFalse(actual);
+    }
+
+    @Test
+    void findByGiftCertificateIdDataShouldReturnListOfTags() {
+        long id = 1;
+        int expected = 2;
+        List<Tag> actual = tagDao.findByGiftCertificateId(id);
+        assertEquals(expected, actual.size());
+    }
+
+    @Test
+    void findByGiftCertificateIdIncorrectDataShouldReturnEmptyList() {
+        long id = -1;
+        List<Tag> actual = tagDao.findByGiftCertificateId(id);
+        assertTrue(actual.isEmpty());
     }
 }

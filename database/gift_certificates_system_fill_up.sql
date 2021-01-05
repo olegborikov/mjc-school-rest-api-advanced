@@ -22,23 +22,23 @@ VALUES ('Animals');
 INSERT INTO tag(tag_name)
 VALUES ('Travel');
 
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (1, 1);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (1, 3);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (1, 4);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (2, 2);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (3, 1);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (4, 1);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (4, 3);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (5, 2);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (5, 4);
-INSERT INTO gift_certificate_has_tag(gift_certificate_id, tag_id)
+INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (6, 4);

@@ -188,11 +188,20 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void updateGiftCertificateCorrectDataShouldReturnGiftCertificateDto() {
+        GiftCertificate giftCertificate = GiftCertificate.builder()
+                .id(1L)
+                .name("Travel")
+                .description("qwerty")
+                .price(new BigDecimal(500))
+                .duration(1)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .build();
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate));
+        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(true);
         GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
                 .id(1L)
                 .name("qwerty")
-                .description("qwerty")
-                .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
@@ -201,18 +210,19 @@ class GiftCertificateServiceImplTest {
                 .id(1L)
                 .name("qwerty")
                 .description("qwerty")
-                .price(new BigDecimal(100))
+                .price(new BigDecimal(500))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
-        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(true);
         GiftCertificateDto actual = giftCertificateService.updateGiftCertificate(giftCertificateDto);
         assertEquals(expected, actual);
     }
 
     @Test
     void updateGiftCertificateCorrectDataShouldThrowException() {
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.empty());
+        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(true);
         GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
                 .id(1L)
                 .name("qwerty")
@@ -222,7 +232,6 @@ class GiftCertificateServiceImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
-        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(false);
         assertThrows(ResourceNotFoundException.class, () -> {
             giftCertificateService.updateGiftCertificate(giftCertificateDto);
         });
@@ -230,17 +239,27 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void updateGiftCertificateIncorrectDataShouldThrowException() {
+        GiftCertificate giftCertificate = GiftCertificate.builder()
+                .id(1L)
+                .name("Travel")
+                .description("qwerty")
+                .price(new BigDecimal(500))
+                .duration(1)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .build();
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate));
+        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(false);
         GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
                 .id(1L)
-                .name(" ")
+                .name("qwerty")
                 .description("qwerty")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
-        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(true);
-        assertThrows(IncorrectParametersValueException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             giftCertificateService.updateGiftCertificate(giftCertificateDto);
         });
     }

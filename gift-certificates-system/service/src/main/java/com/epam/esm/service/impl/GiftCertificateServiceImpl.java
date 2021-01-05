@@ -69,39 +69,28 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                     .orElseThrow(() -> new ResourceNotFoundException("Gift certificate with id " + id + "not found."));
         } else {
-            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: "
+                    + id + ". Id should be positive number.");
         }
     }
 
     @Override
     public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
-        GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        if (giftCertificate.getId() > 0 && giftCertificate.getDuration() > 0
-                && GiftCertificateValidator.isNameCorrect(giftCertificate.getName())
-                && GiftCertificateValidator.isDescriptionCorrect(giftCertificate.getDescription())
-                && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())
-                && giftCertificate.getCreateDate().isBefore(giftCertificate.getLastUpdateDate())) {
-            boolean isUpdated = giftCertificateDao.update(giftCertificate);
+        GiftCertificate receivedGiftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(receivedGiftCertificate.getId());
+        if (foundGiftCertificate.isPresent()) {
+            GiftCertificate updatedGiftCertificate
+                    = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
+            boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
             if (isUpdated) {
-                return giftCertificateDto;
+                return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
             } else {
                 throw new ResourceNotFoundException("Gift certificate with id "
-                        + giftCertificate.getId() + " not found.");
+                        + receivedGiftCertificate.getId() + " not found.");
             }
         } else {
-            StringBuilder message = new StringBuilder("Incorrect gift certificate parameters.");
-            message.append(" Id: ").append(giftCertificateDto.getId());
-            message.append(", id should be positive number.");
-            message.append(" Duration: ").append(giftCertificateDto.getDuration());
-            message.append(", duration should be positive number.");
-            message.append(" Name: ").append(giftCertificateDto.getName());
-            message.append(", name should be string with length in range from 1 to 100 symbols.");
-            message.append(" Description: ").append(giftCertificateDto.getDuration());
-            message.append(", description should be string with length in range from 1 to 1000 symbols.");
-            message.append(" Price: ").append(giftCertificateDto.getPrice());
-            message.append(", price should be positive number before 100000000 and have two numbers in scale.");
-            message.append("Create date should be before last update date.");
-            throw new IncorrectParametersValueException(message.toString());
+            throw new ResourceNotFoundException("Gift certificate with id "
+                    + receivedGiftCertificate.getId() + " not found.");
         }
     }
 
@@ -114,7 +103,33 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 throw new ResourceNotFoundException("Gift certificate with id " + id + " not found.");
             }
         } else {
-            throw new IncorrectParametersValueException("Incorrect id value: " + id + ". Id should be positive number.");
+            throw new IncorrectParametersValueException("Incorrect id value: "
+                    + id + ". Id should be positive number.");
         }
+    }
+
+    private GiftCertificate updateFieldsGiftCertificate(GiftCertificate receivedGiftCertificate,
+                                                        GiftCertificate foundGiftCertificate) {
+        if (receivedGiftCertificate.getDuration() > 0) {
+            foundGiftCertificate.setDuration(receivedGiftCertificate.getDuration());
+        }
+        if (GiftCertificateValidator.isNameCorrect(receivedGiftCertificate.getName())) {
+            foundGiftCertificate.setName(receivedGiftCertificate.getName());
+        }
+        if (GiftCertificateValidator.isDescriptionCorrect(receivedGiftCertificate.getDescription())) {
+            foundGiftCertificate.setDescription(receivedGiftCertificate.getDescription());
+        }
+        if (GiftCertificateValidator.isPriceCorrect(receivedGiftCertificate.getPrice())) {
+            foundGiftCertificate.setPrice(receivedGiftCertificate.getPrice());
+        }
+        if (receivedGiftCertificate.getCreateDate() != null &&
+                receivedGiftCertificate.getCreateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
+            foundGiftCertificate.setCreateDate(receivedGiftCertificate.getCreateDate());
+        }
+        if (receivedGiftCertificate.getLastUpdateDate() != null &&
+                receivedGiftCertificate.getCreateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
+            foundGiftCertificate.setLastUpdateDate(receivedGiftCertificate.getLastUpdateDate());
+        }
+        return foundGiftCertificate;
     }
 }

@@ -30,7 +30,7 @@ public class GiftCertificateValidator {
     }
 
     public boolean isPriceCorrect(BigDecimal price) {
-        return price.scale() <= MAX_SCALE
+        return price != null && price.scale() <= MAX_SCALE
                 && price.compareTo(MIN_PRICE) > 0 && price.compareTo(MAX_PRICE) < 0;
     }
 }
