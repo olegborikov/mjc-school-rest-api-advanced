@@ -3,6 +3,7 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.mapper.GiftCertificateMapper;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.util.GiftCertificateQueryCreator;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,6 +30,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
     private static final String REMOVE_FROM_CROSS_TABLE = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id_fk = ?";
+    private static final String FIND_BY_QUERY_PARAMETERS = "SELECT gift_certificate_id, gift_certificate_name, "
+            + "description, price, duration, create_date, last_update_date FROM gift_certificate "
+            + "LEFT JOIN gift_certificate_has_tag ON gift_certificate.gift_certificate_id = gift_certificate_id_fk "
+            + "LEFT JOIN tag ON gift_certificate_has_tag.tag_id_fk = tag_id";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateMapper giftCertificateMapper;
 
@@ -88,6 +93,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters) {
-        return null;// TODO: 06.01.2021
+        String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
+        return jdbcTemplate.query(FIND_BY_QUERY_PARAMETERS + condition, giftCertificateMapper);
     }
 }
