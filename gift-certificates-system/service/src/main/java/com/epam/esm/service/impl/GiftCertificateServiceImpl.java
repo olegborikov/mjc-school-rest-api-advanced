@@ -4,7 +4,6 @@ import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
@@ -32,26 +31,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        if (giftCertificate.getDuration() > 0
-                && GiftCertificateValidator.isNameCorrect(giftCertificate.getName())
-                && GiftCertificateValidator.isDescriptionCorrect(giftCertificate.getDescription())
-                && GiftCertificateValidator.isPriceCorrect(giftCertificate.getPrice())
-                && giftCertificate.getCreateDate().isBefore(giftCertificate.getLastUpdateDate())) {
-            GiftCertificate addedGiftCertificate = giftCertificateDao.add(giftCertificate);
-            return modelMapper.map(addedGiftCertificate, GiftCertificateDto.class);
-        } else {
-            StringBuilder message = new StringBuilder("Incorrect gift certificate parameters.");
-            message.append(" Duration: ").append(giftCertificateDto.getDuration());
-            message.append(", duration should be positive number.");
-            message.append(" Name: ").append(giftCertificateDto.getName());
-            message.append(", name should be string with length in range from 1 to 100 symbols.");
-            message.append(" Description: ").append(giftCertificateDto.getDescription());
-            message.append(", description should be string with length in range from 1 to 1000 symbols.");
-            message.append(" Price: ").append(giftCertificateDto.getPrice());
-            message.append(", price should be positive number before 100000000 and have two numbers in scale.");
-            message.append("Create date should be before last update date.");
-            throw new IncorrectParametersValueException(message.toString());
-        }
+        GiftCertificateValidator.validateDuration(giftCertificate.getDuration());
+        GiftCertificateValidator.validateName(giftCertificate.getName());
+        GiftCertificateValidator.validateDescription(giftCertificate.getDescription());
+        GiftCertificateValidator.validatePrice(giftCertificate.getPrice());
+        GiftCertificateValidator.validateDates(giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate());
+        GiftCertificate addedGiftCertificate = giftCertificateDao.add(giftCertificate);
+        return modelMapper.map(addedGiftCertificate, GiftCertificateDto.class);
     }
 
     @Override
@@ -68,78 +54,71 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public GiftCertificateDto findGiftCertificateById(String id) {
-        if (GiftCertificateValidator.isIdCorrect(id)) {
-            long parsedId = NumberUtils.createLong(id);
-            Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(parsedId);
-            return foundGiftCertificate
-                    .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
-                    .orElseThrow(() -> new ResourceNotFoundException("Gift certificate with id " + id + "not found."));
-        } else {
-            throw new IncorrectParametersValueException("Incorrect id value: "
-                    + id + ". Id should be positive number.");
-        }
+        GiftCertificateValidator.validateId(id);
+        long parsedId = NumberUtils.createLong(id);
+        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(parsedId);
+        return foundGiftCertificate
+                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException("Gift certificate with id " + id + " not found."));
     }
 
     @Override
     public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificate receivedGiftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        if (receivedGiftCertificate.getId() != null && receivedGiftCertificate.getId() > 0) {
-            Optional<GiftCertificate> foundGiftCertificate
-                    = giftCertificateDao.findById(receivedGiftCertificate.getId());
-            if (foundGiftCertificate.isPresent()) {
-                GiftCertificate updatedGiftCertificate
-                        = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
-                boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
-                if (isUpdated) {
-                    return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
-                } else {
-                    throw new ResourceNotFoundException("Gift certificate with id "
-                            + receivedGiftCertificate.getId() + " not found.");
-                }
+        GiftCertificateValidator.validateId(receivedGiftCertificate.getId());
+        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(receivedGiftCertificate.getId());
+        if (foundGiftCertificate.isPresent()) {
+            GiftCertificate updatedGiftCertificate
+                    = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
+            boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
+            if (isUpdated) {
+                return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
             } else {
                 throw new ResourceNotFoundException("Gift certificate with id "
                         + receivedGiftCertificate.getId() + " not found.");
             }
         } else {
-            throw new IncorrectParametersValueException("Incorrect id value: "
-                    + receivedGiftCertificate.getId() + ". Id should be positive number."); // TODO: 06.01.2021 test
+            throw new ResourceNotFoundException("Gift certificate with id "
+                    + receivedGiftCertificate.getId() + " not found.");
         }
     }
 
     @Override
     public void removeGiftCertificate(String id) {
-        if (GiftCertificateValidator.isIdCorrect(id)) {
-            long parsedId = NumberUtils.createLong(id);
-            boolean isRemoved = giftCertificateDao.remove(parsedId);
-            if (!isRemoved) {
-                throw new ResourceNotFoundException("Gift certificate with id " + id + " not found.");
-            }
-        } else {
-            throw new IncorrectParametersValueException("Incorrect id value: "
-                    + id + ". Id should be positive number.");
+        GiftCertificateValidator.validateId(id);
+        long parsedId = NumberUtils.createLong(id);
+        boolean isRemoved = giftCertificateDao.remove(parsedId);
+        if (!isRemoved) {
+            throw new ResourceNotFoundException("Gift certificate with id " + id + " not found.");
         }
     }
 
     private GiftCertificate updateFieldsGiftCertificate(GiftCertificate receivedGiftCertificate,
                                                         GiftCertificate foundGiftCertificate) {
-        if (receivedGiftCertificate.getDuration() > 0) {
+        if (receivedGiftCertificate.getDuration() != 0) {
+            GiftCertificateValidator.validateDuration(receivedGiftCertificate.getDuration());
             foundGiftCertificate.setDuration(receivedGiftCertificate.getDuration());
         }
-        if (GiftCertificateValidator.isNameCorrect(receivedGiftCertificate.getName())) {
+        if (receivedGiftCertificate.getName() != null) {
+            GiftCertificateValidator.validateName(receivedGiftCertificate.getName());
             foundGiftCertificate.setName(receivedGiftCertificate.getName());
         }
-        if (GiftCertificateValidator.isDescriptionCorrect(receivedGiftCertificate.getDescription())) {
+        if (receivedGiftCertificate.getDescription() != null) {
+            GiftCertificateValidator.validateDescription(receivedGiftCertificate.getDescription());
             foundGiftCertificate.setDescription(receivedGiftCertificate.getDescription());
         }
-        if (GiftCertificateValidator.isPriceCorrect(receivedGiftCertificate.getPrice())) {
+        if (receivedGiftCertificate.getPrice() != null) {
+            GiftCertificateValidator.validatePrice(receivedGiftCertificate.getPrice());
             foundGiftCertificate.setPrice(receivedGiftCertificate.getPrice());
         }
-        if (receivedGiftCertificate.getCreateDate() != null &&
-                receivedGiftCertificate.getCreateDate().isBefore(foundGiftCertificate.getLastUpdateDate())) {
+        if (receivedGiftCertificate.getCreateDate() != null) {
+            GiftCertificateValidator.validateDates(receivedGiftCertificate.getCreateDate(),
+                    foundGiftCertificate.getLastUpdateDate());
             foundGiftCertificate.setCreateDate(receivedGiftCertificate.getCreateDate());
         }
-        if (receivedGiftCertificate.getLastUpdateDate() != null &&
-                foundGiftCertificate.getLastUpdateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
+        if (receivedGiftCertificate.getLastUpdateDate() != null) {
+            GiftCertificateValidator.validateDates(foundGiftCertificate.getCreateDate(),
+                    receivedGiftCertificate.getLastUpdateDate());
             foundGiftCertificate.setLastUpdateDate(receivedGiftCertificate.getLastUpdateDate());
         }
         return foundGiftCertificate;

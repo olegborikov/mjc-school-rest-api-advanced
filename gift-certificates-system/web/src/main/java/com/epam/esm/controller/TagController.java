@@ -1,7 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.exception.IncorrectParametersValueException;
+import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.handler.ErrorHandler;
 import com.epam.esm.service.TagService;
@@ -47,9 +47,9 @@ public class TagController {
         return new ErrorHandler(exception.getMessage(), 44);
     }
 
-    @ExceptionHandler(value = IncorrectParametersValueException.class)
+    @ExceptionHandler(value = IncorrectParameterValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorHandler handleIncorrectParametersValueException(IncorrectParametersValueException exception) {
+    public ErrorHandler handleIncorrectParameterValueException(IncorrectParameterValueException exception) {
         return new ErrorHandler(exception.getMessage(), 40);
     }
 }

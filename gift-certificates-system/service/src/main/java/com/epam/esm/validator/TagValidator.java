@@ -1,5 +1,6 @@
 package com.epam.esm.validator;
 
+import com.epam.esm.exception.IncorrectParameterValueException;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,12 +10,18 @@ public class TagValidator {
     private final int MAX_LENGTH_NAME = 100;
     private static final String ID_REGEX = "^[1-9]\\d{0,9}$";
 
-    public static boolean isIdCorrect(String id) {
-        return id != null && StringUtils.isNoneBlank(id) && id.matches(ID_REGEX);
+    public void validateId(String id) {
+        if (id == null || StringUtils.isBlank(id) || !id.matches(ID_REGEX)) {
+            throw new IncorrectParameterValueException("Incorrect id value: " + id
+                    + ". Id should be positive number.");
+        }
     }
 
-    public boolean isNameCorrect(String name) {
-        return name != null && StringUtils.isNoneBlank(name)
-                && name.length() >= MIN_LENGTH_NAME && name.length() <= MAX_LENGTH_NAME;
+    public void validateName(String name) {
+        if (name == null || StringUtils.isBlank(name)
+                || name.length() > MAX_LENGTH_NAME || name.length() < MIN_LENGTH_NAME) {
+            throw new IncorrectParameterValueException("Incorrect name value: " + name
+                    + ". Name should be string with length in range from 1 to 100 symbols.");
+        }
     }
 }
