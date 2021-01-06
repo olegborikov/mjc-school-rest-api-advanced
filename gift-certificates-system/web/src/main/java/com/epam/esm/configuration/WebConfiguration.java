@@ -1,4 +1,4 @@
-package com.epam.esm.config;
+package com.epam.esm.configuration;
 
 import com.epam.esm.converter.StringToOrderTypeConverter;
 import com.epam.esm.converter.StringToSortTypeConverter;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.esm")
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToSortTypeConverter());

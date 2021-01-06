@@ -1,4 +1,4 @@
-package com.epam.esm.config;
+package com.epam.esm.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 @PropertySource("classpath:property/database.properties")
 @ComponentScan("com.epam.esm")
-public class PersistenceConfig {
+public class PersistenceConfiguration {
     @Value("${database.driverClassName}")
     private String driverClassName;
     @Value("${database.url}")

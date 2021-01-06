@@ -1,4 +1,4 @@
-package com.epam.esm.config;
+package com.epam.esm.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.epam.esm")
-public class ServiceConfig {
+public class ServiceConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
