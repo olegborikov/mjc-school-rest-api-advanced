@@ -1,6 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.GiftCertificateDto;
+import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.handler.ErrorHandler;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/gift-certificates")
 public class GiftCertificateController {
-    private GiftCertificateService giftCertificateService;
+    private final GiftCertificateService giftCertificateService;
 
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService) {
@@ -22,8 +23,9 @@ public class GiftCertificateController {
     }
 
     @GetMapping
-    public List<GiftCertificateDto> giftCertificates() {
-        return giftCertificateService.findAllGiftCertificates();
+    public List<GiftCertificateDto> giftCertificates(
+            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto) {
+        return giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto);
     }
 
     @GetMapping("/{id}")

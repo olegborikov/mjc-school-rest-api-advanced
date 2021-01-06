@@ -2,10 +2,12 @@ package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dto.GiftCertificateDto;
+import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.IncorrectParametersValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.util.GiftCertificateQueryParameters;
 import com.epam.esm.validator.GiftCertificateValidator;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
@@ -53,8 +55,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificateDto> findAllGiftCertificates() {
-        List<GiftCertificate> giftCertificates = giftCertificateDao.findAll();
+    public List<GiftCertificateDto> findGiftCertificates(
+            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto) {
+        GiftCertificateQueryParameters giftCertificateQueryParameters
+                = modelMapper.map(giftCertificateQueryParametersDto, GiftCertificateQueryParameters.class);
+        List<GiftCertificate> giftCertificates
+                = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         return giftCertificates.stream()
                 .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
@@ -77,20 +83,26 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificate receivedGiftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(receivedGiftCertificate.getId());
-        if (foundGiftCertificate.isPresent()) {
-            GiftCertificate updatedGiftCertificate
-                    = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
-            boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
-            if (isUpdated) {
-                return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
+        if (receivedGiftCertificate.getId() != null && receivedGiftCertificate.getId() > 0) {
+            Optional<GiftCertificate> foundGiftCertificate
+                    = giftCertificateDao.findById(receivedGiftCertificate.getId());
+            if (foundGiftCertificate.isPresent()) {
+                GiftCertificate updatedGiftCertificate
+                        = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
+                boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
+                if (isUpdated) {
+                    return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
+                } else {
+                    throw new ResourceNotFoundException("Gift certificate with id "
+                            + receivedGiftCertificate.getId() + " not found.");
+                }
             } else {
                 throw new ResourceNotFoundException("Gift certificate with id "
                         + receivedGiftCertificate.getId() + " not found.");
             }
         } else {
-            throw new ResourceNotFoundException("Gift certificate with id "
-                    + receivedGiftCertificate.getId() + " not found.");
+            throw new IncorrectParametersValueException("Incorrect id value: "
+                    + receivedGiftCertificate.getId() + ". Id should be positive number."); // TODO: 06.01.2021 test
         }
     }
 
@@ -123,11 +135,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             foundGiftCertificate.setPrice(receivedGiftCertificate.getPrice());
         }
         if (receivedGiftCertificate.getCreateDate() != null &&
-                receivedGiftCertificate.getCreateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
+                receivedGiftCertificate.getCreateDate().isBefore(foundGiftCertificate.getLastUpdateDate())) {
             foundGiftCertificate.setCreateDate(receivedGiftCertificate.getCreateDate());
         }
         if (receivedGiftCertificate.getLastUpdateDate() != null &&
-                receivedGiftCertificate.getCreateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
+                foundGiftCertificate.getLastUpdateDate().isBefore(receivedGiftCertificate.getLastUpdateDate())) {
             foundGiftCertificate.setLastUpdateDate(receivedGiftCertificate.getLastUpdateDate());
         }
         return foundGiftCertificate;

@@ -3,6 +3,7 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.mapper.GiftCertificateMapper;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.util.GiftCertificateQueryParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -76,5 +77,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public boolean remove(long id) {
         return jdbcTemplate.update(REMOVE, id) > 0;
+    }
+
+    @Override
+    public List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters) {
+        return null;// TODO: 06.01.2021
     }
 }
