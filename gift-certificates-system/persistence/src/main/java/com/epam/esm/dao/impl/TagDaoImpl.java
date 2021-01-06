@@ -23,6 +23,7 @@ public class TagDaoImpl implements TagDao {
             + "INNER JOIN gift_certificate_has_tag ON tag.tag_id = gift_certificate_has_tag.tag_id_fk WHERE "
             + "gift_certificate_has_tag.gift_certificate_id_fk = ?";
     private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
+    private static final String REMOVE_FROM_CROSS_TABLE = "DELETE FROM gift_certificate_has_tag WHERE tag_id_fk = ?";
     private final JdbcTemplate jdbcTemplate;
     private final TagMapper tagMapper;
 
@@ -71,5 +72,10 @@ public class TagDaoImpl implements TagDao {
     @Override
     public List<Tag> findByGiftCertificateId(long id) {
         return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, new Object[]{id}, tagMapper);
+    }
+
+    @Override
+    public void removeFromCrossTable(long id) {
+        jdbcTemplate.update(REMOVE_FROM_CROSS_TABLE, id);
     }
 }

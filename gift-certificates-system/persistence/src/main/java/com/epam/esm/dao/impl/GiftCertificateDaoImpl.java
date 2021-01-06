@@ -27,6 +27,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             + "gift_certificate_name = ?, description = ?, price = ?, duration = ?, create_date = ?, "
             + "last_update_date = ? WHERE gift_certificate_id = ?";
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
+    private static final String REMOVE_FROM_CROSS_TABLE = "DELETE FROM gift_certificate_has_tag "
+            + "WHERE gift_certificate_id_fk = ?";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateMapper giftCertificateMapper;
 
@@ -77,6 +79,11 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public boolean remove(long id) {
         return jdbcTemplate.update(REMOVE, id) > 0;
+    }
+
+    @Override
+    public void removeFromCrossTable(long id) {
+        jdbcTemplate.update(REMOVE_FROM_CROSS_TABLE, id);
     }
 
     @Override
