@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 public class TagValidator {
     private final int MIN_LENGTH_NAME = 1;
     private final int MAX_LENGTH_NAME = 100;
-    private final int MIN_NUMBER = 1;
+    private final int MIN_ID = 1;
 
     public void validateId(Long id) {
-        if (id == null || id < MIN_NUMBER) {
+        if (id == null || id < MIN_ID) {
             throw new IncorrectParameterValueException("Incorrect id value: " + id
                     + ". Id should be positive number.");
         }

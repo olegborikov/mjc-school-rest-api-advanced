@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class GiftCertificateValidator {
     private final int MAX_SCALE = 2;
-    private final BigDecimal MIN_PRICE = new BigDecimal("0");
-    private final BigDecimal MAX_PRICE = new BigDecimal("100000000");
+    private final BigDecimal MIN_PRICE = new BigDecimal("0.01");
+    private final BigDecimal MAX_PRICE = new BigDecimal("999999.99");
     private final int MIN_LENGTH = 1;
     private final int MAX_LENGTH_NAME = 100;
     private final int MAX_LENGTH_DESCRIPTION = 1000;
@@ -45,7 +45,7 @@ public class GiftCertificateValidator {
         if (price == null || price.scale() > MAX_SCALE
                 || price.compareTo(MIN_PRICE) < 0 || price.compareTo(MAX_PRICE) > 0) {
             throw new IncorrectParameterValueException("Incorrect price value: " + price
-                    + ". Price should be positive number(< 100000000) and have two numbers in scale.");
+                    + ". Price should be positive number(< 1000000) and have two numbers in scale.");
         }
     }
 
