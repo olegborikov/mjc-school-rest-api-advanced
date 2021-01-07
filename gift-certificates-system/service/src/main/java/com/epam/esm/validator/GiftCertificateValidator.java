@@ -17,14 +17,6 @@ public class GiftCertificateValidator {
     private final int MAX_LENGTH_DESCRIPTION = 1000;
     private final int MIN_NUMBER = 1;
     private final int MAX_DURATION = 1000;
-    private static final String ID_REGEX = "^[1-9]\\d{0,16}$";
-
-    public void validateId(String id) {
-        if (id == null || StringUtils.isBlank(id) || !id.matches(ID_REGEX)) {
-            throw new IncorrectParameterValueException("Incorrect id value: " + id
-                    + ". Id should be positive number.");
-        }
-    }
 
     public void validateId(Long id) {
         if (id == null || id < MIN_NUMBER) {

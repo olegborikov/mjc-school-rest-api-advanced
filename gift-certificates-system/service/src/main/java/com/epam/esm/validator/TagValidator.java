@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 public class TagValidator {
     private final int MIN_LENGTH_NAME = 1;
     private final int MAX_LENGTH_NAME = 100;
-    private static final String ID_REGEX = "^[1-9]\\d{0,9}$";
+    private final int MIN_NUMBER = 1;
 
-    public void validateId(String id) {
-        if (id == null || StringUtils.isBlank(id) || !id.matches(ID_REGEX)) {
+    public void validateId(Long id) {
+        if (id == null || id < MIN_NUMBER) {
             throw new IncorrectParameterValueException("Incorrect id value: " + id
                     + ". Id should be positive number.");
         }

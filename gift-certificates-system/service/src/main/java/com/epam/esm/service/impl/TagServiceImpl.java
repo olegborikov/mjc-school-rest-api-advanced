@@ -6,10 +6,10 @@ import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,18 +43,18 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagDto findTagById(String id) {
+    public TagDto findTagById(Long id) {
         TagValidator.validateId(id);
-        long parsedId = NumberUtils.createLong(id);
-        Optional<Tag> foundTag = tagDao.findById(parsedId);
+        Optional<Tag> foundTag = tagDao.findById(id);
         return foundTag.map(tag -> modelMapper.map(tag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException("Tag with id " + id + " not found."));
     }
 
+    @Transactional
     @Override
-    public void removeTag(String id) {
+    public void removeTag(Long id) {
         TagValidator.validateId(id);
-        long parsedId = NumberUtils.createLong(id);
-        tagDao.remove(parsedId);
+        tagDao.removeGiftCertificateHasTag(id);
+        tagDao.remove(id);
     }
 }

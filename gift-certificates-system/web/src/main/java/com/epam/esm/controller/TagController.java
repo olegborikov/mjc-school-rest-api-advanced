@@ -27,7 +27,7 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public TagDto tagById(@PathVariable String id) {
+    public TagDto tagById(@PathVariable Long id) {
         return tagService.findTagById(id);
     }
 
@@ -37,7 +37,7 @@ public class TagController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTag(@PathVariable String id) {
+    public void deleteTag(@PathVariable Long id) {
         tagService.removeTag(id);
     }
 

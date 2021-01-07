@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -24,7 +23,7 @@ public class TagDaoImpl implements TagDao {
             + "INNER JOIN gift_certificate_has_tag ON tag.tag_id = gift_certificate_has_tag.tag_id_fk WHERE "
             + "gift_certificate_has_tag.gift_certificate_id_fk = ?";
     private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
-    private static final String REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
+    private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE tag_id_fk = ?";
     private final JdbcTemplate jdbcTemplate;
     private final TagMapper tagMapper;
@@ -66,11 +65,14 @@ public class TagDaoImpl implements TagDao {
         throw new UnsupportedOperationException("Method update is unavailable for TagDaoImpl");
     }
 
-    @Transactional
     @Override
     public void remove(long id) {
-        jdbcTemplate.update(REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG, id);
         jdbcTemplate.update(REMOVE, id);
+    }
+
+    @Override
+    public void removeGiftCertificateHasTag(long id) {
+        jdbcTemplate.update(REMOVE_GIFT_CERTIFICATE_HAS_TAG, id);
     }
 
     @Override

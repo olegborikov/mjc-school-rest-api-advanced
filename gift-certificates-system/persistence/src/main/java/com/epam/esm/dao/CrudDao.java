@@ -13,4 +13,6 @@ public interface CrudDao<T> {
     T update(T t);
 
     void remove(long id);
+
+    void removeGiftCertificateHasTag(long id);
 }

@@ -9,7 +9,7 @@ public interface TagService {
 
     List<TagDto> findAllTags();
 
-    TagDto findTagById(String id);
+    TagDto findTagById(Long id);
 
-    void removeTag(String id);
+    void removeTag(Long id);
 }

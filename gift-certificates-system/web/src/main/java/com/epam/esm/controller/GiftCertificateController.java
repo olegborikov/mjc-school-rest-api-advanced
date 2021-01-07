@@ -29,7 +29,7 @@ public class GiftCertificateController {
     }
 
     @GetMapping("/{id}")
-    public GiftCertificateDto giftCertificateById(@PathVariable String id) {
+    public GiftCertificateDto giftCertificateById(@PathVariable Long id) {
         return giftCertificateService.findGiftCertificateById(id);
     }
 
@@ -44,7 +44,7 @@ public class GiftCertificateController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGiftCertificate(@PathVariable String id) {
+    public void deleteGiftCertificate(@PathVariable Long id) {
         giftCertificateService.removeGiftCertificate(id);
     }
 

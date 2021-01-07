@@ -1,6 +1,7 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.entity.GiftCertificate;
@@ -8,10 +9,10 @@ import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import com.epam.esm.validator.GiftCertificateValidator;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateDao giftCertificateDao;
+    private final TagDao tagDao;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, ModelMapper modelMapper) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao, ModelMapper modelMapper) {
         this.giftCertificateDao = giftCertificateDao;
+        this.tagDao = tagDao;
         this.modelMapper = modelMapper;
     }
 
@@ -47,18 +50,22 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 = modelMapper.map(giftCertificateQueryParametersDto, GiftCertificateQueryParameters.class);
         List<GiftCertificate> giftCertificates
                 = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
+        giftCertificates.forEach(giftCertificate ->
+                giftCertificate.setTags(tagDao.findByGiftCertificateId(giftCertificate.getId())));
         return giftCertificates.stream()
                 .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GiftCertificateDto findGiftCertificateById(String id) {
+    public GiftCertificateDto findGiftCertificateById(Long id) {
         GiftCertificateValidator.validateId(id);
-        long parsedId = NumberUtils.createLong(id);
-        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(parsedId);
+        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
         return foundGiftCertificate
-                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+                .map(giftCertificate -> {
+                    giftCertificate.setTags(tagDao.findByGiftCertificateId(giftCertificate.getId()));
+                    return modelMapper.map(giftCertificate, GiftCertificateDto.class);
+                })
                 .orElseThrow(() -> new ResourceNotFoundException("Gift certificate with id " + id + " not found."));
     }
 
@@ -78,11 +85,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
     }
 
+    @Transactional
     @Override
-    public void removeGiftCertificate(String id) {
+    public void removeGiftCertificate(Long id) {
         GiftCertificateValidator.validateId(id);
-        long parsedId = NumberUtils.createLong(id);
-        giftCertificateDao.remove(parsedId);
+        giftCertificateDao.removeGiftCertificateHasTag(id);
+        giftCertificateDao.remove(id);
     }
 
     private GiftCertificate updateFieldsGiftCertificate(GiftCertificate receivedGiftCertificate,
