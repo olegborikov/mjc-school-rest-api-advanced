@@ -10,7 +10,7 @@ public interface CrudDao<T> {
 
     Optional<T> findById(long id);
 
-    boolean update(T t);
+    T update(T t);
 
-    boolean remove(long id);
+    void remove(long id);
 }

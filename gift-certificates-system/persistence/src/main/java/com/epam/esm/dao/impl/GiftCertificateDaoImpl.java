@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -28,7 +29,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             + "gift_certificate_name = ?, description = ?, price = ?, duration = ?, create_date = ?, "
             + "last_update_date = ? WHERE gift_certificate_id = ?";
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
-    private static final String REMOVE_FROM_CROSS_TABLE = "DELETE FROM gift_certificate_has_tag "
+    private static final String REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id_fk = ?";
     private static final String FIND_BY_QUERY_PARAMETERS = "SELECT gift_certificate_id, gift_certificate_name, "
             + "description, price, duration, create_date, last_update_date FROM gift_certificate "
@@ -75,20 +76,18 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public boolean update(GiftCertificate giftCertificate) {
-        return jdbcTemplate.update(UPDATE, giftCertificate.getName(), giftCertificate.getDescription(),
+    public GiftCertificate update(GiftCertificate giftCertificate) {
+        jdbcTemplate.update(UPDATE, giftCertificate.getName(), giftCertificate.getDescription(),
                 giftCertificate.getPrice(), giftCertificate.getDuration(), giftCertificate.getCreateDate(),
-                giftCertificate.getLastUpdateDate(), giftCertificate.getId()) > 0;
+                giftCertificate.getLastUpdateDate(), giftCertificate.getId());
+        return giftCertificate;
     }
 
+    @Transactional
     @Override
-    public boolean remove(long id) {
-        return jdbcTemplate.update(REMOVE, id) > 0;
-    }
-
-    @Override
-    public void removeFromCrossTable(long id) {
-        jdbcTemplate.update(REMOVE_FROM_CROSS_TABLE, id);
+    public void remove(long id) {
+        jdbcTemplate.update(REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG, id);
+        jdbcTemplate.update(REMOVE, id);
     }
 
     @Override

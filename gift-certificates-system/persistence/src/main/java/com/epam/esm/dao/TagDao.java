@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface TagDao extends CrudDao<Tag> {
     List<Tag> findByGiftCertificateId(long id);
-
-    void removeFromCrossTable(long id);
 }

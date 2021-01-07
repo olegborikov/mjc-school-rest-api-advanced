@@ -68,15 +68,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificateValidator.validateId(receivedGiftCertificate.getId());
         Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(receivedGiftCertificate.getId());
         if (foundGiftCertificate.isPresent()) {
-            GiftCertificate updatedGiftCertificate
+            GiftCertificate newGiftCertificate
                     = updateFieldsGiftCertificate(receivedGiftCertificate, foundGiftCertificate.get());
-            boolean isUpdated = giftCertificateDao.update(updatedGiftCertificate);
-            if (isUpdated) {
-                return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
-            } else {
-                throw new ResourceNotFoundException("Gift certificate with id "
-                        + receivedGiftCertificate.getId() + " not found.");
-            }
+            GiftCertificate updatedGiftCertificate = giftCertificateDao.update(newGiftCertificate);
+            return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
         } else {
             throw new ResourceNotFoundException("Gift certificate with id "
                     + receivedGiftCertificate.getId() + " not found.");
@@ -87,10 +82,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void removeGiftCertificate(String id) {
         GiftCertificateValidator.validateId(id);
         long parsedId = NumberUtils.createLong(id);
-        boolean isRemoved = giftCertificateDao.remove(parsedId);
-        if (!isRemoved) {
-            throw new ResourceNotFoundException("Gift certificate with id " + id + " not found.");
-        }
+        giftCertificateDao.remove(parsedId);
     }
 
     private GiftCertificate updateFieldsGiftCertificate(GiftCertificate receivedGiftCertificate,

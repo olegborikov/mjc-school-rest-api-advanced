@@ -6,7 +6,5 @@ import com.epam.esm.util.GiftCertificateQueryParameters;
 import java.util.List;
 
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
-    void removeFromCrossTable(long id);
-
     List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
 }

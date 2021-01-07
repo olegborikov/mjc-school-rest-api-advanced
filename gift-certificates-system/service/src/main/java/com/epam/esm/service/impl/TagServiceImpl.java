@@ -55,9 +55,6 @@ public class TagServiceImpl implements TagService {
     public void removeTag(String id) {
         TagValidator.validateId(id);
         long parsedId = NumberUtils.createLong(id);
-        boolean isRemoved = tagDao.remove(parsedId);
-        if (!isRemoved) {
-            throw new ResourceNotFoundException("Tag with id " + id + " not found.");
-        }
+        tagDao.remove(parsedId);
     }
 }

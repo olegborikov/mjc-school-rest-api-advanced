@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -23,7 +24,8 @@ public class TagDaoImpl implements TagDao {
             + "INNER JOIN gift_certificate_has_tag ON tag.tag_id = gift_certificate_has_tag.tag_id_fk WHERE "
             + "gift_certificate_has_tag.gift_certificate_id_fk = ?";
     private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
-    private static final String REMOVE_FROM_CROSS_TABLE = "DELETE FROM gift_certificate_has_tag WHERE tag_id_fk = ?";
+    private static final String REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
+            + "WHERE tag_id_fk = ?";
     private final JdbcTemplate jdbcTemplate;
     private final TagMapper tagMapper;
 
@@ -60,22 +62,19 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public boolean update(Tag tag) {
+    public Tag update(Tag tag) {
         throw new UnsupportedOperationException("Method update is unavailable for TagDaoImpl");
     }
 
+    @Transactional
     @Override
-    public boolean remove(long id) {
-        return jdbcTemplate.update(REMOVE, id) > 0;
+    public void remove(long id) {
+        jdbcTemplate.update(REMOVE_FROM_GIFT_CERTIFICATE_HAS_TAG, id);
+        jdbcTemplate.update(REMOVE, id);
     }
 
     @Override
     public List<Tag> findByGiftCertificateId(long id) {
         return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, new Object[]{id}, tagMapper);
-    }
-
-    @Override
-    public void removeFromCrossTable(long id) {
-        jdbcTemplate.update(REMOVE_FROM_CROSS_TABLE, id);
     }
 }
