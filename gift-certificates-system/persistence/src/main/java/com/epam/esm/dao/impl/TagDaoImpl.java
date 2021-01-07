@@ -19,6 +19,7 @@ public class TagDaoImpl implements TagDao {
     private static final String ADD = "INSERT INTO tag (tag_name) VALUES (?)";
     private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
     private static final String FIND_BY_ID = "SELECT tag_id, tag_name FROM tag WHERE tag_id = ?";
+    private static final String FIND_BY_NAME = "SELECT tag_id, tag_name FROM tag WHERE BINARY tag_name = ?";
     private static final String FIND_BY_GIFT_CERTIFICATE_ID = "SELECT tag_id, tag_name FROM tag "
             + "INNER JOIN gift_certificate_has_tag ON tag.tag_id = gift_certificate_has_tag.tag_id_fk WHERE "
             + "gift_certificate_has_tag.gift_certificate_id_fk = ?";
@@ -78,5 +79,11 @@ public class TagDaoImpl implements TagDao {
     @Override
     public List<Tag> findByGiftCertificateId(long id) {
         return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, new Object[]{id}, tagMapper);
+    }
+
+    @Override
+    public Optional<Tag> isExists(String name) {
+        return jdbcTemplate.query(FIND_BY_NAME, new Object[]{name}, tagMapper).stream()
+                .findFirst();
     }
 }

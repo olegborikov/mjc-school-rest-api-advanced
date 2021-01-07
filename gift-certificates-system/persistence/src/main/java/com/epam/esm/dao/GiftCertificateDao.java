@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
     List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
+
+    void addGiftCertificateHasTag(GiftCertificate giftCertificate);
 }

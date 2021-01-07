@@ -3,6 +3,7 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.mapper.GiftCertificateMapper;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.util.GiftCertificateQueryCreator;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             + "description, price, duration, create_date, last_update_date FROM gift_certificate "
             + "LEFT JOIN gift_certificate_has_tag ON gift_certificate.gift_certificate_id = gift_certificate_id_fk "
             + "LEFT JOIN tag ON gift_certificate_has_tag.tag_id_fk = tag_id";
+    private static final String ADD_GIFT_CERTIFICATE_HAS_TAG = "INSERT INTO gift_certificate_has_tag "
+            + "(gift_certificate_id_fk, tag_id_fk) VALUES (?, ?)";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateMapper giftCertificateMapper;
 
@@ -96,5 +99,11 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     public List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters) {
         String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
         return jdbcTemplate.query(FIND_BY_QUERY_PARAMETERS + condition, giftCertificateMapper);
+    }
+
+    @Override
+    public void addGiftCertificateHasTag(GiftCertificate giftCertificate) {
+        List<Tag> tags = giftCertificate.getTags();
+        tags.forEach(tag -> jdbcTemplate.update(ADD_GIFT_CERTIFICATE_HAS_TAG, giftCertificate.getId(), tag.getId()));
     }
 }

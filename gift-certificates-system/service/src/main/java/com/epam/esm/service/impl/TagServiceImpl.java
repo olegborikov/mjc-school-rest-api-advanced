@@ -5,6 +5,7 @@ import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
+import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,13 @@ public class TagServiceImpl implements TagService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public TagDto addTag(TagDto tagDto) {
         Tag tag = modelMapper.map(tagDto, Tag.class);
         TagValidator.validateName(tag.getName());
-        Tag addedTag = tagDao.add(tag);
+        Optional<Tag> existingTag = tagDao.isExists(tag.getName());
+        Tag addedTag = existingTag.orElseGet(() -> tagDao.add(tag));
         return modelMapper.map(addedTag, TagDto.class);
     }
 
@@ -56,5 +59,14 @@ public class TagServiceImpl implements TagService {
         TagValidator.validateId(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);
+    }
+
+    @Override
+    public List<TagDto> findTagsByGiftCertificateId(Long id) {
+        GiftCertificateValidator.validateId(id);
+        List<Tag> tags = tagDao.findByGiftCertificateId(id);
+        return tags.stream()
+                .map(tag -> modelMapper.map(tag, TagDto.class))
+                .collect(Collectors.toList());
     }
 }
