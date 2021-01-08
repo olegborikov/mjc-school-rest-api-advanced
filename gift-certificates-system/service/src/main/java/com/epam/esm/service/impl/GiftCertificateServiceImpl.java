@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -106,9 +107,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     private void checkTags(GiftCertificateDto giftCertificateDto) {
-        List<TagDto> tags = giftCertificateDto.getTags().stream()
-                .map(tagService::addTag)
-                .collect(Collectors.toList());
+        List<TagDto> tags = new ArrayList<>();
+        if (giftCertificateDto.getTags() != null) {
+            tags = giftCertificateDto.getTags().stream()
+                    .map(tagService::addTag)
+                    .collect(Collectors.toList());
+        }
         giftCertificateDto.setTags(tags);
     }
 

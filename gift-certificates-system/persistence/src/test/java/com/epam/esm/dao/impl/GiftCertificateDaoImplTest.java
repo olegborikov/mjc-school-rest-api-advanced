@@ -190,24 +190,26 @@ class GiftCertificateDaoImplTest {
     @Test
     void findByQueryParametersCorrectDataShouldReturnListOfGiftCertificates() {
         int expected = 2;
-        GiftCertificateQueryParameters giftCertificateQueryParameters = new GiftCertificateQueryParameters();
-        giftCertificateQueryParameters.setTagName("school");
-        giftCertificateQueryParameters.setName("a");
-        giftCertificateQueryParameters.setDescription("i");
-        giftCertificateQueryParameters.setSortType(SortType.NAME);
-        giftCertificateQueryParameters.setOrderType(OrderType.ASC);
+        GiftCertificateQueryParameters giftCertificateQueryParameters = GiftCertificateQueryParameters.builder()
+                .tagName("school")
+                .name("a")
+                .description("i")
+                .sortType(SortType.NAME)
+                .orderType(OrderType.ASC)
+                .build();
         List<GiftCertificate> actual = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findByQueryParametersCorrectDataShouldReturnEmptyList() {
-        GiftCertificateQueryParameters giftCertificateQueryParameters = new GiftCertificateQueryParameters();
-        giftCertificateQueryParameters.setTagName("School");
-        giftCertificateQueryParameters.setName("a");
-        giftCertificateQueryParameters.setDescription("i");
-        giftCertificateQueryParameters.setSortType(SortType.CREATE_DATE);
-        giftCertificateQueryParameters.setOrderType(OrderType.DESC);
+        GiftCertificateQueryParameters giftCertificateQueryParameters = GiftCertificateQueryParameters.builder()
+                .tagName("School")
+                .name("a")
+                .description("i")
+                .sortType(SortType.CREATE_DATE)
+                .orderType(OrderType.DESC)
+                .build();
         List<GiftCertificate> actual = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         assertTrue(actual.isEmpty());
     }
