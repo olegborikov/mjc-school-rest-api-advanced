@@ -59,9 +59,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             statement.setObject(6, giftCertificate.getLastUpdateDate());
             return statement;
         }, keyHolder);
-        Number key = keyHolder.getKey();
-        if (key != null) {
-            giftCertificate.setId(key.longValue());
+        if (keyHolder.getKey() != null) {
+            giftCertificate.setId(keyHolder.getKey().longValue());
         }
         return giftCertificate;
     }

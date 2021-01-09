@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 @UtilityClass
 public class TagValidator {
-    private final int MIN_LENGTH_NAME = 1;
     private final int MAX_LENGTH_NAME = 100;
     private final int MIN_ID = 1;
 
@@ -18,8 +17,7 @@ public class TagValidator {
     }
 
     public void validateName(String name) {
-        if (name == null || StringUtils.isBlank(name)
-                || name.length() > MAX_LENGTH_NAME || name.length() < MIN_LENGTH_NAME) {
+        if (StringUtils.isBlank(name) || name.length() > MAX_LENGTH_NAME) {
             throw new IncorrectParameterValueException("Incorrect name value: " + name
                     + ". Name should be string with length in range from 1 to 100 symbols.");
         }

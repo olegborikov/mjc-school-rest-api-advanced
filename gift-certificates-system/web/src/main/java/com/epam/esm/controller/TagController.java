@@ -3,6 +3,7 @@ package com.epam.esm.controller;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.handler.ErrorCode;
 import com.epam.esm.handler.ErrorHandler;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,12 @@ public class TagController {
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorHandler handleResourceNotFoundException(ResourceNotFoundException exception) {
-        return new ErrorHandler(exception.getMessage(), 44);
+        return new ErrorHandler(exception.getMessage(), ErrorCode.RESOURCE_NOT_FOUND);
     }
 
     @ExceptionHandler(value = IncorrectParameterValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorHandler handleIncorrectParameterValueException(IncorrectParameterValueException exception) {
-        return new ErrorHandler(exception.getMessage(), 40);
+        return new ErrorHandler(exception.getMessage(), ErrorCode.INCORRECT_PARAMETER_VALUE);
     }
 }

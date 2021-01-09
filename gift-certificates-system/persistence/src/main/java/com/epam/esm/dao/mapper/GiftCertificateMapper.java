@@ -20,10 +20,8 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
                 .description(rs.getString(ColumnName.DESCRIPTION))
                 .price(BigDecimal.valueOf(rs.getDouble(ColumnName.PRICE)))
                 .duration(rs.getInt(ColumnName.DURATION))
-                .createDate(LocalDateTime.of(rs.getDate(ColumnName.CREATE_DATE).toLocalDate(),
-                        rs.getTime(ColumnName.CREATE_DATE).toLocalTime()))
-                .lastUpdateDate(LocalDateTime.of(rs.getDate(ColumnName.LAST_UPDATE_DATE).toLocalDate(),
-                        rs.getTime(ColumnName.LAST_UPDATE_DATE).toLocalTime()))
+                .createDate(rs.getObject(ColumnName.CREATE_DATE, LocalDateTime.class))
+                .lastUpdateDate(rs.getObject(ColumnName.LAST_UPDATE_DATE, LocalDateTime.class))
                 .build();
     }
 }

@@ -43,9 +43,8 @@ public class TagDaoImpl implements TagDao {
             statement.setString(1, tag.getName());
             return statement;
         }, keyHolder);
-        Number key = keyHolder.getKey();
-        if (key != null) {
-            tag.setId(key.longValue());
+        if (keyHolder.getKey() != null) {
+            tag.setId(keyHolder.getKey().longValue());
         }
         return tag;
     }

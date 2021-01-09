@@ -144,9 +144,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     receivedGiftCertificate.getLastUpdateDate());
             foundGiftCertificate.setLastUpdateDate(receivedGiftCertificate.getLastUpdateDate());
         }
-        if (receivedGiftCertificate.getTags() != null) {
-            foundGiftCertificate.setTags(receivedGiftCertificate.getTags());
-        }
+        foundGiftCertificate.setTags(receivedGiftCertificate.getTags());
         return foundGiftCertificate;
     }
 }

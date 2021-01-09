@@ -12,7 +12,6 @@ public class GiftCertificateValidator {
     private final int MAX_SCALE = 2;
     private final BigDecimal MIN_PRICE = new BigDecimal("0.01");
     private final BigDecimal MAX_PRICE = new BigDecimal("999999.99");
-    private final int MIN_LENGTH = 1;
     private final int MAX_LENGTH_NAME = 100;
     private final int MAX_LENGTH_DESCRIPTION = 1000;
     private final int MIN_NUMBER = 1;
@@ -26,16 +25,14 @@ public class GiftCertificateValidator {
     }
 
     public void validateName(String name) {
-        if (name == null || StringUtils.isBlank(name)
-                || name.length() < MIN_LENGTH || name.length() > MAX_LENGTH_NAME) {
+        if (StringUtils.isBlank(name) || name.length() > MAX_LENGTH_NAME) {
             throw new IncorrectParameterValueException("Incorrect name value: " + name
                     + ". Name should be string with length in range from 1 to 100 symbols.");
         }
     }
 
     public void validateDescription(String description) {
-        if (description == null || StringUtils.isBlank(description)
-                || description.length() < MIN_LENGTH || description.length() > MAX_LENGTH_DESCRIPTION) {
+        if (StringUtils.isBlank(description) || description.length() > MAX_LENGTH_DESCRIPTION) {
             throw new IncorrectParameterValueException("Incorrect description value: " + description
                     + ". Description should be string with length in range from 1 to 1000 symbols.");
         }
