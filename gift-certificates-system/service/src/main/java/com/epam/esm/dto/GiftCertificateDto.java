@@ -10,11 +10,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Class {@code GiftCertificateDto} is implementation of pattern DTO
+ * for transmission {@link com.epam.esm.entity.GiftCertificate} between service and controller.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class GiftCertificateDto {
+
     private Long id;
     private String name;
     private String description;

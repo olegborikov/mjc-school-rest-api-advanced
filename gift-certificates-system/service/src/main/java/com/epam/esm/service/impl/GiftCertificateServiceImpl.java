@@ -5,6 +5,7 @@ import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
@@ -21,8 +22,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class {@code GiftCertificateServiceImpl} is implementation of interface {@link GiftCertificateService}
+ * and intended to work with {@link com.epam.esm.entity.GiftCertificate}.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
+
     private final GiftCertificateDao giftCertificateDao;
     private final TagService tagService;
     private final ModelMapper modelMapper;
@@ -37,7 +46,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto) {
+    public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto)
+            throws IncorrectParameterValueException {
         addAndSetTags(giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
         GiftCertificateValidator.validate(giftCertificate);
@@ -62,7 +72,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificateDto findGiftCertificateById(Long id) {
+    public GiftCertificateDto findGiftCertificateById(Long id)
+            throws IncorrectParameterValueException, ResourceNotFoundException {
         GiftCertificateValidator.validateId(id);
         Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
         return foundGiftCertificate
@@ -72,7 +83,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
+    public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto)
+            throws IncorrectParameterValueException {
         addAndSetTags(giftCertificateDto);
         GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(giftCertificateDto.getId());
         updateFields(foundGiftCertificateDto, giftCertificateDto);
@@ -86,7 +98,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public void removeGiftCertificate(Long id) {
+    public void removeGiftCertificate(Long id) throws IncorrectParameterValueException {
         GiftCertificateValidator.validateId(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);

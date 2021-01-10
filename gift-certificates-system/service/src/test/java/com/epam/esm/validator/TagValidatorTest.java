@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TagValidatorTest {
+
     public static Object[][] validateIdCorrectData() {
         return new Object[][]{
                 {400L},

@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GiftCertificateValidatorTest {
+
     public static Object[][] validateCorrectData() {
         GiftCertificate giftCertificate1 = GiftCertificate.builder()
                 .name("Cinema")

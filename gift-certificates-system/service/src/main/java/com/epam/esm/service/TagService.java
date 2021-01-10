@@ -1,17 +1,64 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dto.TagDto;
+import com.epam.esm.exception.IncorrectParameterValueException;
+import com.epam.esm.exception.ResourceNotFoundException;
 
 import java.util.List;
 
+/**
+ * Interface {@code TagService} describes abstract behavior for working with {@link com.epam.esm.entity.Tag}.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 public interface TagService {
-    TagDto addTag(TagDto tagDto);
 
+    /**
+     * Add new tag.
+     * If tag with such name already exists, it will be returns.
+     *
+     * @param tagDto the tag dto, which will be added
+     * @return the added tag dto
+     * @throws IncorrectParameterValueException an exception thrown by method
+     *                                          {@link com.epam.esm.validator.TagValidator#validateName(String)}
+     */
+    TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException;
+
+    /**
+     * Find all tags.
+     *
+     * @return the list of all tags dto
+     */
     List<TagDto> findAllTags();
 
-    TagDto findTagById(Long id);
+    /**
+     * Find tag by id.
+     *
+     * @param id the id of tag, which will be searched
+     * @return the found tag dto
+     * @throws IncorrectParameterValueException an exception thrown by method
+     *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
+     * @throws ResourceNotFoundException        an exception thrown in case tag with such id not found
+     */
+    TagDto findTagById(Long id) throws IncorrectParameterValueException, ResourceNotFoundException;
 
-    void removeTag(Long id);
+    /**
+     * Remove tag and all recordings with such tagId in cross table.
+     *
+     * @param id the id of tag, which will be removed
+     * @throws IncorrectParameterValueException an exception thrown by method
+     *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
+     */
+    void removeTag(Long id) throws IncorrectParameterValueException;
 
-    List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId);
+    /**
+     * Find tags, which contains gift certificate.
+     *
+     * @param giftCertificateId the id of gift certificate, which tags will be searched
+     * @return the list of found tags dto
+     * @throws IncorrectParameterValueException an exception thrown by method
+     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
+     */
+    List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId) throws IncorrectParameterValueException;
 }
