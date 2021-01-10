@@ -24,13 +24,13 @@ public class GiftCertificateController {
     }
 
     @GetMapping
-    public List<GiftCertificateDto> giftCertificates(
+    public List<GiftCertificateDto> getGiftCertificates(
             GiftCertificateQueryParametersDto giftCertificateQueryParametersDto) {
         return giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto);
     }
 
     @GetMapping("/{id}")
-    public GiftCertificateDto giftCertificateById(@PathVariable Long id) {
+    public GiftCertificateDto getGiftCertificateById(@PathVariable Long id) {
         return giftCertificateService.findGiftCertificateById(id);
     }
 

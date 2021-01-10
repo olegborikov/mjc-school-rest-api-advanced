@@ -23,12 +23,12 @@ public class TagController {
     }
 
     @GetMapping
-    public List<TagDto> tags() {
+    public List<TagDto> getTags() {
         return tagService.findAllTags();
     }
 
     @GetMapping("/{id}")
-    public TagDto tagById(@PathVariable Long id) {
+    public TagDto getTagById(@PathVariable Long id) {
         return tagService.findTagById(id);
     }
 
