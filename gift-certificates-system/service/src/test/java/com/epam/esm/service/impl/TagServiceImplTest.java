@@ -58,7 +58,7 @@ class TagServiceImplTest {
                 .id(1L)
                 .name("Sport")
                 .build();
-        when(tagDao.isExists(any(String.class))).thenReturn(Optional.empty());
+        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
         when(tagDao.add(any(Tag.class))).thenReturn(tag);
         TagDto actual = tagService.addTag(tagDto);
         assertEquals(expected, actual);
@@ -73,7 +73,7 @@ class TagServiceImplTest {
         TagDto tagDto = TagDto.builder()
                 .name(" ")
                 .build();
-        when(tagDao.isExists(any(String.class))).thenReturn(Optional.empty());
+        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
         when(tagDao.add(any(Tag.class))).thenReturn(tag);
         assertThrows(IncorrectParameterValueException.class, () -> tagService.addTag(tagDto));
     }
@@ -155,9 +155,9 @@ class TagServiceImplTest {
                 .name("Travel")
                 .build();
         int expected = 2;
-        Long id = 1L;
+        Long giftCertificateId = 1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
-        List<TagDto> actual = tagService.findTagsByGiftCertificateId(id);
+        List<TagDto> actual = tagService.findTagsByGiftCertificateId(giftCertificateId);
         assertEquals(expected, actual.size());
     }
 
@@ -171,8 +171,8 @@ class TagServiceImplTest {
                 .id(2L)
                 .name("Travel")
                 .build();
-        Long id = -1L;
+        Long giftCertificateId = -1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
-        assertThrows(IncorrectParameterValueException.class, () -> tagService.findTagsByGiftCertificateId(id));
+        assertThrows(IncorrectParameterValueException.class, () -> tagService.findTagsByGiftCertificateId(giftCertificateId));
     }
 }

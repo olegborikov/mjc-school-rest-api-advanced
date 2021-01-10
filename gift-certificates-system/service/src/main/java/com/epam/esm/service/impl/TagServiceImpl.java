@@ -32,24 +32,24 @@ public class TagServiceImpl implements TagService {
     public TagDto addTag(TagDto tagDto) {
         Tag tag = modelMapper.map(tagDto, Tag.class);
         TagValidator.validateName(tag.getName());
-        Optional<Tag> existingTag = tagDao.isExists(tag.getName());
-        Tag addedTag = existingTag.orElseGet(() -> tagDao.add(tag));
+        Optional<Tag> existingTagOptional = tagDao.findByName(tag.getName());
+        Tag addedTag = existingTagOptional.orElseGet(() -> tagDao.add(tag));
         return modelMapper.map(addedTag, TagDto.class);
     }
 
     @Override
     public List<TagDto> findAllTags() {
-        List<Tag> tags = tagDao.findAll();
-        return tags.stream()
-                .map(tag -> modelMapper.map(tag, TagDto.class))
+        List<Tag> foundTags = tagDao.findAll();
+        return foundTags.stream()
+                .map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public TagDto findTagById(Long id) {
         TagValidator.validateId(id);
-        Optional<Tag> foundTag = tagDao.findById(id);
-        return foundTag.map(tag -> modelMapper.map(tag, TagDto.class))
+        Optional<Tag> foundTagOptional = tagDao.findById(id);
+        return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException("Tag with id " + id + " not found."));
     }
 
@@ -62,11 +62,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDto> findTagsByGiftCertificateId(Long id) {
-        GiftCertificateValidator.validateId(id);
-        List<Tag> tags = tagDao.findByGiftCertificateId(id);
-        return tags.stream()
-                .map(tag -> modelMapper.map(tag, TagDto.class))
+    public List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId) {
+        GiftCertificateValidator.validateId(giftCertificateId);
+        List<Tag> foundTags = tagDao.findByGiftCertificateId(giftCertificateId);
+        return foundTags.stream()
+                .map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .collect(Collectors.toList());
     }
 }

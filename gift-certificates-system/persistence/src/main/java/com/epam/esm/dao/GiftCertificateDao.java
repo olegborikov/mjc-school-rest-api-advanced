@@ -6,7 +6,7 @@ import com.epam.esm.util.GiftCertificateQueryParameters;
 import java.util.List;
 
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
-    List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
-
     void addGiftCertificateHasTag(GiftCertificate giftCertificate);
+
+    List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
 }

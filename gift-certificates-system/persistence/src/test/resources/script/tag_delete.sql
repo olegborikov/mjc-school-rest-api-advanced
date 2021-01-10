@@ -1,1 +1,1 @@
-DROP TABLE tag
+DROP TABLE tag;

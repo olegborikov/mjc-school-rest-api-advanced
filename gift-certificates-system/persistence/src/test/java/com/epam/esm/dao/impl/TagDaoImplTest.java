@@ -123,34 +123,34 @@ class TagDaoImplTest {
 
     @Test
     void findByGiftCertificateIdCorrectDataShouldReturnListOfTags() {
-        long id = 1;
+        long giftCertificateId = 1;
         int expected = 2;
-        List<Tag> actual = tagDao.findByGiftCertificateId(id);
+        List<Tag> actual = tagDao.findByGiftCertificateId(giftCertificateId);
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findByGiftCertificateIdCorrectDataShouldReturnEmptyList() {
-        long id = 5;
-        List<Tag> actual = tagDao.findByGiftCertificateId(id);
+        long giftCertificateId = 5;
+        List<Tag> actual = tagDao.findByGiftCertificateId(giftCertificateId);
         assertTrue(actual.isEmpty());
     }
 
     @Test
-    void isExistsCorrectDataShouldReturnTagOptional() {
+    void findByNameCorrectDataShouldReturnTagOptional() {
         String name = "work";
         Tag expected = Tag.builder()
                 .id(3L)
                 .name("work")
                 .build();
-        Optional<Tag> actual = tagDao.isExists(name);
+        Optional<Tag> actual = tagDao.findByName(name);
         assertEquals(Optional.of(expected), actual);
     }
 
     @Test
-    void isExistsCorrectDataShouldReturnEmptyOptional() {
+    void findByNameCorrectDataShouldReturnEmptyOptional() {
         String name = "Work";
-        Optional<Tag> actual = tagDao.isExists(name);
+        Optional<Tag> actual = tagDao.findByName(name);
         assertFalse(actual.isPresent());
     }
 }

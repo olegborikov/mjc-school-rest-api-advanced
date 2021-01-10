@@ -3,13 +3,14 @@ package com.epam.esm.util;
 public enum OrderType {
     ASC("ASC"),
     DESC("DESC");
-    private final String sqlEquivalent;
 
-    OrderType(String sqlEquivalent) {
-        this.sqlEquivalent = sqlEquivalent;
+    private final String sqlExpression;
+
+    OrderType(String sqlExpression) {
+        this.sqlExpression = sqlExpression;
     }
 
-    public String getSqlEquivalent() {
-        return sqlEquivalent;
+    public String getSqlExpression() {
+        return sqlExpression;
     }
 }

@@ -1,1 +1,1 @@
-DROP TABLE gift_certificate
+DROP TABLE gift_certificate;

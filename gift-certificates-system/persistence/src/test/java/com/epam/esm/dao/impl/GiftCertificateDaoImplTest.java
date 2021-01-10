@@ -58,8 +58,8 @@ class GiftCertificateDaoImplTest {
     @Test
     void addCorrectDataShouldReturnGiftCertificate() {
         GiftCertificate giftCertificate = GiftCertificate.builder()
-                .name("qwerty")
-                .description("qwerty")
+                .name("Cinema")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -72,8 +72,8 @@ class GiftCertificateDaoImplTest {
     @Test
     void addCorrectDataShouldSetId() {
         GiftCertificate giftCertificate = GiftCertificate.builder()
-                .name("qwerty")
-                .description("qwerty")
+                .name("Cinema")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -93,7 +93,7 @@ class GiftCertificateDaoImplTest {
         }
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .name(name.toString())
-                .description("qwerty")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -137,8 +137,8 @@ class GiftCertificateDaoImplTest {
     void updateCorrectDataShouldReturnGiftCertificate() {
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .id(4L)
-                .name("qwerty")
-                .description("qwerty")
+                .name("Cinema")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -146,8 +146,8 @@ class GiftCertificateDaoImplTest {
                 .build();
         GiftCertificate expected = GiftCertificate.builder()
                 .id(4L)
-                .name("qwerty")
-                .description("qwerty")
+                .name("Cinema")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -166,7 +166,7 @@ class GiftCertificateDaoImplTest {
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .id(4L)
                 .name(name.toString())
-                .description("qwerty")
+                .description("Best cinema in the city")
                 .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
@@ -185,6 +185,21 @@ class GiftCertificateDaoImplTest {
     void removeGiftCertificateHasTagCorrectDataShouldNotThrowException() {
         long id = 1;
         assertDoesNotThrow(() -> giftCertificateDao.removeGiftCertificateHasTag(id));
+    }
+
+    @Test
+    void addGiftCertificateHasTagCorrectDataShouldNotThrowException() {
+        GiftCertificate giftCertificate = GiftCertificate.builder()
+                .id(4L)
+                .name("Cinema")
+                .description("Best cinema in the city")
+                .price(new BigDecimal(100))
+                .duration(5)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .tags(Arrays.asList(new Tag(1L, "Sport"), new Tag(2L, "Home")))
+                .build();
+        assertDoesNotThrow(() -> giftCertificateDao.addGiftCertificateHasTag(giftCertificate));
     }
 
     @Test
@@ -212,20 +227,5 @@ class GiftCertificateDaoImplTest {
                 .build();
         List<GiftCertificate> actual = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         assertTrue(actual.isEmpty());
-    }
-
-    @Test
-    void addGiftCertificateHasTagCorrectDataShouldNotThrowException() {
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(4L)
-                .name("Qwerty")
-                .description("qwerty")
-                .price(new BigDecimal(100))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(Arrays.asList(new Tag(1L, "Sport"), new Tag(2L, "Home")))
-                .build();
-        assertDoesNotThrow(() -> giftCertificateDao.addGiftCertificateHasTag(giftCertificate));
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TagDao extends CrudDao<Tag> {
-    List<Tag> findByGiftCertificateId(long id);
+    List<Tag> findByGiftCertificateId(long giftCertificateId);
 
-    Optional<Tag> isExists(String name);
+    Optional<Tag> findByName(String name);
 }

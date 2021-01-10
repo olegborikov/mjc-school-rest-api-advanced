@@ -13,5 +13,5 @@ public interface TagService {
 
     void removeTag(Long id);
 
-    List<TagDto> findTagsByGiftCertificateId(Long id);
+    List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId);
 }

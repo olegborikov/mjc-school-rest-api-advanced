@@ -3,7 +3,7 @@ USE gift_certificates_system;
 INSERT INTO gift_certificate(gift_certificate_name, description, price, duration, create_date, last_update_date)
 VALUES ('Horse ride', 'Horseback ride for lovers - a Hollywood-style date', 999.99, 2, '2017-05-22 12:46:31', '2020-03-01 16:11:07');
 INSERT INTO gift_certificate(gift_certificate_name, description, price, duration, create_date, last_update_date)
-VALUES ('quest "Space"', 'The country''s first team quest in virtual reality "Space"', 1500, 1, '2019-08-10 09:27:26', '2020-10-15 09:03:12');
+VALUES ('quest Space', 'The country first team quest in virtual reality Space', 1500, 1, '2019-08-10 09:27:26', '2020-10-15 09:03:12');
 INSERT INTO gift_certificate(gift_certificate_name, description, price, duration, create_date, last_update_date)
 VALUES ('Yoga', 'Relaxing yoga in hammocks', 500, 8, '2015-07-01 13:44:09', '2021-01-03 17:41:17');
 INSERT INTO gift_certificate(gift_certificate_name, description, price, duration, create_date, last_update_date)
