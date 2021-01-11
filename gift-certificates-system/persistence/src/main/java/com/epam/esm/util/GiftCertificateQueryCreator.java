@@ -4,8 +4,15 @@ import lombok.experimental.UtilityClass;
 
 import java.text.MessageFormat;
 
+/**
+ * Class {@code GiftCertificateQueryCreator} designed to create a selection condition.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @UtilityClass
 public class GiftCertificateQueryCreator {
+
     private static final String WHERE = " WHERE ";
     private static final String AND = " AND ";
     private static final String TAG_NAME = "tag_name LIKE '%s'";
@@ -13,6 +20,12 @@ public class GiftCertificateQueryCreator {
     private static final String DESCRIPTION = "description LIKE ''%{0}%''";
     private static final String GROUP_BY = " GROUP BY gift_certificate_id";
 
+    /**
+     * Create query from object of {@link GiftCertificateQueryParameters}.
+     *
+     * @param giftCertificateQueryParameters the gift certificate query parameters
+     * @return the selection condition
+     */
     public String createQuery(GiftCertificateQueryParameters giftCertificateQueryParameters) {
         StringBuilder condition = new StringBuilder();
         if (giftCertificateQueryParameters.getTagName() != null) {

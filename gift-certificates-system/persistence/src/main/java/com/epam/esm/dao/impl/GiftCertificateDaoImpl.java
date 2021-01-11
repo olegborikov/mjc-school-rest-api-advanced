@@ -17,8 +17,16 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class {@code GiftCertificateDaoImpl} is implementation of interface
+ * {@link GiftCertificateDao} and intended to work with gift_certificate table.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
+
     private static final String ADD = "INSERT INTO gift_certificate (gift_certificate_name, description, price, "
             + "duration, create_date, last_update_date) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_ALL = "SELECT gift_certificate_id, gift_certificate_name, description, price, "

@@ -9,11 +9,18 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Class {@code GiftCertificate} represents gift_certificate entity.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class GiftCertificate {
+
     private Long id;
     private String name;
     private String description;

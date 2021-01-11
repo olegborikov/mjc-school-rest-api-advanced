@@ -14,8 +14,16 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class {@code TagDaoImpl} is implementation of interface
+ * {@link TagDao} and intended to work with tag table.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Repository
 public class TagDaoImpl implements TagDao {
+
     private static final String ADD = "INSERT INTO tag (tag_name) VALUES (?)";
     private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
     private static final String FIND_BY_ID = "SELECT tag_id, tag_name FROM tag WHERE tag_id = ?";
