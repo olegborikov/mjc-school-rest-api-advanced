@@ -1,6 +1,7 @@
 package com.epam.esm.validator;
 
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
@@ -46,37 +47,37 @@ public class GiftCertificateValidator {
      */
     public void validateId(Long id) throws IncorrectParameterValueException {
         if (id == null || id < MIN_NUMBER) {
-            throw new IncorrectParameterValueException("Incorrect id value: " + id
-                    + ". Id should be positive number.");
+            throw new IncorrectParameterValueException(
+                    ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, String.valueOf(id));
         }
     }
 
     private void validateName(String name) throws IncorrectParameterValueException {
         if (StringUtils.isBlank(name) || name.length() > MAX_LENGTH_NAME) {
-            throw new IncorrectParameterValueException("Incorrect name value: " + name
-                    + ". Name should be string with length in range from 1 to 100 symbols.");
+            throw new IncorrectParameterValueException(
+                    ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME, name);
         }
     }
 
     private void validateDescription(String description) throws IncorrectParameterValueException {
         if (StringUtils.isBlank(description) || description.length() > MAX_LENGTH_DESCRIPTION) {
-            throw new IncorrectParameterValueException("Incorrect description value: " + description
-                    + ". Description should be string with length in range from 1 to 1000 symbols.");
+            throw new IncorrectParameterValueException(
+                    ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION, description);
         }
     }
 
     private void validatePrice(BigDecimal price) throws IncorrectParameterValueException {
         if (price == null || price.scale() > MAX_SCALE
                 || price.compareTo(MIN_PRICE) < 0 || price.compareTo(MAX_PRICE) > 0) {
-            throw new IncorrectParameterValueException("Incorrect price value: " + price
-                    + ". Price should be positive number(< 1000000) and have two numbers in scale.");
+            throw new IncorrectParameterValueException(
+                    ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE, String.valueOf(price));
         }
     }
 
     private void validateDuration(int duration) throws IncorrectParameterValueException {
         if (duration < MIN_NUMBER || duration > MAX_DURATION) {
-            throw new IncorrectParameterValueException("Incorrect duration value: " + duration
-                    + ". Duration should be positive number(< 1000).");
+            throw new IncorrectParameterValueException(
+                    ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION, String.valueOf(duration));
         }
     }
 }

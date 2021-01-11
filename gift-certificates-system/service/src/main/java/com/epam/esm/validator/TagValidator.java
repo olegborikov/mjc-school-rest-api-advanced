@@ -1,5 +1,6 @@
 package com.epam.esm.validator;
 
+import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +25,7 @@ public class TagValidator {
      */
     public void validateId(Long id) throws IncorrectParameterValueException {
         if (id == null || id < MIN_ID) {
-            throw new IncorrectParameterValueException("Incorrect id value: " + id
-                    + ". Id should be positive number.");
+            throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_TAG_ID, String.valueOf(id));
         }
     }
 
@@ -37,8 +37,7 @@ public class TagValidator {
      */
     public void validateName(String name) throws IncorrectParameterValueException {
         if (StringUtils.isBlank(name) || name.length() > MAX_LENGTH_NAME) {
-            throw new IncorrectParameterValueException("Incorrect name value: " + name
-                    + ". Name should be string with length in range from 1 to 100 symbols.");
+            throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_TAG_NAME, name);
         }
     }
 }

@@ -2,8 +2,11 @@ package com.epam.esm.configuration;
 
 import com.epam.esm.converter.StringToOrderTypeConverter;
 import com.epam.esm.converter.StringToSortTypeConverter;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
@@ -32,5 +35,20 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToSortTypeConverter());
         registry.addConverter(new StringToOrderTypeConverter());
+    }
+
+
+    /**
+     * Create bean {@link MessageSource} which will be used to get info from properties files.
+     *
+     * @return the message source
+     */
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("i18n/exception_message");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }
