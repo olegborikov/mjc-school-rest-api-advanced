@@ -1,4 +1,4 @@
-package com.epam.esm.handler;
+package com.epam.esm.exception;
 
 import lombok.Value;
 
