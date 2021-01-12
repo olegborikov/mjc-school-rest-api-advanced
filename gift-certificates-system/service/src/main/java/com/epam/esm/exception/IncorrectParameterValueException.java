@@ -1,6 +1,14 @@
 package com.epam.esm.exception;
 
-public class IncorrectParameterValueException extends RuntimeException { // TODO: 11.01.2021 documentation
+/**
+ * {@code IncorrectParameterValueException} is generated in case
+ * received parameters have unacceptable value.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ * @see RuntimeException
+ */
+public class IncorrectParameterValueException extends RuntimeException {
 
     private final String messageKey;
     private final String messageParameter;
@@ -10,10 +18,20 @@ public class IncorrectParameterValueException extends RuntimeException { // TODO
         this.messageParameter = messageParameter;
     }
 
+    /**
+     * Gets message key.
+     *
+     * @return the message key
+     */
     public String getMessageKey() {
         return messageKey;
     }
 
+    /**
+     * Gets message parameter.
+     *
+     * @return the message parameter
+     */
     public String getMessageParameter() {
         return messageParameter;
     }
