@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
@@ -80,14 +80,17 @@ public class GiftCertificateController {
 
     /**
      * Update gift certificate.
-     * Annotated by {@link PutMapping} with no parameters.
-     * Therefore, processes PUT requests at /gift-certificates.
+     * Annotated by {@link PutMapping} with parameter value = "/{id}".
+     * Therefore, processes PUT requests at /gift-certificates/{id}.
      *
+     * @param id                 the gift certificate id, which will be updated. Inferred from the request URI
      * @param giftCertificateDto the gift certificate with updated fields
      * @return the updated gift certificate dto
      */
-    @PutMapping
-    public GiftCertificateDto updateGiftCertificate(@RequestBody GiftCertificateDto giftCertificateDto) {
+    @PutMapping("/{id}")
+    public GiftCertificateDto updateGiftCertificate(@PathVariable Long id,
+                                                    @RequestBody GiftCertificateDto giftCertificateDto) {
+        giftCertificateDto.setId(id);
         return giftCertificateService.updateGiftCertificate(giftCertificateDto);
     }
 
