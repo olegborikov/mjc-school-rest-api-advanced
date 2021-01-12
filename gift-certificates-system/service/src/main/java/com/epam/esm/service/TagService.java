@@ -16,9 +16,9 @@ public interface TagService {
 
     /**
      * Add new tag.
-     * If tag with such name already exists, it will be returns.
+     * If tag with such name already exists it will be returns.
      *
-     * @param tagDto the tag dto, which will be added
+     * @param tagDto the tag dto which will be added
      * @return the added tag dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.TagValidator#validateName(String)}
@@ -35,7 +35,7 @@ public interface TagService {
     /**
      * Find tag by id.
      *
-     * @param id the id of tag, which will be searched
+     * @param id the id of tag which will be searched
      * @return the found tag dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
@@ -46,16 +46,16 @@ public interface TagService {
     /**
      * Remove tag and all recordings with such tagId in cross table.
      *
-     * @param id the id of tag, which will be removed
+     * @param id the id of tag which will be removed
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
      */
     void removeTag(Long id) throws IncorrectParameterValueException;
 
     /**
-     * Find tags, which contains gift certificate.
+     * Find tags which contains gift certificate.
      *
-     * @param giftCertificateId the id of gift certificate, which tags will be searched
+     * @param giftCertificateId the id of gift certificate which tags will be searched
      * @return the list of found tags dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}

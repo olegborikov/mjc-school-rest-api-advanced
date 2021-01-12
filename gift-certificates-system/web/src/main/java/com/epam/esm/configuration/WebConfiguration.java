@@ -32,8 +32,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     private String fileName;
 
     /**
-     * Add {@link Converter} and {@link Formatter} in addition to the ones
-     * registered by default.
+     * Add {@link Converter} and {@link Formatter} in addition to the ones registered by default.
      *
      * @param registry the formatter registry
      */

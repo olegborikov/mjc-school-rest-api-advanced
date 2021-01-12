@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Interface {@code TagDao} describes abstract
- * behavior for working with tag table in database.
+ * Interface {@code TagDao} describes abstract behavior for working with tag table in database.
  *
  * @author Oleg Borikov
  * @version 1.0

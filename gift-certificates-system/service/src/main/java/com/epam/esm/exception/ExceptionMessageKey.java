@@ -3,8 +3,7 @@ package com.epam.esm.exception;
 import lombok.experimental.UtilityClass;
 
 /**
- * Class {@code ExceptionMessageKey} presents keys by which
- * messages will be taken from properties files.
+ * Class {@code ExceptionMessageKey} presents keys by which messages will be taken from properties files.
  *
  * @author Oleg Borikov
  * @version 1.0

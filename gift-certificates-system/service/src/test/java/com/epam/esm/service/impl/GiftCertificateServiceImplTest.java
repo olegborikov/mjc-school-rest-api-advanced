@@ -117,8 +117,8 @@ class GiftCertificateServiceImplTest {
                 .build();
         when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate);
         doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
-        assertThrows(IncorrectParameterValueException.class, () ->
-                giftCertificateService.addGiftCertificate(giftCertificateDto));
+        assertThrows(IncorrectParameterValueException.class,
+                () -> giftCertificateService.addGiftCertificate(giftCertificateDto));
     }
 
     @Test
@@ -282,8 +282,8 @@ class GiftCertificateServiceImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
-        assertThrows(ResourceNotFoundException.class, () ->
-                giftCertificateService.updateGiftCertificate(giftCertificateDto));
+        assertThrows(ResourceNotFoundException.class,
+                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto));
     }
 
     @Test
@@ -318,8 +318,8 @@ class GiftCertificateServiceImplTest {
                 .description("Nice")
                 .price(new BigDecimal("-1"))
                 .build();
-        assertThrows(IncorrectParameterValueException.class, () ->
-                giftCertificateService.updateGiftCertificate(giftCertificateDto));
+        assertThrows(IncorrectParameterValueException.class,
+                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto));
     }
 
     @Test

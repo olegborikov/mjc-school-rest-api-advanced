@@ -16,10 +16,11 @@ import org.springframework.core.convert.converter.Converter;
 public class StringToOrderTypeConverter implements Converter<String, GiftCertificateQueryParametersDto.OrderType> {
 
     /**
-     * Convert the source object of type {@code String} to target type {@code GiftCertificateQueryParametersDto.OrderType}.
+     * Convert the source object of type {@code String}
+     * to target type {@code GiftCertificateQueryParametersDto.OrderType}.
      *
-     * @param source the source object to convert, which must be an instance of {@code String} (never {@code null})
-     * @return the converted object, which must be an instance of
+     * @param source the source object to convert which must be an instance of {@code String} (never {@code null})
+     * @return the converted object which must be an instance of
      * {@code GiftCertificateQueryParametersDto.OrderType} (potentially {@code null})
      * @throws IllegalArgumentException if the source cannot be converted to the desired target type
      */

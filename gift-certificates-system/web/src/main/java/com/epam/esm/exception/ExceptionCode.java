@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 
 /**
- * Class {@code ExceptionCode} presents values, which will be set into
+ * Class {@code ExceptionCode} presents values which will be set into
  * {@link ExceptionHandlerResponse} in case generating exceptions.
  *
  * @author Oleg Borikov

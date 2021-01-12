@@ -178,6 +178,7 @@ class TagServiceImplTest {
                 .build();
         Long giftCertificateId = -1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
-        assertThrows(IncorrectParameterValueException.class, () -> tagService.findTagsByGiftCertificateId(giftCertificateId));
+        assertThrows(IncorrectParameterValueException.class,
+                () -> tagService.findTagsByGiftCertificateId(giftCertificateId));
     }
 }

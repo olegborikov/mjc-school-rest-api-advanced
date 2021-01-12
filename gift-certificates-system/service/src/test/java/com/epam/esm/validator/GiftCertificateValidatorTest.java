@@ -105,8 +105,8 @@ class GiftCertificateValidatorTest {
     @ParameterizedTest
     @MethodSource("validateIncorrectData")
     void validateIncorrectDataShouldThrowException(GiftCertificate giftCertificate) {
-        assertThrows(IncorrectParameterValueException.class, () ->
-                GiftCertificateValidator.validate(giftCertificate));
+        assertThrows(IncorrectParameterValueException.class,
+                () -> GiftCertificateValidator.validate(giftCertificate));
     }
 
     public static Object[][] validateIdCorrectData() {

@@ -21,8 +21,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
     /**
      * Configure the given {@link ServletContext} with any servlets, filters, listeners
-     * context-params and attributes necessary for initializing this web application. See
-     * examples {@linkplain WebApplicationInitializer above}.
+     * context-params and attributes necessary for initializing this web application.
+     * See examples {@linkplain WebApplicationInitializer above}.
      *
      * @param servletContext the {@code ServletContext} to initialize
      * @throws ServletException if any call against the given {@code ServletContext}
@@ -34,8 +34,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         applicationContext.register(WebConfiguration.class);
         applicationContext.setServletContext(servletContext);
         servletContext.addListener(new ContextLoaderListener(applicationContext));
-        ServletRegistration.Dynamic dispatcher
-                = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(applicationContext));
+        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet",
+                new DispatcherServlet(applicationContext));
         dispatcher.addMapping("/");
         dispatcher.setLoadOnStartup(1);
     }

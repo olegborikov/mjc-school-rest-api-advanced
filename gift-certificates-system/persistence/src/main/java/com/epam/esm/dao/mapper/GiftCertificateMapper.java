@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
- * Class {@code GiftCertificateMapper} used by {@link JdbcTemplate} for mapping rows of
- * a {@link java.sql.ResultSet} on {@link GiftCertificate}.
+ * Class {@code GiftCertificateMapper} used by {@link JdbcTemplate}
+ * for mapping rows of a {@link java.sql.ResultSet} on {@link GiftCertificate}.
  *
  * @author Oleg Borikov
  * @version 1.0
@@ -28,8 +28,7 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
      * @param rs     the ResultSet to map (pre-initialized for the current row)
      * @param rowNum the number of the current row
      * @return the result object for the current row (may be {@code null})
-     * @throws SQLException if an SQLException is encountered getting
-     *                      column values
+     * @throws SQLException if an SQLException is encountered getting column values
      */
     @Override
     public GiftCertificate mapRow(ResultSet rs, int rowNum) throws SQLException {

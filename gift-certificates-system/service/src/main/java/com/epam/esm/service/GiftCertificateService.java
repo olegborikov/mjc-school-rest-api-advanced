@@ -19,9 +19,9 @@ public interface GiftCertificateService {
 
     /**
      * Add new gift certificate and records with gift certificate id and tags id to cross table.
-     * If gift certificate has new tags, they will be added.
+     * If gift certificate has new tags they will be added.
      *
-     * @param giftCertificateDto the gift certificate dto, which will be added
+     * @param giftCertificateDto the gift certificate dto which will be added
      * @return the added gift certificate dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validate(GiftCertificate)}
@@ -32,7 +32,7 @@ public interface GiftCertificateService {
     /**
      * Find gift certificates according to parameters in {@link com.epam.esm.util.GiftCertificateQueryParameters}.
      *
-     * @param giftCertificateQueryParametersDto the gift certificate query parameters dto,
+     * @param giftCertificateQueryParametersDto the gift certificate query parameters dto
      *                                          according to which will be found gift certificates
      * @return the list of found gift certificates
      */
@@ -42,7 +42,7 @@ public interface GiftCertificateService {
     /**
      * Find gift certificate by id.
      *
-     * @param id the id of gift certificate, which will be searched
+     * @param id the id of gift certificate which will be searched
      * @return the found gift certificate dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
@@ -53,11 +53,11 @@ public interface GiftCertificateService {
 
     /**
      * Update gift certificate by fields.
-     * If field value is null, it will be not updated.
+     * If field value is null it will be not updated.
      * Gift certificate tags overwrite previous values.
-     * If gift certificate has new tags, they will be added.
+     * If gift certificate has new tags they will be added.
      *
-     * @param giftCertificateDto the gift certificate dto, which will be updated
+     * @param giftCertificateDto the gift certificate dto which will be updated
      * @return the updated gift certificate dto
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validate(GiftCertificate)}
@@ -68,7 +68,7 @@ public interface GiftCertificateService {
     /**
      * Remove gift certificate and all recordings with such giftCertificateId in cross table.
      *
-     * @param id the id of gift certificate, which will be removed
+     * @param id the id of gift certificate which will be removed
      * @throws IncorrectParameterValueException an exception thrown by method
      *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
      */

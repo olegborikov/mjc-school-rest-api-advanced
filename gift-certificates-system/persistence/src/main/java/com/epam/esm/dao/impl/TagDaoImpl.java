@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class {@code TagDaoImpl} is implementation of interface
- * {@link TagDao} and intended to work with tag table.
+ * Class {@code TagDaoImpl} is implementation of interface {@link TagDao} and intended to work with tag table.
  *
  * @author Oleg Borikov
  * @version 1.0
