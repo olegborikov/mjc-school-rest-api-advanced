@@ -53,26 +53,37 @@ class TagDaoImplTest {
 
     @Test
     void addCorrectDataShouldReturnTag() {
+        // given
         Tag tag = Tag.builder()
                 .name("Shop")
                 .build();
+
+        // when
         Tag actual = tagDao.add(tag);
+
+        // then
         assertNotNull(actual);
     }
 
     @Test
     void addCorrectDataShouldSetId() {
+        // given
         Tag tag = Tag.builder()
                 .name("Shop")
                 .build();
+        long expected = 5;
+
+        // when
         tagDao.add(tag);
         long actual = tag.getId();
-        long expected = 5;
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void addIncorrectDataShouldThrowException() {
+        // given
         StringBuilder name = new StringBuilder();
         for (int i = 0; i < 21; i++) {
             name.append("aaaaa");
@@ -80,83 +91,129 @@ class TagDaoImplTest {
         Tag tag = Tag.builder()
                 .name(name.toString())
                 .build();
+
+        // then
         assertThrows(DataIntegrityViolationException.class, () -> tagDao.add(tag));
     }
 
     @Test
     void findAllShouldReturnListOfTags() {
+        // given
         List<Tag> tags = tagDao.findAll();
-        long actual = tags.size();
         long expected = 4;
+
+        // when
+        long actual = tags.size();
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void findByIdCorrectDataShouldReturnTagOptional() {
+        // given
         long id = 1;
         Tag expected = Tag.builder()
                 .id(1L)
                 .name("home")
                 .build();
+
+        // when
         Optional<Tag> actual = tagDao.findById(id);
+
+        // then
         assertEquals(Optional.of(expected), actual);
     }
 
     @Test
     void findByIdCorrectDataShouldReturnEmptyOptional() {
+        // given
         long id = 5;
+
+        // when
         Optional<Tag> actual = tagDao.findById(id);
+
+        // then
         assertFalse(actual.isPresent());
     }
 
     @Test
     void updateShouldThrowException() {
+        // given
         Tag tag = new Tag();
+
+        // then
         assertThrows(UnsupportedOperationException.class, () -> tagDao.update(tag));
     }
 
     @Test
     void removeCorrectDataShouldNotThrowException() {
+        // given
         long id = 1;
+
+        // then
         assertDoesNotThrow(() -> tagDao.remove(id));
     }
 
     @Test
     void removeGiftCertificateHasTagCorrectDataShouldNotThrowException() {
+        // given
         long id = 1;
+
+        // then
         assertDoesNotThrow(() -> tagDao.removeGiftCertificateHasTag(id));
     }
 
     @Test
     void findByGiftCertificateIdCorrectDataShouldReturnListOfTags() {
+        // given
         long giftCertificateId = 1;
         int expected = 2;
+
+        // when
         List<Tag> actual = tagDao.findByGiftCertificateId(giftCertificateId);
+
+        // then
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findByGiftCertificateIdCorrectDataShouldReturnEmptyList() {
+        // given
         long giftCertificateId = 5;
+
+        // when
         List<Tag> actual = tagDao.findByGiftCertificateId(giftCertificateId);
+
+        // then
         assertTrue(actual.isEmpty());
     }
 
     @Test
     void findByNameCorrectDataShouldReturnTagOptional() {
+        // given
         String name = "work";
         Tag expected = Tag.builder()
                 .id(3L)
                 .name("work")
                 .build();
+
+        // when
         Optional<Tag> actual = tagDao.findByName(name);
+
+        // then
         assertEquals(Optional.of(expected), actual);
     }
 
     @Test
     void findByNameCorrectDataShouldReturnEmptyOptional() {
+        // given
         String name = "Work";
+
+        // when
         Optional<Tag> actual = tagDao.findByName(name);
+
+        // then
         assertFalse(actual.isPresent());
     }
 }

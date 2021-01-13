@@ -39,7 +39,7 @@ public class ExceptionController {
      * @param locale    the locale of HTTP request
      * @return the exception handler
      */
-    @ExceptionHandler(value = ResourceNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionHandlerResponse handleResourceNotFoundException(
             ResourceNotFoundException exception, Locale locale) {
@@ -58,7 +58,7 @@ public class ExceptionController {
      * @param locale    the locale of HTTP request
      * @return the exception handler
      */
-    @ExceptionHandler(value = IncorrectParameterValueException.class)
+    @ExceptionHandler(IncorrectParameterValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionHandlerResponse handleIncorrectParameterValueException(
             IncorrectParameterValueException exception, Locale locale) {
@@ -75,7 +75,7 @@ public class ExceptionController {
      * @param locale    the locale of HTTP request
      * @return the exception handler
      */
-    @ExceptionHandler(value = RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionHandlerResponse handleRuntimeException(RuntimeException exception, Locale locale) {
         String exceptionMessage = exceptionMessageCreator.createMessage(ExceptionMessageKey.INTERNAL_ERROR,

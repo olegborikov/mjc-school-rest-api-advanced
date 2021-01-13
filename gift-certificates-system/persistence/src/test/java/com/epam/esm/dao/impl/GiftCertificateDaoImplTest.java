@@ -63,6 +63,7 @@ class GiftCertificateDaoImplTest {
 
     @Test
     void addCorrectDataShouldReturnGiftCertificate() {
+        // given
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .name("Cinema")
                 .description("Best cinema in the city")
@@ -71,12 +72,17 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
+
+        // when
         GiftCertificate actual = giftCertificateDao.add(giftCertificate);
+
+        // then
         assertNotNull(actual);
     }
 
     @Test
     void addCorrectDataShouldSetId() {
+        // given
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .name("Cinema")
                 .description("Best cinema in the city")
@@ -85,14 +91,19 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
+        long expected = 5;
+
+        // when
         giftCertificateDao.add(giftCertificate);
         long actual = giftCertificate.getId();
-        long expected = 5;
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void addIncorrectDataShouldThrowException() {
+        // given
         StringBuilder name = new StringBuilder();
         for (int i = 0; i < 21; i++) {
             name.append("aaaaa");
@@ -105,19 +116,27 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
+
+        // then
         assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.add(giftCertificate));
     }
 
     @Test
     void findAllShouldReturnListOfGiftCertificates() {
+        // given
         List<GiftCertificate> giftCertificates = giftCertificateDao.findAll();
-        long actual = giftCertificates.size();
         long expected = 4;
+
+        // when
+        long actual = giftCertificates.size();
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void findByIdCorrectDataShouldReturnGiftCertificateOptional() {
+        // given
         long id = 1;
         GiftCertificate expected = GiftCertificate.builder()
                 .id(1L)
@@ -128,19 +147,29 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 8, 2, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2021, 1, 2, 16, 0, 0))
                 .build();
+
+        // when
         Optional<GiftCertificate> actual = giftCertificateDao.findById(id);
+
+        // then
         assertEquals(Optional.of(expected), actual);
     }
 
     @Test
     void findByIdCorrectDataShouldReturnEmptyOptional() {
+        // given
         long id = 5;
+
+        // when
         Optional<GiftCertificate> actual = giftCertificateDao.findById(id);
+
+        // then
         assertFalse(actual.isPresent());
     }
 
     @Test
     void updateCorrectDataShouldReturnGiftCertificate() {
+        // given
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .id(4L)
                 .name("Cinema")
@@ -159,12 +188,17 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
+
+        // when
         GiftCertificate actual = giftCertificateDao.update(giftCertificate);
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void updateIncorrectDataShouldThrowException() {
+        // given
         StringBuilder name = new StringBuilder();
         for (int i = 0; i < 21; i++) {
             name.append("aaaaa");
@@ -178,23 +212,32 @@ class GiftCertificateDaoImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
+
+        // then
         assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.update(giftCertificate));
     }
 
     @Test
     void removeCorrectDataShouldNotThrowException() {
+        // given
         long id = 1;
+
+        // then
         assertDoesNotThrow(() -> giftCertificateDao.remove(id));
     }
 
     @Test
     void removeGiftCertificateHasTagCorrectDataShouldNotThrowException() {
+        // given
         long id = 1;
+
+        // then
         assertDoesNotThrow(() -> giftCertificateDao.removeGiftCertificateHasTag(id));
     }
 
     @Test
     void addGiftCertificateHasTagCorrectDataShouldNotThrowException() {
+        // given
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .id(4L)
                 .name("Cinema")
@@ -205,11 +248,14 @@ class GiftCertificateDaoImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .tags(Arrays.asList(new Tag(1L, "Sport"), new Tag(2L, "Home")))
                 .build();
+
+        // then
         assertDoesNotThrow(() -> giftCertificateDao.addGiftCertificateHasTag(giftCertificate));
     }
 
     @Test
     void findByQueryParametersCorrectDataShouldReturnListOfGiftCertificates() {
+        // given
         int expected = 2;
         GiftCertificateQueryParameters giftCertificateQueryParameters = GiftCertificateQueryParameters.builder()
                 .tagName("school")
@@ -218,12 +264,17 @@ class GiftCertificateDaoImplTest {
                 .sortType(SortType.NAME)
                 .orderType(OrderType.ASC)
                 .build();
+
+        // when
         List<GiftCertificate> actual = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
+
+        // then
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findByQueryParametersCorrectDataShouldReturnEmptyList() {
+        // given
         GiftCertificateQueryParameters giftCertificateQueryParameters = GiftCertificateQueryParameters.builder()
                 .tagName("School")
                 .name("a")
@@ -231,7 +282,11 @@ class GiftCertificateDaoImplTest {
                 .sortType(SortType.CREATE_DATE)
                 .orderType(OrderType.DESC)
                 .build();
+
+        // when
         List<GiftCertificate> actual = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
+
+        // then
         assertTrue(actual.isEmpty());
     }
 }

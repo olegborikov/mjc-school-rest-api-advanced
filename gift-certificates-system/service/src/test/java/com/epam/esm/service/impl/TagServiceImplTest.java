@@ -52,6 +52,7 @@ class TagServiceImplTest {
 
     @Test
     void addTagCorrectDataShouldReturnTagDto() {
+        // given
         Tag tag = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -65,12 +66,17 @@ class TagServiceImplTest {
                 .build();
         when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
         when(tagDao.add(any(Tag.class))).thenReturn(tag);
+
+        // when
         TagDto actual = tagService.addTag(tagDto);
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void addTagIncorrectDataShouldThrowException() {
+        // given
         Tag tag = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -80,11 +86,14 @@ class TagServiceImplTest {
                 .build();
         when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
         when(tagDao.add(any(Tag.class))).thenReturn(tag);
+
+        // then
         assertThrows(IncorrectParameterValueException.class, () -> tagService.addTag(tagDto));
     }
 
     @Test
     void findAllTagsCorrectDataShouldReturnListOfTagDto() {
+        // given
         Tag tag1 = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -95,12 +104,17 @@ class TagServiceImplTest {
                 .build();
         int expected = 2;
         when(tagDao.findAll()).thenReturn(Arrays.asList(tag1, tag2));
+
+        // when
         List<TagDto> actual = tagService.findAllTags();
+
+        // then
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findTagByIdCorrectDataShouldReturnTagDto() {
+        // given
         Tag tag = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -109,48 +123,65 @@ class TagServiceImplTest {
                 .id(1L)
                 .name("Sport")
                 .build();
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
         Long id = 1L;
+        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
+
+        // when
         TagDto actual = tagService.findTagById(id);
+
+        // then
         assertEquals(expected, actual);
     }
 
     @Test
     void findTagByIdCorrectDataShouldThrowException() {
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.empty());
+        // given
         Long id = 5L;
+        when(tagDao.findById(any(Long.class))).thenReturn(Optional.empty());
+
+        // then
         assertThrows(ResourceNotFoundException.class, () -> tagService.findTagById(id));
     }
 
     @Test
     void findTagByIdIncorrectDataShouldThrowException() {
+        // given
         Tag tag = Tag.builder()
                 .id(1L)
                 .name("Sport")
                 .build();
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
         Long id = -1L;
+        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
+
+        // then
         assertThrows(IncorrectParameterValueException.class, () -> tagService.findTagById(id));
     }
 
     @Test
     void removeTagCorrectDataShouldNotThrowException() {
+        // given
+        Long id = 1L;
         doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(tagDao).remove(any(Long.class));
-        Long id = 1L;
+
+        // then
         assertDoesNotThrow(() -> tagService.removeTag(id));
     }
 
     @Test
     void removeTagIncorrectDataShouldThrowException() {
+        // given
+        Long id = -1L;
         doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(tagDao).remove(any(Long.class));
-        Long id = -1L;
+
+        // then
         assertThrows(IncorrectParameterValueException.class, () -> tagService.removeTag(id));
     }
 
     @Test
     void findTagsByGiftCertificateIdCorrectDataShouldReturnListOfTagDto() {
+        // given
         Tag tag1 = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -162,12 +193,17 @@ class TagServiceImplTest {
         int expected = 2;
         Long giftCertificateId = 1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
+
+        // when
         List<TagDto> actual = tagService.findTagsByGiftCertificateId(giftCertificateId);
+
+        // then
         assertEquals(expected, actual.size());
     }
 
     @Test
     void findTagsByGiftCertificateIdIncorrectDataShouldThrowException() {
+        // given
         Tag tag1 = Tag.builder()
                 .id(1L)
                 .name("Sport")
@@ -178,6 +214,8 @@ class TagServiceImplTest {
                 .build();
         Long giftCertificateId = -1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
+
+        // then
         assertThrows(IncorrectParameterValueException.class,
                 () -> tagService.findTagsByGiftCertificateId(giftCertificateId));
     }
