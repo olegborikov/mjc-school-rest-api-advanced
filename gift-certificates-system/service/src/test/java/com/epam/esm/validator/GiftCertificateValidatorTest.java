@@ -47,7 +47,7 @@ class GiftCertificateValidatorTest {
 
     @ParameterizedTest
     @MethodSource("validateCorrectData")
-    void validateCorrectDataShouldNotThrowException(GiftCertificate giftCertificate) {
+    void validateCorrectDataShouldNotThrowExceptionTest(GiftCertificate giftCertificate) {
         assertDoesNotThrow(() -> GiftCertificateValidator.validate(giftCertificate));
     }
 
@@ -76,12 +76,9 @@ class GiftCertificateValidatorTest {
                 .price(new BigDecimal("1.231"))
                 .duration(1)
                 .build();
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < 26; i++) {
-            name.append("aaaaa");
-        }
         GiftCertificate giftCertificate5 = GiftCertificate.builder()
-                .name(name.toString())
+                .name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                 .description("Best cinema in the city")
                 .price(new BigDecimal(1))
                 .duration(1)
@@ -104,36 +101,35 @@ class GiftCertificateValidatorTest {
 
     @ParameterizedTest
     @MethodSource("validateIncorrectData")
-    void validateIncorrectDataShouldThrowException(GiftCertificate giftCertificate) {
+    void validateIncorrectDataShouldThrowExceptionTest(GiftCertificate giftCertificate) {
         assertThrows(IncorrectParameterValueException.class,
                 () -> GiftCertificateValidator.validate(giftCertificate));
     }
 
     public static Object[][] validateIdCorrectData() {
         return new Object[][]{
-                {400L},
-                {1L},
-                {10000L}
+                {400},
+                {1},
+                {10000}
         };
     }
 
     @ParameterizedTest
     @MethodSource("validateIdCorrectData")
-    void validateIdCorrectDataShouldNotThrowException(Long id) {
+    void validateIdCorrectDataShouldNotThrowExceptionTest(long id) {
         assertDoesNotThrow(() -> GiftCertificateValidator.validateId(id));
     }
 
     public static Object[][] validateIdIncorrectData() {
         return new Object[][]{
-                {null},
-                {0L},
-                {-100L}
+                {0},
+                {-100}
         };
     }
 
     @ParameterizedTest
     @MethodSource("validateIdIncorrectData")
-    void validateIdIncorrectDataShouldThrowException(Long id) {
+    void validateIdIncorrectDataShouldThrowExceptionTest(long id) {
         assertThrows(IncorrectParameterValueException.class, () -> GiftCertificateValidator.validateId(id));
     }
 }

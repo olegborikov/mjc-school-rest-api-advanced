@@ -7,8 +7,8 @@ import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -27,12 +27,17 @@ import static org.mockito.Mockito.doNothing;
 
 class TagServiceImplTest {
 
-    private TagDao tagDao;
-    private ModelMapper modelMapper;
-    private TagService tagService;
+    private static TagDao tagDao;
+    private static ModelMapper modelMapper;
+    private static TagService tagService;
+    private static Tag tag1;
+    private static Tag tag2;
+    private static TagDto tagDto1;
+    private static TagDto tagDto2;
+    private static TagDto tagDto3;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         tagDao = mock(TagDaoImpl.class);
         modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
@@ -41,67 +46,64 @@ class TagServiceImplTest {
                 .setSkipNullEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         tagService = new TagServiceImpl(tagDao, modelMapper);
-    }
-
-    @AfterEach
-    void tearDown() {
-        tagDao = null;
-        modelMapper = null;
-        tagService = null;
-    }
-
-    @Test
-    void addTagCorrectDataShouldReturnTagDto() {
-        // given
-        Tag tag = Tag.builder()
+        tag1 = Tag.builder()
                 .id(1L)
                 .name("Sport")
                 .build();
-        TagDto tagDto = TagDto.builder()
-                .name("Sport")
-                .build();
-        TagDto expected = TagDto.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
-        when(tagDao.add(any(Tag.class))).thenReturn(tag);
-
-        // when
-        TagDto actual = tagService.addTag(tagDto);
-
-        // then
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void addTagIncorrectDataShouldThrowException() {
-        // given
-        Tag tag = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        TagDto tagDto = TagDto.builder()
-                .name(" ")
-                .build();
-        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
-        when(tagDao.add(any(Tag.class))).thenReturn(tag);
-
-        // then
-        assertThrows(IncorrectParameterValueException.class, () -> tagService.addTag(tagDto));
-    }
-
-    @Test
-    void findAllTagsCorrectDataShouldReturnListOfTagDto() {
-        // given
-        Tag tag1 = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        Tag tag2 = Tag.builder()
+        tag2 = Tag.builder()
                 .id(2L)
                 .name("Travel")
                 .build();
+        tagDto1 = TagDto.builder()
+                .name("Sport")
+                .build();
+        tagDto2 = TagDto.builder()
+                .id(1L)
+                .name("Sport")
+                .build();
+        tagDto3 = TagDto.builder()
+                .name(" ")
+                .build();
+    }
+
+    @AfterAll
+    static void tearDown() {
+        tagDao = null;
+        modelMapper = null;
+        tagService = null;
+        tag1 = null;
+        tag2 = null;
+        tagDto1 = null;
+        tagDto2 = null;
+        tagDto3 = null;
+    }
+
+    @Test
+    void addTagCorrectDataShouldReturnTagDtoTest() {
+        // given
+        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
+        when(tagDao.add(any(Tag.class))).thenReturn(tag1);
+
+        // when
+        TagDto actual = tagService.addTag(tagDto1);
+
+        // then
+        assertEquals(tagDto2, actual);
+    }
+
+    @Test
+    void addTagIncorrectDataShouldThrowExceptionTest() {
+        // given
+        when(tagDao.findByName(any(String.class))).thenReturn(Optional.empty());
+        when(tagDao.add(any(Tag.class))).thenReturn(tag1);
+
+        // then
+        assertThrows(IncorrectParameterValueException.class, () -> tagService.addTag(tagDto3));
+    }
+
+    @Test
+    void findAllTagsCorrectDataShouldReturnListOfTagDtoTest() {
+        // given
         int expected = 2;
         when(tagDao.findAll()).thenReturn(Arrays.asList(tag1, tag2));
 
@@ -113,30 +115,22 @@ class TagServiceImplTest {
     }
 
     @Test
-    void findTagByIdCorrectDataShouldReturnTagDto() {
+    void findTagByIdCorrectDataShouldReturnTagDtoTest() {
         // given
-        Tag tag = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        TagDto expected = TagDto.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        Long id = 1L;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
+        long id = 1;
+        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
 
         // when
         TagDto actual = tagService.findTagById(id);
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(tagDto2, actual);
     }
 
     @Test
-    void findTagByIdCorrectDataShouldThrowException() {
+    void findTagByIdCorrectDataShouldThrowExceptionTest() {
         // given
-        Long id = 5L;
+        long id = 5;
         when(tagDao.findById(any(Long.class))).thenReturn(Optional.empty());
 
         // then
@@ -144,23 +138,19 @@ class TagServiceImplTest {
     }
 
     @Test
-    void findTagByIdIncorrectDataShouldThrowException() {
+    void findTagByIdIncorrectDataShouldThrowExceptionTest() {
         // given
-        Tag tag = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        Long id = -1L;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag));
+        long id = -1;
+        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
 
         // then
         assertThrows(IncorrectParameterValueException.class, () -> tagService.findTagById(id));
     }
 
     @Test
-    void removeTagCorrectDataShouldNotThrowException() {
+    void removeTagCorrectDataShouldNotThrowExceptionTest() {
         // given
-        Long id = 1L;
+        long id = 1;
         doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(tagDao).remove(any(Long.class));
 
@@ -169,9 +159,9 @@ class TagServiceImplTest {
     }
 
     @Test
-    void removeTagIncorrectDataShouldThrowException() {
+    void removeTagIncorrectDataShouldThrowExceptionTest() {
         // given
-        Long id = -1L;
+        long id = -1;
         doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(tagDao).remove(any(Long.class));
 
@@ -180,18 +170,10 @@ class TagServiceImplTest {
     }
 
     @Test
-    void findTagsByGiftCertificateIdCorrectDataShouldReturnListOfTagDto() {
+    void findTagsByGiftCertificateIdCorrectDataShouldReturnListOfTagDtoTest() {
         // given
-        Tag tag1 = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        Tag tag2 = Tag.builder()
-                .id(2L)
-                .name("Travel")
-                .build();
         int expected = 2;
-        Long giftCertificateId = 1L;
+        long giftCertificateId = 1;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
 
         // when
@@ -202,17 +184,9 @@ class TagServiceImplTest {
     }
 
     @Test
-    void findTagsByGiftCertificateIdIncorrectDataShouldThrowException() {
+    void findTagsByGiftCertificateIdIncorrectDataShouldThrowExceptionTest() {
         // given
-        Tag tag1 = Tag.builder()
-                .id(1L)
-                .name("Sport")
-                .build();
-        Tag tag2 = Tag.builder()
-                .id(2L)
-                .name("Travel")
-                .build();
-        Long giftCertificateId = -1L;
+        long giftCertificateId = -1L;
         when(tagDao.findByGiftCertificateId(any(Long.class))).thenReturn(Arrays.asList(tag1, tag2));
 
         // then

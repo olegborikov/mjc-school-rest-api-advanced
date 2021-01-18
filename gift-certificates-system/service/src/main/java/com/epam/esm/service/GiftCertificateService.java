@@ -45,10 +45,10 @@ public interface GiftCertificateService {
      * @param id the id of gift certificate which will be searched
      * @return the found gift certificate dto
      * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
+     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(long)}
      * @throws ResourceNotFoundException        an exception thrown in case gift certificate with such id not found
      */
-    GiftCertificateDto findGiftCertificateById(Long id)
+    GiftCertificateDto findGiftCertificateById(long id)
             throws IncorrectParameterValueException, ResourceNotFoundException;
 
     /**
@@ -70,7 +70,7 @@ public interface GiftCertificateService {
      *
      * @param id the id of gift certificate which will be removed
      * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
+     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(long)}
      */
-    void removeGiftCertificate(Long id) throws IncorrectParameterValueException;
+    void removeGiftCertificate(long id) throws IncorrectParameterValueException;
 }

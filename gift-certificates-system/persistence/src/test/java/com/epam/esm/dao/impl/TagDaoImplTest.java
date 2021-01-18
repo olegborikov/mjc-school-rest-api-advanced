@@ -1,17 +1,18 @@
 package com.epam.esm.dao.impl;
 
+import com.epam.esm.configuration.TestPersistenceConfiguration;
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.mapper.TagMapper;
 import com.epam.esm.entity.Tag;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,113 +23,106 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = TestPersistenceConfiguration.class)
+@ActiveProfiles("dev")
 class TagDaoImplTest {
 
-    private TagDao tagDao;
+    private final TagDao tagDao;
+    private static Tag tag1;
+    private static Tag tag2;
+    private static Tag tag3;
+    private static Tag tag4;
 
-    @BeforeEach
-    void setUp() {
-        DataSource dataSource = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .setScriptEncoding("UTF-8")
-                .addScript("classpath:script/tag_create.sql")
-                .addScript("classpath:script/tag_fill_up.sql")
-                .addScript("classpath:script/gift_certificate_has_tag_create.sql")
-                .addScript("classpath:script/gift_certificate_has_tag_fill_up.sql")
+    @BeforeAll
+    static void setUp() {
+        tag1 = Tag.builder()
+                .name("Shop")
                 .build();
-        TagMapper tagMapper = new TagMapper();
-        tagDao = new TagDaoImpl(new JdbcTemplate(dataSource), tagMapper);
+        tag2 = Tag.builder()
+                .name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                .build();
+        tag3 = Tag.builder()
+                .id(1L)
+                .name("home")
+                .build();
+        tag4 = Tag.builder()
+                .id(3L)
+                .name("work")
+                .build();
     }
 
-    @AfterEach
-    void tearDown() {
-        new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .setScriptEncoding("UTF-8")
-                .addScript("classpath:script/tag_delete.sql")
-                .addScript("classpath:script/gift_certificate_has_tag_delete.sql")
-                .build();
-        tagDao = null;
+    @AfterAll
+    static void tearDown() {
+        tag1 = null;
+        tag2 = null;
+        tag3 = null;
+        tag4 = null;
+    }
+
+    @Autowired
+    public TagDaoImplTest(TagDao tagDao) {
+        this.tagDao = tagDao;
     }
 
     @Test
-    void addCorrectDataShouldReturnTag() {
-        // given
-        Tag tag = Tag.builder()
-                .name("Shop")
-                .build();
-
+    void addCorrectDataShouldReturnTagTest() {
         // when
-        Tag actual = tagDao.add(tag);
+        Tag actual = tagDao.add(tag1);
 
         // then
         assertNotNull(actual);
     }
 
     @Test
-    void addCorrectDataShouldSetId() {
+    void addCorrectDataShouldSetIdTest() {
         // given
-        Tag tag = Tag.builder()
-                .name("Shop")
-                .build();
         long expected = 5;
 
         // when
-        tagDao.add(tag);
-        long actual = tag.getId();
+        tagDao.add(tag1);
+        long actual = tag1.getId();
 
         // then
         assertEquals(expected, actual);
     }
 
     @Test
-    void addIncorrectDataShouldThrowException() {
-        // given
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < 21; i++) {
-            name.append("aaaaa");
-        }
-        Tag tag = Tag.builder()
-                .name(name.toString())
-                .build();
-
+    void addIncorrectDataShouldThrowExceptionTest() {
         // then
-        assertThrows(DataIntegrityViolationException.class, () -> tagDao.add(tag));
+        assertThrows(DataIntegrityViolationException.class, () -> tagDao.add(tag2));
     }
 
     @Test
-    void findAllShouldReturnListOfTags() {
+    void findAllShouldReturnListOfTagsTest() {
         // given
-        List<Tag> tags = tagDao.findAll();
-        long expected = 4;
+        long expected = 6;
 
         // when
-        long actual = tags.size();
+        List<Tag> actual = tagDao.findAll();
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(expected, actual.size());
     }
 
     @Test
-    void findByIdCorrectDataShouldReturnTagOptional() {
+    void findByIdCorrectDataShouldReturnTagOptionalTest() {
         // given
         long id = 1;
-        Tag expected = Tag.builder()
-                .id(1L)
-                .name("home")
-                .build();
 
         // when
         Optional<Tag> actual = tagDao.findById(id);
 
         // then
-        assertEquals(Optional.of(expected), actual);
+        assertEquals(Optional.of(tag3), actual);
     }
 
     @Test
-    void findByIdCorrectDataShouldReturnEmptyOptional() {
+    void findByIdCorrectDataShouldReturnEmptyOptionalTest() {
         // given
-        long id = 5;
+        long id = 8;
 
         // when
         Optional<Tag> actual = tagDao.findById(id);
@@ -138,7 +132,7 @@ class TagDaoImplTest {
     }
 
     @Test
-    void updateShouldThrowException() {
+    void updateShouldThrowExceptionTest() {
         // given
         Tag tag = new Tag();
 
@@ -147,27 +141,27 @@ class TagDaoImplTest {
     }
 
     @Test
-    void removeCorrectDataShouldNotThrowException() {
+    void removeCorrectDataShouldNotThrowExceptionTest() {
         // given
-        long id = 1;
+        long id = 7;
 
         // then
         assertDoesNotThrow(() -> tagDao.remove(id));
     }
 
     @Test
-    void removeGiftCertificateHasTagCorrectDataShouldNotThrowException() {
+    void removeGiftCertificateHasTagCorrectDataShouldNotThrowExceptionTest() {
         // given
-        long id = 1;
+        long id = 7;
 
         // then
         assertDoesNotThrow(() -> tagDao.removeGiftCertificateHasTag(id));
     }
 
     @Test
-    void findByGiftCertificateIdCorrectDataShouldReturnListOfTags() {
+    void findByGiftCertificateIdCorrectDataShouldReturnListOfTagsTest() {
         // given
-        long giftCertificateId = 1;
+        long giftCertificateId = 2;
         int expected = 2;
 
         // when
@@ -178,7 +172,7 @@ class TagDaoImplTest {
     }
 
     @Test
-    void findByGiftCertificateIdCorrectDataShouldReturnEmptyList() {
+    void findByGiftCertificateIdCorrectDataShouldReturnEmptyListTest() {
         // given
         long giftCertificateId = 5;
 
@@ -190,23 +184,19 @@ class TagDaoImplTest {
     }
 
     @Test
-    void findByNameCorrectDataShouldReturnTagOptional() {
+    void findByNameCorrectDataShouldReturnTagOptionalTest() {
         // given
         String name = "work";
-        Tag expected = Tag.builder()
-                .id(3L)
-                .name("work")
-                .build();
 
         // when
         Optional<Tag> actual = tagDao.findByName(name);
 
         // then
-        assertEquals(Optional.of(expected), actual);
+        assertEquals(Optional.of(tag4), actual);
     }
 
     @Test
-    void findByNameCorrectDataShouldReturnEmptyOptional() {
+    void findByNameCorrectDataShouldReturnEmptyOptionalTest() {
         // given
         String name = "Work";
 

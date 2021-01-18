@@ -11,29 +11,28 @@ class TagValidatorTest {
 
     public static Object[][] validateIdCorrectData() {
         return new Object[][]{
-                {400L},
-                {1L},
-                {10000L}
+                {400},
+                {1},
+                {10000}
         };
     }
 
     @ParameterizedTest
     @MethodSource("validateIdCorrectData")
-    void validateIdCorrectDataShouldNotThrowException(Long id) {
+    void validateIdCorrectDataShouldNotThrowExceptionTest(long id) {
         assertDoesNotThrow(() -> TagValidator.validateId(id));
     }
 
     public static Object[][] validateIdIncorrectData() {
         return new Object[][]{
-                {null},
-                {0L},
-                {-100L}
+                {0},
+                {-100}
         };
     }
 
     @ParameterizedTest
     @MethodSource("validateIdIncorrectData")
-    void validateIdIncorrectDataShouldThrowException(Long id) {
+    void validateIdIncorrectDataShouldThrowExceptionTest(long id) {
         assertThrows(IncorrectParameterValueException.class, () -> TagValidator.validateId(id));
     }
 
@@ -47,26 +46,23 @@ class TagValidatorTest {
 
     @ParameterizedTest
     @MethodSource("validateNameCorrectData")
-    void validateNameCorrectDataShouldNotThrowException(String name) {
+    void validateNameCorrectDataShouldNotThrowExceptionTest(String name) {
         assertDoesNotThrow(() -> TagValidator.validateName(name));
     }
 
     public static Object[][] validateNameIncorrectData() {
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < 26; i++) {
-            name.append("aaaaa");
-        }
-        return new Object[][]{
+             return new Object[][]{
                 {null},
                 {"   "},
                 {""},
-                {name.toString()}
+                {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
         };
     }
 
     @ParameterizedTest
     @MethodSource("validateNameIncorrectData")
-    void validateNameIncorrectDataShouldThrowException(String name) {
+    void validateNameIncorrectDataShouldThrowExceptionTest(String name) {
         assertThrows(IncorrectParameterValueException.class, () -> TagValidator.validateName(name));
     }
 }

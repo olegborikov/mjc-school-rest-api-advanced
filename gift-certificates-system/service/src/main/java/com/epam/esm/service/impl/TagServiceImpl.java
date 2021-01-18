@@ -56,7 +56,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagDto findTagById(Long id) throws IncorrectParameterValueException, ResourceNotFoundException {
+    public TagDto findTagById(long id) throws IncorrectParameterValueException, ResourceNotFoundException {
         TagValidator.validateId(id);
         Optional<Tag> foundTagOptional = tagDao.findById(id);
         return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
@@ -66,14 +66,14 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public void removeTag(Long id) throws IncorrectParameterValueException {
+    public void removeTag(long id) throws IncorrectParameterValueException {
         TagValidator.validateId(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);
     }
 
     @Override
-    public List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId) throws IncorrectParameterValueException {
+    public List<TagDto> findTagsByGiftCertificateId(long giftCertificateId) throws IncorrectParameterValueException {
         GiftCertificateValidator.validateId(giftCertificateId);
         List<Tag> foundTags = tagDao.findByGiftCertificateId(giftCertificateId);
         return foundTags.stream()

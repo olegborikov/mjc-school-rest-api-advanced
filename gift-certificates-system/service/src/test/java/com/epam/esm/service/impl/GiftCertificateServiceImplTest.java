@@ -10,8 +10,8 @@ import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -33,13 +33,23 @@ import static org.mockito.Mockito.doNothing;
 
 class GiftCertificateServiceImplTest {
 
-    private GiftCertificateDao giftCertificateDao;
-    private ModelMapper modelMapper;
-    private GiftCertificateService giftCertificateService;
-    private TagService tagService;
+    private static GiftCertificateDao giftCertificateDao;
+    private static ModelMapper modelMapper;
+    private static GiftCertificateService giftCertificateService;
+    private static TagService tagService;
+    private static GiftCertificate giftCertificate1;
+    private static GiftCertificate giftCertificate2;
+    private static GiftCertificateDto giftCertificateDto1;
+    private static GiftCertificateDto giftCertificateDto2;
+    private static GiftCertificateDto giftCertificateDto3;
+    private static GiftCertificateDto giftCertificateDto4;
+    private static GiftCertificateDto giftCertificateDto5;
+    private static GiftCertificateDto giftCertificateDto6;
+    private static GiftCertificateDto giftCertificateDto7;
+    private static GiftCertificateQueryParametersDto giftCertificateQueryParametersDto1;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         giftCertificateDao = mock(GiftCertificateDaoImpl.class);
         tagService = mock(TagServiceImpl.class);
         modelMapper = new ModelMapper();
@@ -49,20 +59,7 @@ class GiftCertificateServiceImplTest {
                 .setSkipNullEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagService, modelMapper);
-    }
-
-    @AfterEach
-    void tearDown() {
-        giftCertificateDao = null;
-        modelMapper = null;
-        giftCertificateService = null;
-        tagService = null;
-    }
-
-    @Test
-    void addGiftCertificateCorrectDataShouldReturnGiftCertificateDto() {
-        // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
+        giftCertificate1 = GiftCertificate.builder()
                 .id(1L)
                 .name("Cinema")
                 .description("Best cinema in the city")
@@ -72,39 +69,7 @@ class GiftCertificateServiceImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .tags(new ArrayList<>())
                 .build();
-        GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(100))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        GiftCertificateDto expected = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(100))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate);
-        doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
-
-        // when
-        GiftCertificateDto actual = giftCertificateService.addGiftCertificate(giftCertificateDto);
-
-        // then
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void addGiftCertificateIncorrectDataShouldThrowException() {
-        // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
+        giftCertificate2 = GiftCertificate.builder()
                 .id(1L)
                 .name("Travel to German")
                 .description("You will like it")
@@ -112,8 +77,28 @@ class GiftCertificateServiceImplTest {
                 .duration(1)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .tags(new ArrayList<>())
                 .build();
-        GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
+        giftCertificateDto1 = GiftCertificateDto.builder()
+                .name("Cinema")
+                .description("Best cinema in the city")
+                .price(new BigDecimal(100))
+                .duration(5)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .tags(new ArrayList<>())
+                .build();
+        giftCertificateDto2 = GiftCertificateDto.builder()
+                .id(1L)
+                .name("Cinema")
+                .description("Best cinema in the city")
+                .price(new BigDecimal(100))
+                .duration(5)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .tags(new ArrayList<>())
+                .build();
+        giftCertificateDto3 = GiftCertificateDto.builder()
                 .name("Cinema")
                 .description("You will like it")
                 .price(new BigDecimal(100))
@@ -121,18 +106,7 @@ class GiftCertificateServiceImplTest {
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
-        when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate);
-        doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
-
-        // then
-        assertThrows(IncorrectParameterValueException.class,
-                () -> giftCertificateService.addGiftCertificate(giftCertificateDto));
-    }
-
-    @Test
-    void findGiftCertificatesCorrectDataShouldReturnListOfGiftCertificateDto() {
-        // given
-        GiftCertificate giftCertificate1 = GiftCertificate.builder()
+        giftCertificateDto4 = GiftCertificateDto.builder()
                 .id(1L)
                 .name("Travel to German")
                 .description("You will like it")
@@ -142,24 +116,81 @@ class GiftCertificateServiceImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .tags(new ArrayList<>())
                 .build();
-        GiftCertificate giftCertificate2 = GiftCertificate.builder()
-                .id(2L)
+        giftCertificateDto5 = GiftCertificateDto.builder()
+                .id(1L)
                 .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(100))
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
                 .build();
-        GiftCertificateQueryParametersDto giftCertificateQueryParametersDto
-                = GiftCertificateQueryParametersDto.builder()
+        giftCertificateDto6 = GiftCertificateDto.builder()
+                .id(1L)
+                .name("Best cinema in the city")
+                .duration(5)
+                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
+                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
+                .build();
+        giftCertificateDto7 = GiftCertificateDto.builder()
+                .id(1L)
+                .name("Cinema")
+                .duration(5)
+                .description("Nice")
+                .price(new BigDecimal("-1"))
+                .build();
+        giftCertificateQueryParametersDto1 = GiftCertificateQueryParametersDto.builder()
                 .tagName("Sport")
                 .name("o")
                 .description("i")
                 .sortType(GiftCertificateQueryParametersDto.SortType.NAME)
                 .orderType(GiftCertificateQueryParametersDto.OrderType.DESC)
                 .build();
+    }
+
+    @AfterAll
+    static void tearDown() {
+        giftCertificateDao = null;
+        modelMapper = null;
+        giftCertificateService = null;
+        tagService = null;
+        giftCertificate1 = null;
+        giftCertificate2 = null;
+        giftCertificateDto1 = null;
+        giftCertificateDto2 = null;
+        giftCertificateDto3 = null;
+        giftCertificateDto4 = null;
+        giftCertificateDto5 = null;
+        giftCertificateDto6 = null;
+        giftCertificateDto7 = null;
+        giftCertificateQueryParametersDto1 = null;
+    }
+
+    @Test
+    void addGiftCertificateCorrectDataShouldReturnGiftCertificateDtoTest() {
+        // given
+        when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate1);
+        doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
+
+        // when
+        GiftCertificateDto actual = giftCertificateService.addGiftCertificate(giftCertificateDto1);
+
+        // then
+        assertEquals(giftCertificateDto2, actual);
+    }
+
+    @Test
+    void addGiftCertificateIncorrectDataShouldThrowExceptionTest() {
+        // given
+        when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate1);
+        doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
+
+        // then
+        assertThrows(IncorrectParameterValueException.class,
+                () -> giftCertificateService.addGiftCertificate(giftCertificateDto3));
+    }
+
+    @Test
+    void findGiftCertificatesCorrectDataShouldReturnListOfGiftCertificateDtoTest() {
+        // given
         int expected = 2;
         when(giftCertificateDao.findByQueryParameters(any(GiftCertificateQueryParameters.class)))
                 .thenReturn(Arrays.asList(giftCertificate1, giftCertificate2));
@@ -167,49 +198,30 @@ class GiftCertificateServiceImplTest {
 
         // when
         List<GiftCertificateDto> actual
-                = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto);
+                = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto1);
 
         // then
         assertEquals(expected, actual.size());
     }
 
     @Test
-    void findGiftCertificateByIdCorrectDataShouldReturnGiftCertificateDto() {
+    void findGiftCertificateByIdCorrectDataShouldReturnGiftCertificateDtoTest() {
         // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(1L)
-                .name("Travel to German")
-                .description("You will like it")
-                .price(new BigDecimal(500))
-                .duration(1)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        GiftCertificateDto expected = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Travel to German")
-                .description("You will like it")
-                .price(new BigDecimal(500))
-                .duration(1)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        Long id = 1L;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate));
+        long id = 1;
+        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate2));
         when(tagService.findTagsByGiftCertificateId(any(Long.class))).thenReturn(new ArrayList<>());
 
         // when
         GiftCertificateDto actual = giftCertificateService.findGiftCertificateById(id);
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(giftCertificateDto4, actual);
     }
 
     @Test
-    void findGiftCertificateByIdCorrectDataShouldThrowException() {
+    void findGiftCertificateByIdCorrectDataShouldThrowExceptionTest() {
         // given
-        Long id = 5L;
+        long id = 5;
         when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.empty());
         when(tagService.findTagsByGiftCertificateId(any(Long.class))).thenReturn(new ArrayList<>());
 
@@ -218,19 +230,10 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void findGiftCertificateByIdIncorrectDataShouldThrowException() {
+    void findGiftCertificateByIdIncorrectDataShouldThrowExceptionTest() {
         // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(1L)
-                .name("Travel to German")
-                .description("You will like it")
-                .price(new BigDecimal(500))
-                .duration(1)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        Long id = -1L;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate));
+        long id = -1;
+        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate1));
         when(tagService.findTagsByGiftCertificateId(any(Long.class))).thenReturn(new ArrayList<>());
 
         // then
@@ -238,129 +241,50 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void updateGiftCertificateCorrectDataShouldReturnGiftCertificateDto() {
+    void updateGiftCertificateCorrectDataShouldReturnGiftCertificateDtoTest() {
         // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(1L)
-                .name("Travel to German")
-                .description("You will like it")
-                .price(new BigDecimal(500))
-                .duration(1)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        GiftCertificate giftCertificate1 = GiftCertificate.builder()
-                .id(1L)
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(500))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Cinema")
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        GiftCertificateDto expected = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(500))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate2));
         when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
         doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
 
         // when
-        GiftCertificateDto actual = giftCertificateService.updateGiftCertificate(giftCertificateDto);
+        GiftCertificateDto actual = giftCertificateService.updateGiftCertificate(giftCertificateDto5);
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(giftCertificateDto2, actual);
     }
 
     @Test
-    void updateGiftCertificateCorrectDataShouldThrowException() {
+    void updateGiftCertificateCorrectDataShouldThrowExceptionTest() {
         // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(1L)
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(500))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Best cinema in the city")
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
         when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.empty());
-        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate);
+        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
         doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
 
         // then
         assertThrows(ResourceNotFoundException.class,
-                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto));
+                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto6));
     }
 
     @Test
-    void updateGiftCertificateIncorrectDataShouldThrowException() {
+    void updateGiftCertificateIncorrectDataShouldThrowExceptionTest() {
         // given
-        GiftCertificate giftCertificate = GiftCertificate.builder()
-                .id(1L)
-                .name("Travel to German")
-                .description("You will ike it")
-                .price(new BigDecimal(500))
-                .duration(1)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        GiftCertificate giftCertificate1 = GiftCertificate.builder()
-                .id(1L)
-                .name("Cinema")
-                .description("Best cinema in the city")
-                .price(new BigDecimal(500))
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .tags(new ArrayList<>())
-                .build();
-        GiftCertificateDto giftCertificateDto = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Cinema")
-                .duration(5)
-                .description("Nice")
-                .price(new BigDecimal("-1"))
-                .build();
-        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate2));
         when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
         doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(giftCertificateDao).addGiftCertificateHasTag(any(GiftCertificate.class));
 
         // then
         assertThrows(IncorrectParameterValueException.class,
-                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto));
+                () -> giftCertificateService.updateGiftCertificate(giftCertificateDto7));
     }
 
     @Test
-    void removeGiftCertificateCorrectDataShouldNotThrowException() {
+    void removeGiftCertificateCorrectDataShouldNotThrowExceptionTest() {
         // given
-        Long id = 1L;
+        long id = 1;
         doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(giftCertificateDao).remove(any(Long.class));
 
@@ -369,9 +293,9 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void removeGiftCertificateIncorrectDataShouldThrowException() {
+    void removeGiftCertificateIncorrectDataShouldThrowExceptionTest() {
         // given
-        Long id = -1L;
+        long id = -1;
         doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
         doNothing().when(giftCertificateDao).remove(any(Long.class));
 

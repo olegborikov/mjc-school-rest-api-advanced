@@ -73,7 +73,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificateDto findGiftCertificateById(Long id)
+    public GiftCertificateDto findGiftCertificateById(long id)
             throws IncorrectParameterValueException, ResourceNotFoundException {
         GiftCertificateValidator.validateId(id);
         Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
@@ -100,7 +100,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public void removeGiftCertificate(Long id) throws IncorrectParameterValueException {
+    public void removeGiftCertificate(long id) throws IncorrectParameterValueException {
         GiftCertificateValidator.validateId(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);

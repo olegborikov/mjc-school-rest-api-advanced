@@ -23,8 +23,8 @@ public class TagValidator {
      * @param id the tag id
      * @throws IncorrectParameterValueException an exception thrown in case incorrect id
      */
-    public void validateId(Long id) throws IncorrectParameterValueException {
-        if (id == null || id < MIN_ID) {
+    public void validateId(long id) throws IncorrectParameterValueException {
+        if (id < MIN_ID) {
             throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_TAG_ID, String.valueOf(id));
         }
     }

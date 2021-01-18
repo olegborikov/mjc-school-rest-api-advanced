@@ -38,19 +38,19 @@ public interface TagService {
      * @param id the id of tag which will be searched
      * @return the found tag dto
      * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
+     *                                          {@link com.epam.esm.validator.TagValidator#validateId(long)}
      * @throws ResourceNotFoundException        an exception thrown in case tag with such id not found
      */
-    TagDto findTagById(Long id) throws IncorrectParameterValueException, ResourceNotFoundException;
+    TagDto findTagById(long id) throws IncorrectParameterValueException, ResourceNotFoundException;
 
     /**
      * Remove tag and all recordings with such tagId in cross table.
      *
      * @param id the id of tag which will be removed
      * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.TagValidator#validateId(Long)}
+     *                                          {@link com.epam.esm.validator.TagValidator#validateId(long)}
      */
-    void removeTag(Long id) throws IncorrectParameterValueException;
+    void removeTag(long id) throws IncorrectParameterValueException;
 
     /**
      * Find tags which contains gift certificate.
@@ -58,7 +58,7 @@ public interface TagService {
      * @param giftCertificateId the id of gift certificate which tags will be searched
      * @return the list of found tags dto
      * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(Long)}
+     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(long)}
      */
-    List<TagDto> findTagsByGiftCertificateId(Long giftCertificateId) throws IncorrectParameterValueException;
+    List<TagDto> findTagsByGiftCertificateId(long giftCertificateId) throws IncorrectParameterValueException;
 }

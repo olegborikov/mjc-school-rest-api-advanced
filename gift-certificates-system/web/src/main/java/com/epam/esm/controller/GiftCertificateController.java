@@ -62,7 +62,7 @@ public class GiftCertificateController {
      * @return the found gift certificate dto
      */
     @GetMapping("/{id}")
-    public GiftCertificateDto getGiftCertificateById(@PathVariable Long id) {
+    public GiftCertificateDto getGiftCertificateById(@PathVariable long id) {
         return giftCertificateService.findGiftCertificateById(id);
     }
 
@@ -90,7 +90,7 @@ public class GiftCertificateController {
      * @return the updated gift certificate dto
      */
     @PutMapping("/{id}")
-    public GiftCertificateDto updateGiftCertificate(@PathVariable Long id,
+    public GiftCertificateDto updateGiftCertificate(@PathVariable long id,
                                                     @RequestBody GiftCertificateDto giftCertificateDto) {
         giftCertificateDto.setId(id);
         return giftCertificateService.updateGiftCertificate(giftCertificateDto);
@@ -104,7 +104,7 @@ public class GiftCertificateController {
      * @param id the gift certificate id which will be deleted. Inferred from the request URI
      */
     @DeleteMapping("/{id}")
-    public void deleteGiftCertificate(@PathVariable Long id) {
+    public void deleteGiftCertificate(@PathVariable long id) {
         giftCertificateService.removeGiftCertificate(id);
     }
 }

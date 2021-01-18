@@ -56,7 +56,7 @@ public class TagController {
      * @return the found tag dto
      */
     @GetMapping("/{id}")
-    public TagDto getTagById(@PathVariable Long id) {
+    public TagDto getTagById(@PathVariable long id) {
         return tagService.findTagById(id);
     }
 
@@ -82,7 +82,7 @@ public class TagController {
      * @param id the tag id which will be deleted. Inferred from the request URI
      */
     @DeleteMapping("/{id}")
-    public void deleteTag(@PathVariable Long id) {
+    public void deleteTag(@PathVariable long id) {
         tagService.removeTag(id);
     }
 }

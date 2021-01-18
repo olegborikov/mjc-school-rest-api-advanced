@@ -33,10 +33,10 @@ public class GiftCertificateValidator {
      *                                          description, price or duration
      */
     public void validate(GiftCertificate giftCertificate) throws IncorrectParameterValueException {
-        GiftCertificateValidator.validateName(giftCertificate.getName());
-        GiftCertificateValidator.validateDescription(giftCertificate.getDescription());
-        GiftCertificateValidator.validatePrice(giftCertificate.getPrice());
-        GiftCertificateValidator.validateDuration(giftCertificate.getDuration());
+        validateName(giftCertificate.getName());
+        validateDescription(giftCertificate.getDescription());
+        validatePrice(giftCertificate.getPrice());
+        validateDuration(giftCertificate.getDuration());
     }
 
     /**
@@ -45,8 +45,8 @@ public class GiftCertificateValidator {
      * @param id the gift certificate id
      * @throws IncorrectParameterValueException an exception thrown in case incorrect id
      */
-    public void validateId(Long id) throws IncorrectParameterValueException {
-        if (id == null || id < MIN_NUMBER) {
+    public void validateId(long id) throws IncorrectParameterValueException {
+        if (id < MIN_NUMBER) {
             throw new IncorrectParameterValueException(
                     ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, String.valueOf(id));
         }
