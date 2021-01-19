@@ -20,8 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @version 1.0
  * @see WebMvcConfigurer
  */
-@SpringBootApplication
-@ComponentScan("com.epam.esm")
+@SpringBootApplication(scanBasePackages = "com.epam.esm")
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Value("UTF-8")

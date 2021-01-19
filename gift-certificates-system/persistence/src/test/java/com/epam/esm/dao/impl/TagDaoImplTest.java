@@ -1,17 +1,16 @@
 package com.epam.esm.dao.impl;
 
-import com.epam.esm.configuration.TestPersistenceConfiguration;
+import com.epam.esm.configuration.PersistenceConfiguration;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.entity.Tag;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestPersistenceConfiguration.class)
-@ActiveProfiles("dev")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = PersistenceConfiguration.class)
 class TagDaoImplTest {
 
     private final TagDao tagDao;
