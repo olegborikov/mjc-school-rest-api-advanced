@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -109,9 +110,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private void addAndSetTags(GiftCertificateDto giftCertificateDto) {
         List<TagDto> tags = new ArrayList<>();
         if (giftCertificateDto.getTags() != null) {
-            tags = giftCertificateDto.getTags().stream()
+            Set<TagDto> tagsSet = giftCertificateDto.getTags().stream()
                     .map(tagService::addTag)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
+            tags.addAll(tagsSet);
         }
         giftCertificateDto.setTags(tags);
     }
