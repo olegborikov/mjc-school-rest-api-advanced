@@ -2,14 +2,9 @@ package com.epam.esm.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
 
 /**
  * Class {@code ServiceConfiguration} contains spring configuration for service subproject.
@@ -17,8 +12,7 @@ import javax.sql.DataSource;
  * @author Oleg Borikov
  * @version 1.0
  */
-@Configuration
-@ComponentScan("com.epam.esm")
+@SpringBootApplication
 @EnableTransactionManagement
 public class ServiceConfiguration {
 
@@ -36,16 +30,5 @@ public class ServiceConfiguration {
                 .setSkipNullEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         return mapper;
-    }
-
-    /**
-     * Create bean {@link TransactionManager} which will be used to manage transactions.
-     *
-     * @param dataSource the data source
-     * @return the transaction manager
-     */
-    @Bean
-    public TransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
     }
 }

@@ -3,15 +3,14 @@ package com.epam.esm.configuration;
 import com.epam.esm.converter.StringToOrderTypeConverter;
 import com.epam.esm.converter.StringToSortTypeConverter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -21,8 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @version 1.0
  * @see WebMvcConfigurer
  */
-@Configuration
-@EnableWebMvc
+@SpringBootApplication
 @ComponentScan("com.epam.esm")
 public class WebConfiguration implements WebMvcConfigurer {
 

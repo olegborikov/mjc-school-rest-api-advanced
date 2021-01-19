@@ -8,22 +8,27 @@ allprojects {
     targetCompatibility = '1.8'
 
     ext {
-        springVersion = '5.2.12.RELEASE'
+        springBootVersion = '2.3.8.RELEASE'
     }
 
     repositories {
         mavenCentral()
     }
 
+    configurations {
+        all {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        }
+    }
+
     dependencies {
-        implementation "org.springframework:spring-core:$springVersion"
-        implementation "org.springframework:spring-context:$springVersion"
-        implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
-        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3'
+        implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
         implementation 'org.projectlombok:lombok:1.18.16'
-        implementation 'org.slf4j:slf4j-api:1.7.25'
-        implementation 'org.slf4j:slf4j-log4j12:1.7.25'
-        implementation 'log4j:log4j:1.2.17'
         annotationProcessor 'org.projectlombok:lombok:1.18.16'
     }
 }
