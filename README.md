@@ -1,3 +1,3 @@
 # MJC School Java Modules
 
-Module #2. REST API advanced task solution
+Module #3. REST API advanced task solution

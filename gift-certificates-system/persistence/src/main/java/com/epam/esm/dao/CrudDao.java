@@ -49,11 +49,4 @@ public interface CrudDao<T> {
      * @param id the id of entity to remove
      */
     void remove(long id);
-
-    /**
-     * Remove entity from gift_certificate_has_tag cross table.
-     *
-     * @param id the id of entity to remove from cross table
-     */
-    void removeGiftCertificateHasTag(long id);
 }

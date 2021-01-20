@@ -29,6 +29,12 @@ public class ExceptionMessageKey {
     public final String INCORRECT_TAG_NAME = "tag.incorrectName";
 
     /**
+     * Keys for exception messages associated with {@link com.epam.esm.entity.User}.
+     */
+    public final String USER_NOT_FOUND_BY_ID = "user.notFoundById";
+    public final String INCORRECT_USER_ID = "user.incorrectId";
+
+    /**
      * Key for exception messages associated with internal server exceptions.
      */
     public final String INTERNAL_ERROR = "internalError";

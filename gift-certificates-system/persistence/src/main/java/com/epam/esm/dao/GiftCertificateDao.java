@@ -29,4 +29,11 @@ public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
      * @return the list of found gift certificates
      */
     List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
+
+    /**
+     * Remove gift certificates from gift_certificate_has_tag cross table.
+     *
+     * @param id the id of gift certificates to remove from cross table
+     */
+    void removeGiftCertificateHasTag(long id);
 }

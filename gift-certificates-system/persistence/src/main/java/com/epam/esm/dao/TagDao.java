@@ -28,4 +28,11 @@ public interface TagDao extends CrudDao<Tag> {
      * @return the optional of found tag
      */
     Optional<Tag> findByName(String name);
+
+    /**
+     * Remove tag from gift_certificate_has_tag cross table.
+     *
+     * @param id the id of tag to remove from cross table
+     */
+    void removeGiftCertificateHasTag(long id);
 }

@@ -27,4 +27,10 @@ public class ColumnName {
      */
     public final String TAG_ID = "tag_id";
     public final String TAG_NAME = "tag_name";
+
+    /**
+     * Column names of user table.
+     */
+    public final String USER_ID = "user_id";
+    public final String USER_NAME = "user_name";
 }

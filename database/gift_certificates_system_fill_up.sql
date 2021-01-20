@@ -42,3 +42,14 @@ INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (5, 4);
 INSERT INTO gift_certificate_has_tag(gift_certificate_id_fk, tag_id_fk)
 VALUES (6, 4);
+
+INSERT INTO user(user_name)
+VALUES ('Oleg');
+INSERT INTO user(user_name)
+VALUES ('Gleb');
+INSERT INTO user(user_name)
+VALUES ('Ivan');
+INSERT INTO user(user_name)
+VALUES ('Pavel');
+INSERT INTO user(user_name)
+VALUES ('Alex');
