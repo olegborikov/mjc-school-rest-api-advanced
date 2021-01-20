@@ -5,6 +5,8 @@ import com.epam.esm.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -13,6 +15,16 @@ public class OrderController {
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable long id) {
+        return orderService.findOrderById(id);
+    }
+
+    @GetMapping("/users/{userId}")
+    public List<OrderDto> getOrdersByUserId(@PathVariable long userId) {
+        return orderService.findOrdersByUserId(userId);
     }
 
     @PostMapping

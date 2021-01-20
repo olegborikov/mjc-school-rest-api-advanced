@@ -1,6 +1,7 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.OrderDao;
+import com.epam.esm.dao.mapper.OrderMapper;
 import com.epam.esm.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,11 +19,17 @@ public class OrderDaoImpl implements OrderDao {
 
     private static final String ADD = "INSERT INTO `order` (order_price, order_create_date, user_id_fk, "
             + "gift_certificate_id_fk) VALUES (?, ?, ?, ?)";
+    private static final String FIND_BY_ID = "SELECT order_id, order_price, order_create_date, user_id_fk, "
+            + "gift_certificate_id_fk FROM `order` WHERE order_id = ?";
+    private static final String FIND_BY_USER_ID = "SELECT order_id, order_price, order_create_date, user_id_fk, "
+            + "gift_certificate_id_fk FROM `order` WHERE user_id_fk = ?";
     private final JdbcTemplate jdbcTemplate;
+    private final OrderMapper orderMapper;
 
     @Autowired
-    public OrderDaoImpl(JdbcTemplate jdbcTemplate) {
+    public OrderDaoImpl(JdbcTemplate jdbcTemplate, OrderMapper orderMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -49,7 +56,8 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> findById(long id) {
-        throw new UnsupportedOperationException("Method findById is unavailable for OrderDaoImpl");
+        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, orderMapper).stream()
+                .findFirst();
     }
 
     @Override
@@ -60,5 +68,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void remove(long id) {
         throw new UnsupportedOperationException("Method remove is unavailable for OrderDaoImpl");
+    }
+
+    @Override
+    public List<Order> findByUserId(long userId) {
+        return jdbcTemplate.query(FIND_BY_USER_ID, new Object[]{userId}, orderMapper);
     }
 }

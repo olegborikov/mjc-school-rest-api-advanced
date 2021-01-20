@@ -65,7 +65,7 @@ class GiftCertificateDaoImplTest {
                 .id(1L)
                 .name("Spa house")
                 .description("Very good and not expensive")
-                .price(new BigDecimal("100.1"))
+                .price(new BigDecimal("100.10"))
                 .duration(1)
                 .createDate(LocalDateTime.of(2020, 8, 2, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2021, 1, 2, 16, 0, 0))

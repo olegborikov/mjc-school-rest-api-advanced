@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -36,7 +35,7 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
                 .id(rs.getLong(ColumnName.GIFT_CERTIFICATE_ID))
                 .name(rs.getString(ColumnName.GIFT_CERTIFICATE_NAME))
                 .description(rs.getString(ColumnName.DESCRIPTION))
-                .price(BigDecimal.valueOf(rs.getDouble(ColumnName.GIFT_CERTIFICATE_PRICE)))
+                .price(rs.getBigDecimal(ColumnName.GIFT_CERTIFICATE_PRICE))
                 .duration(rs.getInt(ColumnName.DURATION))
                 .createDate(rs.getObject(ColumnName.GIFT_CERTIFICATE_CREATE_DATE, LocalDateTime.class))
                 .lastUpdateDate(rs.getObject(ColumnName.LAST_UPDATE_DATE, LocalDateTime.class))

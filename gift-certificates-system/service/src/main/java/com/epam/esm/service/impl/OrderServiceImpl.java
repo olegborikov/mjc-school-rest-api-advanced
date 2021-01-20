@@ -9,9 +9,12 @@ import com.epam.esm.entity.Order;
 import com.epam.esm.entity.User;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.IncorrectParameterValueException;
+import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.service.UserService;
+import com.epam.esm.validator.OrderValidator;
+import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -44,20 +49,49 @@ public class OrderServiceImpl implements OrderService {
             throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE,
                     String.valueOf(orderDto.getGiftCertificateDto()));
         }
-        GiftCertificateDto giftCertificateDto
+        GiftCertificateDto foundGiftCertificateDto
                 = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateDto().getId());
-        orderDto.setGiftCertificateDto(giftCertificateDto);
+        orderDto.setGiftCertificateDto(foundGiftCertificateDto);
         if (orderDto.getUserDto() == null) {
             throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_TAG,
                     String.valueOf(orderDto.getUserDto()));
         }
-        UserDto userDto = userService.findUserById(orderDto.getUserDto().getId());
-        orderDto.setUserDto(userDto);
+        UserDto foundUserDto = userService.findUserById(orderDto.getUserDto().getId());
+        orderDto.setUserDto(foundUserDto);
         Order order = convertOrderDtoToOrder(orderDto);
         order.setCreateDate(LocalDateTime.now());
         order.setPrice(order.getGiftCertificate().getPrice());
         Order addedOrder = orderDao.add(order);
         return convertOrderToOrderDto(addedOrder);
+    }
+
+    @Override
+    public OrderDto findOrderById(long id) throws IncorrectParameterValueException {
+        OrderValidator.validateId(id);
+        Optional<Order> foundOrder = orderDao.findById(id);
+        return foundOrder
+                .map(this::convertOrderAndSetUserAndGiftCertificate)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ExceptionMessageKey.ORDER_NOT_FOUND_BY_ID, String.valueOf(id)));
+    }
+
+    @Override
+    public List<OrderDto> findOrdersByUserId(long userId) throws IncorrectParameterValueException {
+        UserValidator.validateId(userId);
+        List<Order> foundOrders = orderDao.findByUserId(userId);
+        return foundOrders.stream()
+                .map(this::convertOrderAndSetUserAndGiftCertificate)
+                .collect(Collectors.toList());
+    }
+
+    private OrderDto convertOrderAndSetUserAndGiftCertificate(Order order) {
+        OrderDto orderDto = convertOrderToOrderDto(order);
+        GiftCertificateDto foundGiftCertificateDto
+                = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateDto().getId());
+        UserDto foundUserDto = userService.findUserById(orderDto.getUserDto().getId());
+        orderDto.setGiftCertificateDto(foundGiftCertificateDto);
+        orderDto.setUserDto(foundUserDto);
+        return orderDto;
     }
 
     private OrderDto convertOrderToOrderDto(Order order) {

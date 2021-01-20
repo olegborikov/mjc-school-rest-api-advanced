@@ -37,6 +37,12 @@ public class ExceptionMessageKey {
     public final String INCORRECT_USER_ID = "user.incorrectId";
 
     /**
+     * Keys for exception messages associated with {@link com.epam.esm.entity.Order}.
+     */
+    public final String ORDER_NOT_FOUND_BY_ID = "order.notFoundById";
+    public final String INCORRECT_ORDER_ID = "order.incorrectId";
+
+    /**
      * Key for exception messages associated with internal server exceptions.
      */
     public final String INTERNAL_ERROR = "internalError";

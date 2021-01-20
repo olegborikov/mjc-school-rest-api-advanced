@@ -33,4 +33,13 @@ public class ColumnName {
      */
     public final String USER_ID = "user_id";
     public final String USER_NAME = "user_name";
+
+    /**
+     * Column names of order table.
+     */
+    public final String ORDER_ID = "order_id";
+    public final String ORDER_PRICE = "order_price";
+    public final String ORDER_CREATE_DATE = "order_create_date";
+    public final String USER_ID_FK = "user_id_fk";
+    public final String GIFT_CERTIFICATE_ID_FK = "gift_certificate_id_fk";
 }
