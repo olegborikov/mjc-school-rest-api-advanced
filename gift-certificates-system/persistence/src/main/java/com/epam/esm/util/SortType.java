@@ -15,7 +15,7 @@ public enum SortType {
     /**
      * Create date sort type.
      */
-    CREATE_DATE(" ORDER BY create_date");
+    CREATE_DATE(" ORDER BY gift_certificate_create_date");
 
     private final String sqlExpression;
 

@@ -1,6 +1,6 @@
 package com.epam.esm.exception;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -19,7 +19,7 @@ import java.util.Locale;
  * @author Oleg Borikov
  * @since 1.0
  */
-@Slf4j
+@Log4j2
 @RestControllerAdvice
 public class ExceptionController {
 

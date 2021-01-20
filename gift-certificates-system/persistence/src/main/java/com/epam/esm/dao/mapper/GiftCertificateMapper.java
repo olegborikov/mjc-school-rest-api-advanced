@@ -36,9 +36,9 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
                 .id(rs.getLong(ColumnName.GIFT_CERTIFICATE_ID))
                 .name(rs.getString(ColumnName.GIFT_CERTIFICATE_NAME))
                 .description(rs.getString(ColumnName.DESCRIPTION))
-                .price(BigDecimal.valueOf(rs.getDouble(ColumnName.PRICE)))
+                .price(BigDecimal.valueOf(rs.getDouble(ColumnName.GIFT_CERTIFICATE_PRICE)))
                 .duration(rs.getInt(ColumnName.DURATION))
-                .createDate(rs.getObject(ColumnName.CREATE_DATE, LocalDateTime.class))
+                .createDate(rs.getObject(ColumnName.GIFT_CERTIFICATE_CREATE_DATE, LocalDateTime.class))
                 .lastUpdateDate(rs.getObject(ColumnName.LAST_UPDATE_DATE, LocalDateTime.class))
                 .build();
     }

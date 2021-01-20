@@ -17,9 +17,9 @@ public class ColumnName {
     public final String GIFT_CERTIFICATE_ID = "gift_certificate_id";
     public final String GIFT_CERTIFICATE_NAME = "gift_certificate_name";
     public final String DESCRIPTION = "description";
-    public final String PRICE = "price";
+    public final String GIFT_CERTIFICATE_PRICE = "gift_certificate_price";
     public final String DURATION = "duration";
-    public final String CREATE_DATE = "create_date";
+    public final String GIFT_CERTIFICATE_CREATE_DATE = "gift_certificate_create_date";
     public final String LAST_UPDATE_DATE = "last_update_date";
 
     /**

@@ -1,7 +1,7 @@
 package com.epam.esm.converter;
 
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.core.convert.converter.Converter;
  * @version 1.0
  * @see Converter
  */
-@Slf4j
+@Log4j2
 public class StringToSortTypeConverter implements Converter<String, GiftCertificateQueryParametersDto.SortType> {
 
     /**

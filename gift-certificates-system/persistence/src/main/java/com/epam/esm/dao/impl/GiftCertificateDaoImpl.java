@@ -27,24 +27,26 @@ import java.util.Optional;
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
-    private static final String ADD = "INSERT INTO gift_certificate (gift_certificate_name, description, price, "
-            + "duration, create_date, last_update_date) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL = "SELECT gift_certificate_id, gift_certificate_name, description, price, "
-            + "duration, create_date, last_update_date FROM gift_certificate";
-    private static final String FIND_BY_ID = "SELECT gift_certificate_id, gift_certificate_name, description, price, "
-            + "duration, create_date, last_update_date FROM gift_certificate WHERE gift_certificate_id = ?";
-    private static final String UPDATE = "UPDATE gift_certificate SET "
-            + "gift_certificate_name = ?, description = ?, price = ?, duration = ?, create_date = ?, "
-            + "last_update_date = ? WHERE gift_certificate_id = ?";
+    private static final String ADD = "INSERT INTO gift_certificate (gift_certificate_name, description, "
+            + "gift_certificate_price, duration, gift_certificate_create_date, last_update_date) "
+            + "VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String FIND_ALL = "SELECT gift_certificate_id, gift_certificate_name, description, "
+            + "gift_certificate_price, duration, gift_certificate_create_date, last_update_date FROM gift_certificate";
+    private static final String FIND_BY_ID = "SELECT gift_certificate_id, gift_certificate_name, description, "
+            + "gift_certificate_price, duration, gift_certificate_create_date, last_update_date "
+            + "FROM gift_certificate WHERE gift_certificate_id = ?";
+    private static final String UPDATE = "UPDATE gift_certificate SET gift_certificate_name = ?, description = ?, "
+            + "gift_certificate_price = ?, duration = ?, gift_certificate_create_date = ?, last_update_date = ? "
+            + "WHERE gift_certificate_id = ?";
     private static final String REMOVE = "DELETE FROM gift_certificate WHERE gift_certificate_id = ?";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id_fk = ?";
     private static final String ADD_GIFT_CERTIFICATE_HAS_TAG = "INSERT INTO gift_certificate_has_tag "
             + "(gift_certificate_id_fk, tag_id_fk) VALUES (?, ?)";
     private static final String FIND_BY_QUERY_PARAMETERS = "SELECT gift_certificate_id, gift_certificate_name, "
-            + "description, price, duration, create_date, last_update_date FROM gift_certificate "
-            + "LEFT JOIN gift_certificate_has_tag ON gift_certificate.gift_certificate_id = gift_certificate_id_fk "
-            + "LEFT JOIN tag ON gift_certificate_has_tag.tag_id_fk = tag_id";
+            + "description, gift_certificate_price, duration, gift_certificate_create_date, last_update_date "
+            + "FROM gift_certificate LEFT JOIN gift_certificate_has_tag ON gift_certificate.gift_certificate_id = "
+            + "gift_certificate_id_fk LEFT JOIN tag ON gift_certificate_has_tag.tag_id_fk = tag_id";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateMapper giftCertificateMapper;
 
