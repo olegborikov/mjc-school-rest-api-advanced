@@ -14,14 +14,6 @@ import java.util.Optional;
 public interface TagDao extends CrudDao<Tag> {
 
     /**
-     * Find tags by gift certificate id in database.
-     *
-     * @param giftCertificateId the gift certificate id which tags will be found
-     * @return the list of found tags
-     */
-    List<Tag> findByGiftCertificateId(long giftCertificateId);
-
-    /**
      * Find tag by name in database.
      *
      * @param name the name of tag to find

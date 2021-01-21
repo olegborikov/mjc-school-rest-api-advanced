@@ -1,9 +1,7 @@
 package com.epam.esm.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -35,7 +33,7 @@ public class GiftCertificate {
     private int duration;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "gift_certificate_has_tag",
             joinColumns = @JoinColumn(name = "gift_certificate_id"),

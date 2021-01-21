@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Oleg Borikov
  * @version 1.0
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.epam.esm")
 @EnableTransactionManagement
 public class ServiceConfiguration {
 

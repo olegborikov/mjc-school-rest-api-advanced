@@ -42,7 +42,9 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException, ResourceExistsException {
         Tag tag = modelMapper.map(tagDto, Tag.class);
-        TagValidator.validateName(tag.getName());
+        if (tag.getId() != null) {
+            throw new IncorrectParameterValueException(ExceptionMessageKey.TAG_HAS_ID, String.valueOf(tag));
+        }
         if (isExists(tag.getName())) {
             throw new ResourceExistsException(ExceptionMessageKey.TAG_ALREADY_EXISTS, String.valueOf(tag.getName()));
         }
@@ -86,17 +88,8 @@ public class TagServiceImpl implements TagService {
     @Transactional
     @Override
     public void removeTag(long id) throws IncorrectParameterValueException {
-        TagValidator.validateId(id);
+        findTagById(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);
-    }
-
-    @Override
-    public List<TagDto> findTagsByGiftCertificateId(long giftCertificateId) throws IncorrectParameterValueException {
-        GiftCertificateValidator.validateId(giftCertificateId);
-        List<Tag> foundTags = tagDao.findByGiftCertificateId(giftCertificateId);
-        return foundTags.stream()
-                .map(foundTag -> modelMapper.map(foundTag, TagDto.class))
-                .collect(Collectors.toList());
     }
 }

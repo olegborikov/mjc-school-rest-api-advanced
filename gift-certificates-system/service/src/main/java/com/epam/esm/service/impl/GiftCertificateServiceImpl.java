@@ -69,7 +69,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<GiftCertificate> foundGiftCertificates
                 = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         return foundGiftCertificates.stream()
-                .map(this::convertGiftCertificateAndSetTags)
+                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -79,7 +79,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificateValidator.validateId(id);
         Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
         return foundGiftCertificate
-                .map(this::convertGiftCertificateAndSetTags)
+                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
                         ExceptionMessageKey.GIFT_CERTIFICATE_NOT_FOUND_BY_ID, String.valueOf(id)));
     }
@@ -118,12 +118,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             tags.addAll(tagsSet);
         }
         giftCertificateDto.setTags(tags);
-    }
-
-    private GiftCertificateDto convertGiftCertificateAndSetTags(GiftCertificate giftCertificate) {
-        GiftCertificateDto giftCertificateDto = modelMapper.map(giftCertificate, GiftCertificateDto.class);
-        giftCertificateDto.setTags(tagService.findTagsByGiftCertificateId(giftCertificate.getId()));
-        return giftCertificateDto;
     }
 
     private void updateFields(GiftCertificateDto foundGiftCertificate, GiftCertificateDto receivedGiftCertificate) {

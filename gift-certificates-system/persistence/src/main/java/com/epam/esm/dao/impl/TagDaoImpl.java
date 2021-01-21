@@ -1,16 +1,15 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.mapper.TagMapper;
 import com.epam.esm.entity.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,48 +22,30 @@ import java.util.Optional;
 @Repository
 public class TagDaoImpl implements TagDao {
 
-    private static final String ADD = "INSERT INTO tag (tag_name) VALUES (?)";
-    private static final String FIND_ALL = "SELECT tag_id, tag_name FROM tag";
-    private static final String FIND_BY_ID = "SELECT tag_id, tag_name FROM tag WHERE tag_id = ?";
-    private static final String REMOVE = "DELETE FROM tag WHERE tag_id = ?";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
-            + "WHERE tag_id_fk = ?";
-    private static final String FIND_BY_GIFT_CERTIFICATE_ID = "SELECT tag_id, tag_name FROM tag "
-            + "INNER JOIN gift_certificate_has_tag ON tag.tag_id = gift_certificate_has_tag.tag_id_fk WHERE "
-            + "gift_certificate_has_tag.gift_certificate_id_fk = ?";
-    private static final String FIND_BY_NAME = "SELECT tag_id, tag_name FROM tag WHERE tag_name LIKE ?";
-    private final JdbcTemplate jdbcTemplate;
-    private final TagMapper tagMapper;
-
-    @Autowired
-    public TagDaoImpl(JdbcTemplate jdbcTemplate, TagMapper tagMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.tagMapper = tagMapper;
-    }
+            + "WHERE tag_id = :tag_id";
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Tag add(Tag tag) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement statement = connection.prepareStatement(ADD, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, tag.getName());
-            return statement;
-        }, keyHolder);
-        if (keyHolder.getKey() != null) {
-            tag.setId(keyHolder.getKey().longValue());
-        }
+        entityManager.persist(tag);
         return tag;
     }
 
     @Override
     public List<Tag> findAll() {
-        return jdbcTemplate.query(FIND_ALL, tagMapper);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
+        Root<Tag> tag = criteriaQuery.from(Tag.class);
+        criteriaQuery.select(tag);
+        TypedQuery<Tag> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     @Override
     public Optional<Tag> findById(long id) {
-        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, tagMapper).stream()
-                .findFirst();
+        return Optional.ofNullable(entityManager.find(Tag.class, id));
     }
 
     @Override
@@ -74,22 +55,24 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public void remove(long id) {
-        jdbcTemplate.update(REMOVE, id);
+        Tag tag = entityManager.find(Tag.class, id);
+        entityManager.remove(tag);
     }
 
     @Override
     public void removeGiftCertificateHasTag(long id) {
-        jdbcTemplate.update(REMOVE_GIFT_CERTIFICATE_HAS_TAG, id);
-    }
-
-    @Override
-    public List<Tag> findByGiftCertificateId(long giftCertificateId) {
-        return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, new Object[]{giftCertificateId}, tagMapper);
+        entityManager.createNativeQuery(REMOVE_GIFT_CERTIFICATE_HAS_TAG)
+                .setParameter("tag_id", id)
+                .executeUpdate();
     }
 
     @Override
     public Optional<Tag> findByName(String name) {
-        return jdbcTemplate.query(FIND_BY_NAME, new Object[]{name}, tagMapper).stream()
-                .findFirst();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
+        Root<Tag> tag = criteriaQuery.from(Tag.class);
+        criteriaQuery.select(tag).where(criteriaBuilder.equal(tag.get("name"), name));
+        TypedQuery<Tag> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList().stream().findFirst();
     }
 }

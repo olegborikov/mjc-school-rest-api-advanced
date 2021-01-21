@@ -47,14 +47,4 @@ public interface TagService {
      *                                          {@link com.epam.esm.validator.TagValidator#validateId(long)}
      */
     void removeTag(long id) throws IncorrectParameterValueException;
-
-    /**
-     * Find tags which contains gift certificate.
-     *
-     * @param giftCertificateId the id of gift certificate which tags will be searched
-     * @return the list of found tags dto
-     * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.GiftCertificateValidator#validateId(long)}
-     */
-    List<TagDto> findTagsByGiftCertificateId(long giftCertificateId) throws IncorrectParameterValueException;
 }
