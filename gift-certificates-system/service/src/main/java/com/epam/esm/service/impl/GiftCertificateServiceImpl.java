@@ -111,7 +111,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<TagDto> tags = new ArrayList<>();
         if (giftCertificateDto.getTags() != null) {
             Set<TagDto> tagsSet = giftCertificateDto.getTags().stream()
-                    .map(tagService::addTag)
+                    .map(tag -> tagService.isExists(tag.getName())
+                            ? tagService.findTagByName(tag.getName())
+                            : tagService.addTag(tag))
                     .collect(Collectors.toSet());
             tags.addAll(tagsSet);
         }

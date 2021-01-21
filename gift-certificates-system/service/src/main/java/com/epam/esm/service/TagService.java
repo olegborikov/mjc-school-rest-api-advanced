@@ -2,6 +2,7 @@ package com.epam.esm.service;
 
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.exception.IncorrectParameterValueException;
+import com.epam.esm.exception.ResourceExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 
 import java.util.List;
@@ -14,16 +15,7 @@ import java.util.List;
  */
 public interface TagService {
 
-    /**
-     * Add new tag.
-     * If tag with such name already exists it will be returns.
-     *
-     * @param tagDto the tag dto which will be added
-     * @return the added tag dto
-     * @throws IncorrectParameterValueException an exception thrown by method
-     *                                          {@link com.epam.esm.validator.TagValidator#validateName(String)}
-     */
-    TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException;
+    TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException, ResourceExistsException;
 
     /**
      * Find all tags.
@@ -42,6 +34,10 @@ public interface TagService {
      * @throws ResourceNotFoundException        an exception thrown in case tag with such id not found
      */
     TagDto findTagById(long id) throws IncorrectParameterValueException, ResourceNotFoundException;
+
+    TagDto findTagByName(String name) throws IncorrectParameterValueException, ResourceNotFoundException;
+
+    boolean isExists(String name) throws IncorrectParameterValueException;
 
     /**
      * Remove tag and all recordings with such tagId in cross table.

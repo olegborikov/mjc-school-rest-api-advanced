@@ -26,6 +26,8 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.Tag}.
      */
     public final String TAG_NOT_FOUND_BY_ID = "tag.notFoundById";
+    public final String TAG_NOT_FOUND_BY_NAME = "tag.notFoundByName";
+    public final String TAG_ALREADY_EXISTS = "tag.alreadyExists";
     public final String INCORRECT_TAG = "tag.incorrect";
     public final String INCORRECT_TAG_ID = "tag.incorrectId";
     public final String INCORRECT_TAG_NAME = "tag.incorrectName";

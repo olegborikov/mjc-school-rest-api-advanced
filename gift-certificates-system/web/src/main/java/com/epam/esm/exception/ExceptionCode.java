@@ -22,6 +22,10 @@ public class ExceptionCode {
      */
     public final int RESOURCE_NOT_FOUND = 44;
     /**
+     * Exception code in case generating {@link ResourceExistsException}.
+     */
+    public final int RESOURCE_EXISTS = 49;
+    /**
      * Exception code in case generating any {@link RuntimeException}.
      */
     public final int INTERNAL_ERROR = 50;
