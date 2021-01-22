@@ -26,14 +26,14 @@ public class TagController {
     @GetMapping
     public List<TagDto> getTags() {
         List<TagDto> foundTagsDto = tagService.findAllTags();
-        foundTagsDto.forEach(foundTagDto -> addRelationships(foundTagDto, foundTagDto.getId()));
+        foundTagsDto.forEach(this::addRelationship);
         return foundTagsDto;
     }
 
     @GetMapping("/{id}")
     public TagDto getTagById(@PathVariable long id) {
         TagDto foundTagDto = tagService.findTagById(id);
-        addRelationships(foundTagDto, foundTagDto.getId());
+        addRelationship(foundTagDto);
         return foundTagDto;
     }
 
@@ -41,7 +41,7 @@ public class TagController {
     @ResponseStatus(HttpStatus.CREATED)
     public TagDto addTag(@RequestBody TagDto tagDto) {
         TagDto addedTagDto = tagService.addTag(tagDto);
-        addRelationships(addedTagDto, addedTagDto.getId());
+        addRelationship(addedTagDto);
         return addedTagDto;
     }
 
@@ -51,8 +51,8 @@ public class TagController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void addRelationships(TagDto tagDto, long id) {
-        tagDto.add(linkTo(methodOn(TagController.class).getTagById(id)).withSelfRel());
-        tagDto.add(linkTo(methodOn(TagController.class).deleteTag(id)).withRel("delete"));
+    private void addRelationship(TagDto tagDto) {
+        tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel());
+        tagDto.add(linkTo(methodOn(TagController.class).deleteTag(tagDto.getId())).withRel("delete"));
     }
 }

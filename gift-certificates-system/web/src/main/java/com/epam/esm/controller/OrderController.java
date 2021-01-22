@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -19,17 +22,31 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable long id) {
-        return orderService.findOrderById(id);
+        OrderDto foundOrderDto = orderService.findOrderById(id);
+        addRelationship(foundOrderDto);
+        return foundOrderDto;
     }
 
     @GetMapping("/users/{userId}")
     public List<OrderDto> getOrdersByUserId(@PathVariable long userId) {
-        return orderService.findOrdersByUserId(userId);
+        List<OrderDto> foundOrdersDto = orderService.findOrdersByUserId(userId);
+        foundOrdersDto.forEach(this::addRelationship);
+        return foundOrdersDto;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDto addOrder(@RequestBody OrderDto orderDto) {
-        return orderService.addOrder(orderDto);
+        OrderDto addedOrderDto = orderService.addOrder(orderDto);
+        addRelationship(addedOrderDto);
+        return addedOrderDto;
+    }
+
+    private void addRelationship(OrderDto orderDto) {
+        orderDto.add(linkTo(methodOn(OrderController.class).getOrderById(orderDto.getId())).withSelfRel());
+        orderDto.add(linkTo(methodOn(GiftCertificateController.class)
+                .getGiftCertificateById(orderDto.getGiftCertificateDto().getId())).withRel("gift-certificate"));
+        orderDto.add(linkTo(methodOn(UserController.class)
+                .getUserById(orderDto.getUserDto().getId())).withRel("user"));
     }
 }
