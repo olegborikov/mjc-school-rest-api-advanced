@@ -22,6 +22,7 @@ import java.util.Optional;
 @Repository
 public class TagDaoImpl implements TagDao {
 
+    private static final String FIND_ALL = "SELECT t FROM Tag t";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE tag_id = :tag_id";
     @PersistenceContext
@@ -35,12 +36,7 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public List<Tag> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
-        Root<Tag> tag = criteriaQuery.from(Tag.class);
-        criteriaQuery.select(tag);
-        TypedQuery<Tag> query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList();
+        return entityManager.createQuery(FIND_ALL, Tag.class).getResultList();
     }
 
     @Override

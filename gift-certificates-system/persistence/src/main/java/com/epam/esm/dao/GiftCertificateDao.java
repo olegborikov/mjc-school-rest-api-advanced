@@ -15,14 +15,6 @@ import java.util.List;
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
 
     /**
-     * Add gift certificate to gift_certificate_has_tag cross table.
-     *
-     * @param giftCertificate the gift certificate which gift certificate id
-     *                        and tags id will be added to cross table
-     */
-    void addGiftCertificateHasTag(GiftCertificate giftCertificate);
-
-    /**
      * Find gift certificates by query parameters in database.
      *
      * @param giftCertificateQueryParameters the gift certificate query parameters

@@ -15,6 +15,7 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.GiftCertificate}.
      */
     public final String GIFT_CERTIFICATE_NOT_FOUND_BY_ID = "giftCertificate.notFoundById";
+    public final String GIFT_CERTIFICATE_HAS_ID = "giftCertificate.hasId";
     public final String INCORRECT_GIFT_CERTIFICATE = "giftCertificate.incorrect";
     public final String INCORRECT_GIFT_CERTIFICATE_ID = "giftCertificate.incorrectId";
     public final String INCORRECT_GIFT_CERTIFICATE_NAME = "giftCertificate.incorrectName";

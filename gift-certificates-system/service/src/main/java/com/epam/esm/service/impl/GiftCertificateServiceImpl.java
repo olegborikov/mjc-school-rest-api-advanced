@@ -52,12 +52,15 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throws IncorrectParameterValueException {
         addAndSetTags(giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        if (giftCertificate.getId() != null) {
+            throw new IncorrectParameterValueException(ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID,
+                    String.valueOf(giftCertificate));
+        }
         GiftCertificateValidator.validate(giftCertificate);
         LocalDateTime currentTime = LocalDateTime.now();
         giftCertificate.setCreateDate(currentTime);
         giftCertificate.setLastUpdateDate(currentTime);
         GiftCertificate addedGiftCertificate = giftCertificateDao.add(giftCertificate);
-        giftCertificateDao.addGiftCertificateHasTag(addedGiftCertificate);
         return modelMapper.map(addedGiftCertificate, GiftCertificateDto.class);
     }
 
@@ -95,14 +98,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificateValidator.validate(foundGiftCertificate);
         GiftCertificate updatedGiftCertificate = giftCertificateDao.update(foundGiftCertificate);
         giftCertificateDao.removeGiftCertificateHasTag(updatedGiftCertificate.getId());
-        giftCertificateDao.addGiftCertificateHasTag(updatedGiftCertificate);
         return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
     }
 
     @Transactional
     @Override
     public void removeGiftCertificate(long id) throws IncorrectParameterValueException {
-        GiftCertificateValidator.validateId(id);
+        findGiftCertificateById(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);
     }

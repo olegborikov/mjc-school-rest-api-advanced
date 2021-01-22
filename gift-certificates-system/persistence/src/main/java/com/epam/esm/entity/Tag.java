@@ -17,6 +17,6 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 100)
+    @Column(columnDefinition = "varbinary(100)")
     private String name;
 }
