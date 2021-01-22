@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 /**
  * Class {@code TagDto} is implementation of pattern DTO
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TagDto {
+public class TagDto extends RepresentationModel<TagDto> {
 
     private Long id;
     private String name;
