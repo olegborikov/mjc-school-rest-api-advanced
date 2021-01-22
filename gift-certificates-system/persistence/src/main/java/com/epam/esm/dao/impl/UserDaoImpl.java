@@ -1,28 +1,20 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.UserDao;
-import com.epam.esm.dao.mapper.UserMapper;
 import com.epam.esm.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private static final String FIND_ALL = "SELECT user_id, user_name FROM user";
-    private static final String FIND_BY_ID = "SELECT user_id, user_name FROM user WHERE user_id = ?";
-    private final JdbcTemplate jdbcTemplate;
-    private final UserMapper userMapper;
-
-    @Autowired
-    public UserDaoImpl(JdbcTemplate jdbcTemplate, UserMapper userMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.userMapper = userMapper;
-    }
+    private static final String FIND_ALL = "SELECT u FROM User u";
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public User add(User user) {
@@ -31,13 +23,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        return jdbcTemplate.query(FIND_ALL, userMapper);
+        return entityManager.createQuery(FIND_ALL, User.class).getResultList();
     }
 
     @Override
     public Optional<User> findById(long id) {
-        return jdbcTemplate.query(FIND_BY_ID, new Object[]{id}, userMapper).stream()
-                .findFirst();
+        return Optional.ofNullable(entityManager.find(User.class, id));
     }
 
     @Override

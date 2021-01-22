@@ -97,7 +97,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
         GiftCertificateValidator.validate(foundGiftCertificate);
         GiftCertificate updatedGiftCertificate = giftCertificateDao.update(foundGiftCertificate);
-        giftCertificateDao.removeGiftCertificateHasTag(updatedGiftCertificate.getId());
         return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
     }
 

@@ -6,10 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +19,7 @@ import java.util.Optional;
 public class TagDaoImpl implements TagDao {
 
     private static final String FIND_ALL = "SELECT t FROM Tag t";
+    private static final String FIND_BY_NAME = "SELECT t FROM Tag t WHERE name = :name";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE tag_id = :tag_id";
     @PersistenceContext
@@ -64,11 +61,9 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Optional<Tag> findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Tag> criteriaQuery = criteriaBuilder.createQuery(Tag.class);
-        Root<Tag> tag = criteriaQuery.from(Tag.class);
-        criteriaQuery.select(tag).where(criteriaBuilder.equal(tag.get("name"), name));
-        TypedQuery<Tag> query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList().stream().findFirst();
+        return entityManager.createQuery(FIND_BY_NAME, Tag.class)
+                .setParameter("name", name)
+                .getResultList().stream()
+                .findFirst();
     }
 }

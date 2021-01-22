@@ -44,6 +44,7 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.Order}.
      */
     public final String ORDER_NOT_FOUND_BY_ID = "order.notFoundById";
+    public final String ORDER_HAS_ID = "order.hasId";
     public final String INCORRECT_ORDER_ID = "order.incorrectId";
 
     /**

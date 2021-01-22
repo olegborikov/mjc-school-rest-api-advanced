@@ -59,6 +59,10 @@ public class OrderServiceImpl implements OrderService {
         UserDto foundUserDto = userService.findUserById(orderDto.getUserDto().getId());
         orderDto.setUserDto(foundUserDto);
         Order order = convertOrderDtoToOrder(orderDto);
+        if (order.getId() != null) {
+            throw new IncorrectParameterValueException(ExceptionMessageKey.ORDER_HAS_ID,
+                    String.valueOf(order));
+        }
         order.setCreateDate(LocalDateTime.now());
         order.setPrice(order.getGiftCertificate().getPrice());
         Order addedOrder = orderDao.add(order);
@@ -70,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         OrderValidator.validateId(id);
         Optional<Order> foundOrder = orderDao.findById(id);
         return foundOrder
-                .map(this::convertOrderAndSetUserAndGiftCertificate)
+                .map(this::convertOrderToOrderDto)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         ExceptionMessageKey.ORDER_NOT_FOUND_BY_ID, String.valueOf(id)));
     }
@@ -80,18 +84,8 @@ public class OrderServiceImpl implements OrderService {
         UserValidator.validateId(userId);
         List<Order> foundOrders = orderDao.findByUserId(userId);
         return foundOrders.stream()
-                .map(this::convertOrderAndSetUserAndGiftCertificate)
+                .map(this::convertOrderToOrderDto)
                 .collect(Collectors.toList());
-    }
-
-    private OrderDto convertOrderAndSetUserAndGiftCertificate(Order order) {
-        OrderDto orderDto = convertOrderToOrderDto(order);
-        GiftCertificateDto foundGiftCertificateDto
-                = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateDto().getId());
-        UserDto foundUserDto = userService.findUserById(orderDto.getUserDto().getId());
-        orderDto.setGiftCertificateDto(foundGiftCertificateDto);
-        orderDto.setUserDto(foundUserDto);
-        return orderDto;
     }
 
     private OrderDto convertOrderToOrderDto(Order order) {
