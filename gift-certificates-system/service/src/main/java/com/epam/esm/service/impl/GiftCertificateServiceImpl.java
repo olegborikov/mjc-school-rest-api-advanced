@@ -72,7 +72,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<GiftCertificate> foundGiftCertificates
                 = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
         return foundGiftCertificates.stream()
-                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+                .map(foundGiftCertificate -> modelMapper.map(foundGiftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -80,9 +80,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto findGiftCertificateById(long id)
             throws IncorrectParameterValueException, ResourceNotFoundException {
         GiftCertificateValidator.validateId(id);
-        Optional<GiftCertificate> foundGiftCertificate = giftCertificateDao.findById(id);
-        return foundGiftCertificate
-                .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
+        Optional<GiftCertificate> foundGiftCertificateOptional = giftCertificateDao.findById(id);
+        return foundGiftCertificateOptional
+                .map(foundGiftCertificate -> modelMapper.map(foundGiftCertificate, GiftCertificateDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
                         ExceptionMessageKey.GIFT_CERTIFICATE_NOT_FOUND_BY_ID, String.valueOf(id)));
     }

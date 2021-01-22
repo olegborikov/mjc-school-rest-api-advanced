@@ -23,8 +23,12 @@ public class Order {
     @Column(precision = 8, scale = 2)
     private BigDecimal price;
     private LocalDateTime createDate;
+    private Long userId;
+    private Long giftCertificateId;
     @ManyToOne
+    @Transient
     private User user;
     @ManyToOne
+    @Transient
     private GiftCertificate giftCertificate;
 }

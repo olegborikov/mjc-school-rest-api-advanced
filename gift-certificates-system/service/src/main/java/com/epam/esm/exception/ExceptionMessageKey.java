@@ -16,7 +16,6 @@ public class ExceptionMessageKey {
      */
     public final String GIFT_CERTIFICATE_NOT_FOUND_BY_ID = "giftCertificate.notFoundById";
     public final String GIFT_CERTIFICATE_HAS_ID = "giftCertificate.hasId";
-    public final String INCORRECT_GIFT_CERTIFICATE = "giftCertificate.incorrect";
     public final String INCORRECT_GIFT_CERTIFICATE_ID = "giftCertificate.incorrectId";
     public final String INCORRECT_GIFT_CERTIFICATE_NAME = "giftCertificate.incorrectName";
     public final String INCORRECT_GIFT_CERTIFICATE_DESCRIPTION = "giftCertificate.incorrectDescription";
@@ -30,7 +29,6 @@ public class ExceptionMessageKey {
     public final String TAG_NOT_FOUND_BY_NAME = "tag.notFoundByName";
     public final String TAG_ALREADY_EXISTS = "tag.alreadyExists";
     public final String TAG_HAS_ID = "tag.hasId";
-    public final String INCORRECT_TAG = "tag.incorrect";
     public final String INCORRECT_TAG_ID = "tag.incorrectId";
     public final String INCORRECT_TAG_NAME = "tag.incorrectName";
 

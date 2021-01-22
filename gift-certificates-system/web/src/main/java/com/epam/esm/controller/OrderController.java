@@ -45,8 +45,8 @@ public class OrderController {
     private void addRelationship(OrderDto orderDto) {
         orderDto.add(linkTo(methodOn(OrderController.class).getOrderById(orderDto.getId())).withSelfRel());
         orderDto.add(linkTo(methodOn(GiftCertificateController.class)
-                .getGiftCertificateById(orderDto.getGiftCertificateDto().getId())).withRel("gift-certificate"));
+                .getGiftCertificateById(orderDto.getGiftCertificateId())).withRel("gift-certificate"));
         orderDto.add(linkTo(methodOn(UserController.class)
-                .getUserById(orderDto.getUserDto().getId())).withRel("user"));
+                .getUserById(orderDto.getUserId())).withRel("user"));
     }
 }

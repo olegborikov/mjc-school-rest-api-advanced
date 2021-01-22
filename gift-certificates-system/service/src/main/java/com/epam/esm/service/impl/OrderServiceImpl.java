@@ -45,36 +45,27 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto addOrder(OrderDto orderDto) throws IncorrectParameterValueException {
-        if (orderDto.getGiftCertificateDto() == null) {
-            throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE,
-                    String.valueOf(orderDto.getGiftCertificateDto()));
-        }
-        GiftCertificateDto foundGiftCertificateDto
-                = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateDto().getId());
-        orderDto.setGiftCertificateDto(foundGiftCertificateDto);
-        if (orderDto.getUserDto() == null) {
-            throw new IncorrectParameterValueException(ExceptionMessageKey.INCORRECT_TAG,
-                    String.valueOf(orderDto.getUserDto()));
-        }
-        UserDto foundUserDto = userService.findUserById(orderDto.getUserDto().getId());
-        orderDto.setUserDto(foundUserDto);
-        Order order = convertOrderDtoToOrder(orderDto);
+        Order order = modelMapper.map(orderDto, Order.class);
         if (order.getId() != null) {
             throw new IncorrectParameterValueException(ExceptionMessageKey.ORDER_HAS_ID,
                     String.valueOf(order));
         }
+        GiftCertificateDto foundGiftCertificateDto
+                = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateId());
+        GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
+        userService.findUserById(orderDto.getUserId());
         order.setCreateDate(LocalDateTime.now());
-        order.setPrice(order.getGiftCertificate().getPrice());
+        order.setPrice(foundGiftCertificate.getPrice());
         Order addedOrder = orderDao.add(order);
-        return convertOrderToOrderDto(addedOrder);
+        return modelMapper.map(addedOrder, OrderDto.class);
     }
 
     @Override
     public OrderDto findOrderById(long id) throws IncorrectParameterValueException {
         OrderValidator.validateId(id);
-        Optional<Order> foundOrder = orderDao.findById(id);
-        return foundOrder
-                .map(this::convertOrderToOrderDto)
+        Optional<Order> foundOrderOptional = orderDao.findById(id);
+        return foundOrderOptional
+                .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
                         ExceptionMessageKey.ORDER_NOT_FOUND_BY_ID, String.valueOf(id)));
     }
@@ -84,21 +75,7 @@ public class OrderServiceImpl implements OrderService {
         UserValidator.validateId(userId);
         List<Order> foundOrders = orderDao.findByUserId(userId);
         return foundOrders.stream()
-                .map(this::convertOrderToOrderDto)
+                .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))
                 .collect(Collectors.toList());
-    }
-
-    private OrderDto convertOrderToOrderDto(Order order) {
-        OrderDto orderDto = modelMapper.map(order, OrderDto.class);
-        orderDto.setUserDto(modelMapper.map(order.getUser(), UserDto.class));
-        orderDto.setGiftCertificateDto(modelMapper.map(order.getGiftCertificate(), GiftCertificateDto.class));
-        return orderDto;
-    }
-
-    private Order convertOrderDtoToOrder(OrderDto orderDto) {
-        Order order = modelMapper.map(orderDto, Order.class);
-        order.setUser(modelMapper.map(orderDto.getUserDto(), User.class));
-        order.setGiftCertificate(modelMapper.map(orderDto.getGiftCertificateDto(), GiftCertificate.class));
-        return order;
     }
 }
