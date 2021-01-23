@@ -31,7 +31,7 @@ public class StringToSortTypeConverter implements Converter<String, GiftCertific
         try {
             sortType = GiftCertificateQueryParametersDto.SortType.valueOf(sourceUpperCase);
         } catch (IllegalArgumentException e) {
-            log.error("Incorrect SortType enum element: " + sourceUpperCase);
+            log.error("Incorrect SortType enum element: " + sourceUpperCase);// TODO: 23.01.2021 throw exception
         }
         return sortType;
     }

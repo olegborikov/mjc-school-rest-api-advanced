@@ -31,7 +31,7 @@ public class StringToOrderTypeConverter implements Converter<String, GiftCertifi
         try {
             orderType = GiftCertificateQueryParametersDto.OrderType.valueOf(sourceUpperCase);
         } catch (IllegalArgumentException e) {
-            log.error("Incorrect OrderType enum element: " + sourceUpperCase);
+            log.error("Incorrect OrderType enum element: " + sourceUpperCase);// TODO: 23.01.2021 throw exception
         }
         return orderType;
     }

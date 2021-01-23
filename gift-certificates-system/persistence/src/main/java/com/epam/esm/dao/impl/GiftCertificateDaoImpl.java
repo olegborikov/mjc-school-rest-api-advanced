@@ -2,12 +2,12 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.util.GiftCertificateQueryCreator;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +24,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String FIND_ALL = "SELECT g FROM GiftCertificate g";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id = :gift_certificate_id";
+    private static final String FIND_BY_QUERY_PARAMETERS = "SELECT g FROM GiftCertificate g LEFT JOIN "
+            + "g.tags t";
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -63,9 +65,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters) {
-       /* String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
+        String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
         return entityManager.createQuery(FIND_BY_QUERY_PARAMETERS + condition, GiftCertificate.class)
-                .getResultList();*/
-        return new ArrayList<>(); // TODO: 22.01.2021  
+                .getResultList();
     }
 }

@@ -11,11 +11,11 @@ public enum SortType {
     /**
      * Name sort type.
      */
-    NAME(" ORDER BY gift_certificate_name"),
+    NAME(" ORDER BY g.name"),
     /**
      * Create date sort type.
      */
-    CREATE_DATE(" ORDER BY gift_certificate_create_date");
+    CREATE_DATE(" ORDER BY g.createDate");
 
     private final String sqlExpression;
 

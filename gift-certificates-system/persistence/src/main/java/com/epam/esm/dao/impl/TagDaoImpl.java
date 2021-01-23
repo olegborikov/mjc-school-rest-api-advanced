@@ -19,7 +19,7 @@ import java.util.Optional;
 public class TagDaoImpl implements TagDao {
 
     private static final String FIND_ALL = "SELECT t FROM Tag t";
-    private static final String FIND_BY_NAME = "SELECT t FROM Tag t WHERE name = :name";
+    private static final String FIND_BY_NAME = "SELECT t FROM Tag t WHERE t.name = :name";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE tag_id = :tag_id";
     @PersistenceContext

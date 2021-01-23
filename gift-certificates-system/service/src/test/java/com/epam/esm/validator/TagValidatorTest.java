@@ -51,7 +51,7 @@ class TagValidatorTest {
     }
 
     public static Object[][] validateNameIncorrectData() {
-             return new Object[][]{
+        return new Object[][]{
                 {null},
                 {"   "},
                 {""},

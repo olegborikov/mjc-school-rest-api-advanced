@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
-    private static final String FIND_BY_USER_ID = "SELECT o FROM Order o WHERE user_id = :user_id";
+    private static final String FIND_BY_USER_ID = "SELECT o FROM Order o WHERE o.userId = :user_id";
     @PersistenceContext
     private EntityManager entityManager;
 

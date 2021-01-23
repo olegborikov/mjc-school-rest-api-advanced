@@ -15,10 +15,10 @@ public class GiftCertificateQueryCreator {
 
     private static final String WHERE = " WHERE ";
     private static final String AND = " AND ";
-    private static final String TAG_NAME = "tag_name LIKE '%s'";
-    private static final String NAME = "gift_certificate_name LIKE ''%{0}%''";
-    private static final String DESCRIPTION = "description LIKE ''%{0}%''";
-    private static final String GROUP_BY = " GROUP BY gift_certificate_id";
+    private static final String TAG_NAME = "t.name LIKE '%s'";
+    private static final String NAME = "g.name LIKE ''%{0}%''";
+    private static final String DESCRIPTION = "g.description LIKE ''%{0}%''";
+    private static final String GROUP_BY = " GROUP BY g.id";
 
     /**
      * Create query from object of {@link GiftCertificateQueryParameters}.

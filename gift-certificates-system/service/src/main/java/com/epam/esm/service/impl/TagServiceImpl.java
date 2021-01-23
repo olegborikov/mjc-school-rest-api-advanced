@@ -8,7 +8,6 @@ import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
-import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
