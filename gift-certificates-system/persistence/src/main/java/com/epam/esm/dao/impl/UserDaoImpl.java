@@ -2,6 +2,7 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.UserDao;
 import com.epam.esm.entity.User;
+import com.epam.esm.util.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,8 +23,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findAll() {
-        return entityManager.createQuery(FIND_ALL, User.class).getResultList();
+    public List<User> findAll(Page page) {
+        return entityManager.createQuery(FIND_ALL, User.class)
+                .setFirstResult((page.getNumber() - 1) * page.getSize())
+                .setMaxResults(page.getSize())
+                .getResultList();
     }
 
     @Override

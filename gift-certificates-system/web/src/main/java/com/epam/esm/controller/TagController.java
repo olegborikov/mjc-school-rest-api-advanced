@@ -1,11 +1,20 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -24,8 +33,10 @@ public class TagController {
     }
 
     @GetMapping
-    public List<TagDto> getTags() {
-        List<TagDto> foundTagsDto = tagService.findAllTags();
+    public List<TagDto> getTags(@RequestParam(required = false, defaultValue = "1") int page,
+                                @RequestParam(required = false, defaultValue = "5") int size) {
+        PageDto pageDto = new PageDto(page, size);
+        List<TagDto> foundTagsDto = tagService.findAllTags(pageDto);
         foundTagsDto.forEach(this::addRelationship);
         return foundTagsDto;
     }

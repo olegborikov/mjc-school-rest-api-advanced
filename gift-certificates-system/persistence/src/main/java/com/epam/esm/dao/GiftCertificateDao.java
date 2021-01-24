@@ -2,6 +2,7 @@ package com.epam.esm.dao;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.util.GiftCertificateQueryParameters;
+import com.epam.esm.util.Page;
 
 import java.util.List;
 
@@ -14,13 +15,8 @@ import java.util.List;
  */
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
 
-    /**
-     * Find gift certificates by query parameters in database.
-     *
-     * @param giftCertificateQueryParameters the gift certificate query parameters
-     * @return the list of found gift certificates
-     */
-    List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters);
+    List<GiftCertificate> findByQueryParameters(
+            GiftCertificateQueryParameters giftCertificateQueryParameters, Page page);
 
     /**
      * Remove gift certificates from gift_certificate_has_tag cross table.

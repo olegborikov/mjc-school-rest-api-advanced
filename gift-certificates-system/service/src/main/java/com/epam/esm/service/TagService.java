@@ -1,5 +1,6 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceExistsException;
@@ -17,12 +18,7 @@ public interface TagService {
 
     TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException, ResourceExistsException;
 
-    /**
-     * Find all tags.
-     *
-     * @return the list of all tags dto
-     */
-    List<TagDto> findAllTags();
+    List<TagDto> findAllTags(PageDto pageDto);
 
     /**
      * Find tag by id.

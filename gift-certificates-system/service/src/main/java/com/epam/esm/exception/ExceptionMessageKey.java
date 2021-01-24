@@ -46,6 +46,12 @@ public class ExceptionMessageKey {
     public final String INCORRECT_ORDER_ID = "order.incorrectId";
 
     /**
+     * Keys for exception messages associated with {@link com.epam.esm.util.Page}.
+     */
+    public final String INCORRECT_PAGE_NUMBER = "page.incorrectNumber";
+    public final String INCORRECT_PAGE_SIZE = "page.incorrectSize";
+
+    /**
      * Key for exception messages associated with internal server exceptions.
      */
     public final String INTERNAL_ERROR = "internalError";

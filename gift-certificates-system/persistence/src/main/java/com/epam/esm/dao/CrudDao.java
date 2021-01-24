@@ -1,5 +1,7 @@
 package com.epam.esm.dao;
 
+import com.epam.esm.util.Page;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +22,7 @@ public interface CrudDao<T> {
      */
     T add(T t);
 
-    /**
-     * Find all entities in database.
-     *
-     * @return the list of found entities
-     */
-    List<T> findAll();
+    List<T> findAll(Page page);
 
     /**
      * Find entity in database by id.

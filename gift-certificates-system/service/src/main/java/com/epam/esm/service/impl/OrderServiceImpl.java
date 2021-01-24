@@ -3,6 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.OrderDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.OrderDto;
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.exception.ExceptionMessageKey;
@@ -11,7 +12,9 @@ import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.service.UserService;
+import com.epam.esm.util.Page;
 import com.epam.esm.validator.OrderValidator;
+import com.epam.esm.validator.PageValidator;
 import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +72,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findOrdersByUserId(long userId) throws IncorrectParameterValueException {
+    public List<OrderDto> findOrdersByUserId(long userId, PageDto pageDto) throws IncorrectParameterValueException {
+        Page page = modelMapper.map(pageDto, Page.class);
         UserValidator.validateId(userId);
-        List<Order> foundOrders = orderDao.findByUserId(userId);
+        PageValidator.validate(page);
+        List<Order> foundOrders = orderDao.findByUserId(userId, page);
         return foundOrders.stream()
                 .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))
                 .collect(Collectors.toList());

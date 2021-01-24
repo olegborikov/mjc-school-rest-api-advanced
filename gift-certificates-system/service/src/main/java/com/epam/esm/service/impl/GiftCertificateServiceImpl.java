@@ -3,6 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.ExceptionMessageKey;
@@ -11,7 +12,9 @@ import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
+import com.epam.esm.util.Page;
 import com.epam.esm.validator.GiftCertificateValidator;
+import com.epam.esm.validator.PageValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,11 +69,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificateDto> findGiftCertificates(
-            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto) {
+            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, PageDto pageDto) {
+        Page page = modelMapper.map(pageDto, Page.class);
         GiftCertificateQueryParameters giftCertificateQueryParameters
                 = modelMapper.map(giftCertificateQueryParametersDto, GiftCertificateQueryParameters.class);
+        PageValidator.validate(page);
         List<GiftCertificate> foundGiftCertificates
-                = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters);
+                = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters, page);
         return foundGiftCertificates.stream()
                 .map(foundGiftCertificate -> modelMapper.map(foundGiftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());

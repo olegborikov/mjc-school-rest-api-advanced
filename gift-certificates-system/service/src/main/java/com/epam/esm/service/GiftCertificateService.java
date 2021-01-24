@@ -2,6 +2,7 @@ package com.epam.esm.service;
 
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
@@ -29,15 +30,8 @@ public interface GiftCertificateService {
     GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto)
             throws IncorrectParameterValueException;
 
-    /**
-     * Find gift certificates according to parameters in {@link com.epam.esm.util.GiftCertificateQueryParameters}.
-     *
-     * @param giftCertificateQueryParametersDto the gift certificate query parameters dto
-     *                                          according to which will be found gift certificates
-     * @return the list of found gift certificates
-     */
     List<GiftCertificateDto> findGiftCertificates(
-            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto);
+            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, PageDto pageDto);
 
     /**
      * Find gift certificate by id.

@@ -1,12 +1,15 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.UserDao;
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.entity.User;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.UserService;
+import com.epam.esm.util.Page;
+import com.epam.esm.validator.PageValidator;
 import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
-        List<User> foundUsers = userDao.findAll();
+    public List<UserDto> findAllUsers(PageDto pageDto) {
+        Page page = modelMapper.map(pageDto, Page.class);
+        PageValidator.validate(page);
+        List<User> foundUsers = userDao.findAll(page);
         return foundUsers.stream()
                 .map(foundUser -> modelMapper.map(foundUser, UserDto.class))
                 .collect(Collectors.toList());

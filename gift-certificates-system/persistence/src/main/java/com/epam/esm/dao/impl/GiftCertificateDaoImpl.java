@@ -4,6 +4,7 @@ import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.util.GiftCertificateQueryCreator;
 import com.epam.esm.util.GiftCertificateQueryParameters;
+import com.epam.esm.util.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -36,8 +37,11 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAll() {
-        return entityManager.createQuery(FIND_ALL, GiftCertificate.class).getResultList();
+    public List<GiftCertificate> findAll(Page page) {
+        return entityManager.createQuery(FIND_ALL, GiftCertificate.class)
+                .setFirstResult((page.getNumber() - 1) * page.getSize())
+                .setMaxResults(page.getSize())
+                .getResultList();
     }
 
     @Override
@@ -64,9 +68,12 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findByQueryParameters(GiftCertificateQueryParameters giftCertificateQueryParameters) {
+    public List<GiftCertificate> findByQueryParameters(
+            GiftCertificateQueryParameters giftCertificateQueryParameters, Page page) {
         String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
         return entityManager.createQuery(FIND_BY_QUERY_PARAMETERS + condition, GiftCertificate.class)
+                .setFirstResult((page.getNumber() - 1) * page.getSize())
+                .setMaxResults(page.getSize())
                 .getResultList();
     }
 }

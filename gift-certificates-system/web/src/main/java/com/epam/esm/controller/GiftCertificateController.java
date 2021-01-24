@@ -2,19 +2,21 @@ package com.epam.esm.controller;
 
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.service.GiftCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -34,9 +36,12 @@ public class GiftCertificateController {
 
     @GetMapping
     public List<GiftCertificateDto> getGiftCertificates(
-            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto) {
+            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto,
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "5") int size) {
+        PageDto pageDto = new PageDto(page, size);
         List<GiftCertificateDto> foundGiftCertificatesDto
-                = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto);
+                = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto, pageDto);
         foundGiftCertificatesDto.forEach(this::addRelationship);
         return foundGiftCertificatesDto;
     }

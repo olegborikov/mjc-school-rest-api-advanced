@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,8 +27,10 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> getUsers() {
-        List<UserDto> foundUsersDto = userService.findAllUsers();
+    public List<UserDto> getUsers(@RequestParam(required = false, defaultValue = "1") int page,
+                                  @RequestParam(required = false, defaultValue = "5") int size) {
+        PageDto pageDto = new PageDto(page, size);
+        List<UserDto> foundUsersDto = userService.findAllUsers(pageDto);
         foundUsersDto.forEach(this::addRelationship);
         return foundUsersDto;
     }
