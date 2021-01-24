@@ -10,7 +10,6 @@ import com.epam.esm.exception.ResourceExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.util.Page;
-import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +42,6 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException, ResourceExistsException {
         Tag tag = modelMapper.map(tagDto, Tag.class);
-        if (tag.getId() != null) {
-            throw new IncorrectParameterValueException(ExceptionMessageKey.TAG_HAS_ID, String.valueOf(tag));
-        }
         if (isExists(tag.getName())) {
             throw new ResourceExistsException(ExceptionMessageKey.TAG_ALREADY_EXISTS, String.valueOf(tag.getName()));
         }
@@ -64,7 +60,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto findTagById(long id) throws IncorrectParameterValueException, ResourceNotFoundException {
-        TagValidator.validateId(id);
         Optional<Tag> foundTagOptional = tagDao.findById(id);
         return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -73,7 +68,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto findTagByName(String name) throws IncorrectParameterValueException, ResourceNotFoundException {
-        TagValidator.validateName(name);
         Optional<Tag> foundTagOptional = tagDao.findByName(name);
         return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -82,7 +76,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public boolean isExists(String name) throws IncorrectParameterValueException {
-        TagValidator.validateName(name);
         Optional<Tag> existingTagOptional = tagDao.findByName(name);
         return existingTagOptional.isPresent();
     }

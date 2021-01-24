@@ -13,7 +13,6 @@ import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.service.UserService;
 import com.epam.esm.util.Page;
-import com.epam.esm.validator.OrderValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,10 +44,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto addOrder(OrderDto orderDto) throws IncorrectParameterValueException {
         Order order = modelMapper.map(orderDto, Order.class);
-        if (order.getId() != null) {
-            throw new IncorrectParameterValueException(ExceptionMessageKey.ORDER_HAS_ID,
-                    String.valueOf(order));
-        }
         GiftCertificateDto foundGiftCertificateDto
                 = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateId());
         GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
@@ -61,7 +56,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findOrderById(long id) throws IncorrectParameterValueException {
-        OrderValidator.validateId(id);
         Optional<Order> foundOrderOptional = orderDao.findById(id);
         return foundOrderOptional
                 .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))

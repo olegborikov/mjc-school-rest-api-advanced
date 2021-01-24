@@ -13,9 +13,10 @@ import java.util.List;
 @Validated
 public interface OrderService {
 
-    OrderDto addOrder(OrderDto orderDto) throws IncorrectParameterValueException;
+    OrderDto addOrder(@Valid OrderDto orderDto) throws IncorrectParameterValueException;
 
-    OrderDto findOrderById(long id) throws IncorrectParameterValueException;
+    OrderDto findOrderById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_ORDER_ID) long id)
+            throws IncorrectParameterValueException;
 
     List<OrderDto> findOrdersByUserId(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long userId,
