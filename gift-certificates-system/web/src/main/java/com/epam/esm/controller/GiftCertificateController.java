@@ -36,9 +36,15 @@ public class GiftCertificateController {
 
     @GetMapping
     public List<GiftCertificateDto> getGiftCertificates(
-            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto,
+            @RequestParam(required = false) String tagName,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) GiftCertificateQueryParametersDto.SortType sortType,
+            @RequestParam(required = false) GiftCertificateQueryParametersDto.OrderType orderType,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "5") int size) {
+        GiftCertificateQueryParametersDto giftCertificateQueryParametersDto
+                = new GiftCertificateQueryParametersDto(tagName, name, description, sortType, orderType);
         PageDto pageDto = new PageDto(page, size);
         List<GiftCertificateDto> foundGiftCertificatesDto
                 = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto, pageDto);
