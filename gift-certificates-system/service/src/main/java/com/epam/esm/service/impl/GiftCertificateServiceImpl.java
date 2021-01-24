@@ -14,7 +14,6 @@ import com.epam.esm.service.TagService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import com.epam.esm.util.Page;
 import com.epam.esm.validator.GiftCertificateValidator;
-import com.epam.esm.validator.PageValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,7 +72,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         Page page = modelMapper.map(pageDto, Page.class);
         GiftCertificateQueryParameters giftCertificateQueryParameters
                 = modelMapper.map(giftCertificateQueryParametersDto, GiftCertificateQueryParameters.class);
-        PageValidator.validate(page);
         List<GiftCertificate> foundGiftCertificates
                 = giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters, page);
         return foundGiftCertificates.stream()

@@ -14,8 +14,6 @@ import com.epam.esm.service.OrderService;
 import com.epam.esm.service.UserService;
 import com.epam.esm.util.Page;
 import com.epam.esm.validator.OrderValidator;
-import com.epam.esm.validator.PageValidator;
-import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,8 +72,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findOrdersByUserId(long userId, PageDto pageDto) throws IncorrectParameterValueException {
         Page page = modelMapper.map(pageDto, Page.class);
-        UserValidator.validateId(userId);
-        PageValidator.validate(page);
         List<Order> foundOrders = orderDao.findByUserId(userId, page);
         return foundOrders.stream()
                 .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))

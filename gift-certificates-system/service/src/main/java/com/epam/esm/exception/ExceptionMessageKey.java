@@ -36,7 +36,7 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.User}.
      */
     public final String USER_NOT_FOUND_BY_ID = "user.notFoundById";
-    public final String INCORRECT_USER_ID = "user.incorrectId";
+    public final String INCORRECT_USER_ID = "{user.incorrectId}";
 
     /**
      * Keys for exception messages associated with {@link com.epam.esm.entity.Order}.
@@ -48,8 +48,8 @@ public class ExceptionMessageKey {
     /**
      * Keys for exception messages associated with {@link com.epam.esm.util.Page}.
      */
-    public final String INCORRECT_PAGE_NUMBER = "page.incorrectNumber";
-    public final String INCORRECT_PAGE_SIZE = "page.incorrectSize";
+    public final String INCORRECT_PAGE_NUMBER = "{page.incorrectNumber}";
+    public final String INCORRECT_PAGE_SIZE = "{page.incorrectSize}";
 
     /**
      * Key for exception messages associated with internal server exceptions.

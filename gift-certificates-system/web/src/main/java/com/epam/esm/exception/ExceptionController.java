@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Locale;
 
 /**
@@ -64,6 +65,14 @@ public class ExceptionController {
             IncorrectParameterValueException exception, Locale locale) {
         String exceptionMessage = exceptionMessageCreator.createMessage(exception.getMessageKey(),
                 exception.getMessageParameter(), locale);
+        log.error(exceptionMessage);
+        return new ExceptionHandlerResponse(ExceptionCode.INCORRECT_PARAMETER_VALUE, exceptionMessage);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionHandlerResponse handleConstraintViolationException(ConstraintViolationException exception) {
+        String exceptionMessage = exception.getMessage();// TODO: 24.01.2021 refactor message
         log.error(exceptionMessage);
         return new ExceptionHandlerResponse(ExceptionCode.INCORRECT_PARAMETER_VALUE, exceptionMessage);
     }
