@@ -70,9 +70,8 @@ public class GiftCertificateController {
     @PutMapping("/{id}")
     public GiftCertificateDto updateGiftCertificate(@PathVariable long id,
                                                     @RequestBody GiftCertificateDto giftCertificateDto) {
-        giftCertificateDto.setId(id);
         GiftCertificateDto updatedGiftCertificateDto
-                = giftCertificateService.updateGiftCertificate(giftCertificateDto);
+                = giftCertificateService.updateGiftCertificate(id, giftCertificateDto);
         addRelationship(updatedGiftCertificateDto);
         return updatedGiftCertificateDto;
     }

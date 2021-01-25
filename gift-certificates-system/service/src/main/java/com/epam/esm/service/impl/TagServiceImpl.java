@@ -74,6 +74,7 @@ public class TagServiceImpl implements TagService {
                         ExceptionMessageKey.TAG_NOT_FOUND_BY_NAME, String.valueOf(name)));
     }
 
+    @Transactional
     @Override
     public boolean isExists(String name) throws IncorrectParameterValueException {
         Optional<Tag> existingTagOptional = tagDao.findByName(name);

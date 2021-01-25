@@ -13,7 +13,6 @@ import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import com.epam.esm.util.Page;
-import com.epam.esm.validator.GiftCertificateValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,11 +53,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throws IncorrectParameterValueException {
         addAndSetTags(giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        if (giftCertificate.getId() != null) {
-            throw new IncorrectParameterValueException(ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID,
-                    String.valueOf(giftCertificate));
-        }
-        GiftCertificateValidator.validate(giftCertificate);
         LocalDateTime currentTime = LocalDateTime.now();
         giftCertificate.setCreateDate(currentTime);
         giftCertificate.setLastUpdateDate(currentTime);
@@ -82,7 +76,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificateDto findGiftCertificateById(long id)
             throws IncorrectParameterValueException, ResourceNotFoundException {
-        GiftCertificateValidator.validateId(id);
         Optional<GiftCertificate> foundGiftCertificateOptional = giftCertificateDao.findById(id);
         return foundGiftCertificateOptional
                 .map(foundGiftCertificate -> modelMapper.map(foundGiftCertificate, GiftCertificateDto.class))
@@ -92,13 +85,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto)
+    public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto)
             throws IncorrectParameterValueException {
         addAndSetTags(giftCertificateDto);
-        GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(giftCertificateDto.getId());
+        GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(id);
         updateFields(foundGiftCertificateDto, giftCertificateDto);
         GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
-        GiftCertificateValidator.validate(foundGiftCertificate);
         GiftCertificate updatedGiftCertificate = giftCertificateDao.update(foundGiftCertificate);
         return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
     }
@@ -124,7 +116,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDto.setTags(tags);
     }
 
-    private void updateFields(GiftCertificateDto foundGiftCertificate, GiftCertificateDto receivedGiftCertificate) {
+    private void updateFields(GiftCertificateDto foundGiftCertificate, GiftCertificateDto receivedGiftCertificate) { // TODO: 25.01.2021 remove GiftCertificateDto, add GiftCertificate
         if (receivedGiftCertificate.getDuration() != 0) {
             foundGiftCertificate.setDuration(receivedGiftCertificate.getDuration());
         }

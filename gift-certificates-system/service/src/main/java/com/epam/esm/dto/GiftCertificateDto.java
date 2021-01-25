@@ -1,5 +1,6 @@
 package com.epam.esm.dto;
 
+import com.epam.esm.exception.ExceptionMessageKey;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Builder;
@@ -8,6 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
+import javax.validation.constraints.Null;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,10 +34,19 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class GiftCertificateDto extends RepresentationModel<TagDto> {
 
+    @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID)
     private Long id;
+    @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)
+    @Size(max = 100, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)
     private String name;
+    @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION)
+    @Size(max = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION)
     private String description;
+    @DecimalMin(value = "0.01",message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE)
+    @Digits(integer = 6, fraction = 2, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE)
     private BigDecimal price;
+    @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION)
+    @Max(value = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION)
     private int duration;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;

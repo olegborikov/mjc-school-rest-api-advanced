@@ -15,12 +15,12 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.GiftCertificate}.
      */
     public final String GIFT_CERTIFICATE_NOT_FOUND_BY_ID = "giftCertificate.notFoundById";
-    public final String GIFT_CERTIFICATE_HAS_ID = "giftCertificate.hasId";
+    public final String GIFT_CERTIFICATE_HAS_ID = "{giftCertificate.hasId}";
     public final String INCORRECT_GIFT_CERTIFICATE_ID = "{giftCertificate.incorrectId}";
-    public final String INCORRECT_GIFT_CERTIFICATE_NAME = "giftCertificate.incorrectName";
-    public final String INCORRECT_GIFT_CERTIFICATE_DESCRIPTION = "giftCertificate.incorrectDescription";
-    public final String INCORRECT_GIFT_CERTIFICATE_PRICE = "giftCertificate.incorrectPrice";
-    public final String INCORRECT_GIFT_CERTIFICATE_DURATION = "giftCertificate.incorrectDuration";
+    public final String INCORRECT_GIFT_CERTIFICATE_NAME = "{giftCertificate.incorrectName}";
+    public final String INCORRECT_GIFT_CERTIFICATE_DESCRIPTION = "{giftCertificate.incorrectDescription}";
+    public final String INCORRECT_GIFT_CERTIFICATE_PRICE = "{giftCertificate.incorrectPrice}";
+    public final String INCORRECT_GIFT_CERTIFICATE_DURATION = "{giftCertificate.incorrectDuration}";
 
     /**
      * Keys for exception messages associated with {@link com.epam.esm.entity.Tag}.

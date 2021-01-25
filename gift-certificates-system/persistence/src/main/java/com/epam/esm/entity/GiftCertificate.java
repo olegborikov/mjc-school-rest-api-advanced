@@ -40,7 +40,9 @@ public class GiftCertificate {
     @Column(precision = 8, scale = 2)
     private BigDecimal price;
     private int duration;
+    @Column(columnDefinition = "datetime")
     private LocalDateTime createDate;
+    @Column(columnDefinition = "datetime")
     private LocalDateTime lastUpdateDate;
     @ManyToMany
     @JoinTable(
