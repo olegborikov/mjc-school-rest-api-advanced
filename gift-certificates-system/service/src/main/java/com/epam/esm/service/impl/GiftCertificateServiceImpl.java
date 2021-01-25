@@ -7,7 +7,6 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.ExceptionMessageKey;
-import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
@@ -49,8 +48,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto)
-            throws IncorrectParameterValueException {
+    public GiftCertificateDto addGiftCertificate(GiftCertificateDto giftCertificateDto) {
         addAndSetTags(giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
         LocalDateTime currentTime = LocalDateTime.now();
@@ -74,8 +72,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificateDto findGiftCertificateById(long id)
-            throws IncorrectParameterValueException, ResourceNotFoundException {
+    public GiftCertificateDto findGiftCertificateById(long id) throws ResourceNotFoundException {
         Optional<GiftCertificate> foundGiftCertificateOptional = giftCertificateDao.findById(id);
         return foundGiftCertificateOptional
                 .map(foundGiftCertificate -> modelMapper.map(foundGiftCertificate, GiftCertificateDto.class))
@@ -85,8 +82,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto)
-            throws IncorrectParameterValueException {
+    public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto) {
         addAndSetTags(giftCertificateDto);
         GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(id);
         updateFields(foundGiftCertificateDto, giftCertificateDto);
@@ -97,7 +93,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public void removeGiftCertificate(long id) throws IncorrectParameterValueException {
+    public void removeGiftCertificate(long id) {
         findGiftCertificateById(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);

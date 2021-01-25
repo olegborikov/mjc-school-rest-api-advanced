@@ -5,7 +5,6 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ExceptionMessageKey;
-import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
@@ -40,7 +39,7 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public TagDto addTag(TagDto tagDto) throws IncorrectParameterValueException, ResourceExistsException {
+    public TagDto addTag(TagDto tagDto) throws ResourceExistsException {
         Tag tag = modelMapper.map(tagDto, Tag.class);
         if (isExists(tag.getName())) {
             throw new ResourceExistsException(ExceptionMessageKey.TAG_ALREADY_EXISTS, String.valueOf(tag.getName()));
@@ -59,7 +58,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagDto findTagById(long id) throws IncorrectParameterValueException, ResourceNotFoundException {
+    public TagDto findTagById(long id) throws ResourceNotFoundException {
         Optional<Tag> foundTagOptional = tagDao.findById(id);
         return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -67,7 +66,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagDto findTagByName(String name) throws IncorrectParameterValueException, ResourceNotFoundException {
+    public TagDto findTagByName(String name) throws ResourceNotFoundException {
         Optional<Tag> foundTagOptional = tagDao.findByName(name);
         return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -76,14 +75,14 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public boolean isExists(String name) throws IncorrectParameterValueException {
+    public boolean isExists(String name) {
         Optional<Tag> existingTagOptional = tagDao.findByName(name);
         return existingTagOptional.isPresent();
     }
 
     @Transactional
     @Override
-    public void removeTag(long id) throws IncorrectParameterValueException {
+    public void removeTag(long id) {
         findTagById(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);

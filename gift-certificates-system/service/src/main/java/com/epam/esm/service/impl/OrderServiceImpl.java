@@ -7,7 +7,6 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.exception.ExceptionMessageKey;
-import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.OrderService;
@@ -42,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public OrderDto addOrder(OrderDto orderDto) throws IncorrectParameterValueException {
+    public OrderDto addOrder(OrderDto orderDto) {
         Order order = modelMapper.map(orderDto, Order.class);
         GiftCertificateDto foundGiftCertificateDto
                 = giftCertificateService.findGiftCertificateById(orderDto.getGiftCertificateId());
@@ -55,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto findOrderById(long id) throws IncorrectParameterValueException {
+    public OrderDto findOrderById(long id) {
         Optional<Order> foundOrderOptional = orderDao.findById(id);
         return foundOrderOptional
                 .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))
@@ -64,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findOrdersByUserId(long userId, PageDto pageDto) throws IncorrectParameterValueException {
+    public List<OrderDto> findOrdersByUserId(long userId, PageDto pageDto) {
         Page page = modelMapper.map(pageDto, Page.class);
         List<Order> foundOrders = orderDao.findByUserId(userId, page);
         return foundOrders.stream()

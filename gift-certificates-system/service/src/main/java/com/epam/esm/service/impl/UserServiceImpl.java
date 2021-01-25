@@ -5,7 +5,6 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.entity.User;
 import com.epam.esm.exception.ExceptionMessageKey;
-import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.UserService;
 import com.epam.esm.util.Page;
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserById(long id) throws IncorrectParameterValueException, ResourceNotFoundException {
+    public UserDto findUserById(long id) throws ResourceNotFoundException {
         Optional<User> foundUserOptional = userDao.findById(id);
         return foundUserOptional.map(foundUser -> modelMapper.map(foundUser, UserDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException(

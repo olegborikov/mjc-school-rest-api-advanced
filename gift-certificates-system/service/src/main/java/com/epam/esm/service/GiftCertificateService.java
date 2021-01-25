@@ -4,7 +4,6 @@ import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.dto.PageDto;
 import com.epam.esm.exception.ExceptionMessageKey;
-import com.epam.esm.exception.IncorrectParameterValueException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import org.springframework.validation.annotation.Validated;
 
@@ -15,21 +14,19 @@ import java.util.List;
 @Validated
 public interface GiftCertificateService {
 
-    GiftCertificateDto addGiftCertificate(@Valid GiftCertificateDto giftCertificateDto)
-            throws IncorrectParameterValueException;
+    GiftCertificateDto addGiftCertificate(@Valid GiftCertificateDto giftCertificateDto);
 
     List<GiftCertificateDto> findGiftCertificates(
             GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, @Valid PageDto pageDto);
 
     GiftCertificateDto findGiftCertificateById(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
-            throws IncorrectParameterValueException, ResourceNotFoundException;
+            throws ResourceNotFoundException;
 
     GiftCertificateDto updateGiftCertificate(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id,
-            @Valid GiftCertificateDto giftCertificateDto) throws IncorrectParameterValueException;
+            @Valid GiftCertificateDto giftCertificateDto);
 
     void removeGiftCertificate(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
-            throws IncorrectParameterValueException;
+            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id);
 }

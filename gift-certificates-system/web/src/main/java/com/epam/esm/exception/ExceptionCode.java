@@ -14,7 +14,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 public class ExceptionCode {
 
     /**
-     * Exception code in case generating {@link com.epam.esm.exception.IncorrectParameterValueException}.
+     * Exception code in case generating {@link javax.validation.ConstraintViolationException}.
      */
     public final int INCORRECT_PARAMETER_VALUE = 40;
     /**
