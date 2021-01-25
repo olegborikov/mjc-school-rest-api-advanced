@@ -25,8 +25,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String FIND_ALL = "SELECT g FROM GiftCertificate g";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id = :gift_certificate_id";
-    private static final String FIND_BY_QUERY_PARAMETERS = "SELECT g FROM GiftCertificate g LEFT JOIN "
-            + "g.tags t";
+    private static final String FIND_BY_QUERY_PARAMETERS = "SELECT g FROM GiftCertificate g LEFT JOIN g.tags t";
     @PersistenceContext
     private EntityManager entityManager;
 

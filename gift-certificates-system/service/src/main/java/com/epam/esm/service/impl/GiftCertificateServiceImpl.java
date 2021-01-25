@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,9 +86,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto) {
         addAndSetTags(giftCertificateDto);
         GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(id);
-        updateFields(foundGiftCertificateDto, giftCertificateDto);
-        GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
-        GiftCertificate updatedGiftCertificate = giftCertificateDao.update(foundGiftCertificate);
+        @Valid GiftCertificateDto updatedFieldsGiftCertificateDto
+                = updateFields(foundGiftCertificateDto, giftCertificateDto);
+        GiftCertificate updatedFieldsGiftCertificate
+                = modelMapper.map(updatedFieldsGiftCertificateDto, GiftCertificate.class);
+        GiftCertificate updatedGiftCertificate = giftCertificateDao.update(updatedFieldsGiftCertificate);
         return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
     }
 
@@ -112,7 +115,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDto.setTags(tags);
     }
 
-    private void updateFields(GiftCertificateDto foundGiftCertificate, GiftCertificateDto receivedGiftCertificate) { // TODO: 25.01.2021 remove GiftCertificateDto, add GiftCertificate
+    private GiftCertificateDto updateFields(GiftCertificateDto foundGiftCertificate,
+                                            GiftCertificateDto receivedGiftCertificate) {
         if (receivedGiftCertificate.getDuration() != 0) {
             foundGiftCertificate.setDuration(receivedGiftCertificate.getDuration());
         }
@@ -127,5 +131,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         foundGiftCertificate.setLastUpdateDate(LocalDateTime.now());
         foundGiftCertificate.setTags(receivedGiftCertificate.getTags());
+        return foundGiftCertificate;
     }
 }

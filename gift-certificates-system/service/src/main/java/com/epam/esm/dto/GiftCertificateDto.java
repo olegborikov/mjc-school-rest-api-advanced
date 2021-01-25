@@ -1,5 +1,7 @@
 package com.epam.esm.dto;
 
+import com.epam.esm.dto.group.AddGroup;
+import com.epam.esm.dto.group.UpdateGroup;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -34,7 +36,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class GiftCertificateDto extends RepresentationModel<TagDto> {
 
-    @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID)
+    @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID, groups = AddGroup.class)
+    @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = UpdateGroup.class)
     private Long id;
     @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)
     @Size(max = 100, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)

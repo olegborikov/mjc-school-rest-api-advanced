@@ -3,6 +3,8 @@ package com.epam.esm.service;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateQueryParametersDto;
 import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.group.AddGroup;
+import com.epam.esm.dto.group.UpdateGroup;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.ResourceNotFoundException;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +16,7 @@ import java.util.List;
 @Validated
 public interface GiftCertificateService {
 
+    @Validated(AddGroup.class)
     GiftCertificateDto addGiftCertificate(@Valid GiftCertificateDto giftCertificateDto);
 
     List<GiftCertificateDto> findGiftCertificates(
@@ -23,9 +26,10 @@ public interface GiftCertificateService {
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
             throws ResourceNotFoundException;
 
+    @Validated(UpdateGroup.class)
     GiftCertificateDto updateGiftCertificate(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id,
-            @Valid GiftCertificateDto giftCertificateDto);
+            GiftCertificateDto giftCertificateDto);
 
     void removeGiftCertificate(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id);
