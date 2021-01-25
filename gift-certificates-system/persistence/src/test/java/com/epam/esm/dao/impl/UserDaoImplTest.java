@@ -31,6 +31,11 @@ class UserDaoImplTest {
     private static Page page2;
     private static Page page3;
 
+    @Autowired
+    public UserDaoImplTest(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     @BeforeAll
     static void setUp() {
         user1 = User.builder()
@@ -57,11 +62,6 @@ class UserDaoImplTest {
         page1 = null;
         page2 = null;
         page3 = null;
-    }
-
-    @Autowired
-    public UserDaoImplTest(UserDao userDao) {
-        this.userDao = userDao;
     }
 
     @Test

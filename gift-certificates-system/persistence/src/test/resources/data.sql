@@ -31,3 +31,12 @@ INSERT INTO user(name)
 VALUES ('Gleb');
 INSERT INTO user(name)
 VALUES ('Ivan');
+
+INSERT INTO gift_certificate_order(create_date, price, user_id, gift_certificate_id)
+VALUES ('2019-01-01 21:00:00', 1000, 1, 2);
+INSERT INTO gift_certificate_order(create_date, price, user_id, gift_certificate_id)
+VALUES ('2021-01-01 20:00:00', 500, 1, 1);
+INSERT INTO gift_certificate_order(create_date, price, user_id, gift_certificate_id)
+VALUES ('2020-08-02 12:00:00', 100, 2, 3);
+INSERT INTO gift_certificate_order(create_date, price, user_id, gift_certificate_id)
+VALUES ('2018-05-16 12:00:00', 1500, 3, 2);

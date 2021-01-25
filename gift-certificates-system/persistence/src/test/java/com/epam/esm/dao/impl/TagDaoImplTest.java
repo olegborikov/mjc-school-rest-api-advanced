@@ -41,6 +41,11 @@ class TagDaoImplTest {
     private static Page page2;
     private static Page page3;
 
+    @Autowired
+    public TagDaoImplTest(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
+
     @BeforeAll
     static void setUp() {
         tag1 = Tag.builder()
@@ -90,11 +95,6 @@ class TagDaoImplTest {
         page1 = null;
         page2 = null;
         page3 = null;
-    }
-
-    @Autowired
-    public TagDaoImplTest(TagDao tagDao) {
-        this.tagDao = tagDao;
     }
 
     @Test
