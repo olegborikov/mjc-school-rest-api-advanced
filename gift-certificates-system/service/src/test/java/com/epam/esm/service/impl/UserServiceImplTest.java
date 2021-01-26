@@ -91,7 +91,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAllTagsIncorrectDataShouldThrowExceptionTest() {
+    void findAllUsersIncorrectDataShouldThrowExceptionTest() {
         // given
         when(userDao.findAll(any(Page.class))).thenReturn(Arrays.asList(user1, user2));
 
@@ -133,7 +133,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findUserByHighestCostOfAllOrdersCorrectDataShouldReturnUserDtoTest() {
+    void findUserByHighestCostOfAllOrdersShouldReturnUserDtoTest() {
         // given
         when(userDao.findByHighestCostOfAllOrders()).thenReturn(Optional.of(user1));
 
@@ -145,7 +145,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findUserByHighestCostOfAllOrdersCorrectDataShouldThrowExceptionTest() {
+    void findUserByHighestCostOfAllOrdersShouldThrowExceptionTest() {
         // given
         when(userDao.findByHighestCostOfAllOrders()).thenReturn(Optional.empty());
 

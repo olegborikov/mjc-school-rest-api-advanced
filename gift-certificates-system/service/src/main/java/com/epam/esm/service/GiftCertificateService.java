@@ -19,7 +19,7 @@ public interface GiftCertificateService {
     @Validated(AddGroup.class)
     GiftCertificateDto addGiftCertificate(@Valid GiftCertificateDto giftCertificateDto);
 
-    List<GiftCertificateDto> findGiftCertificates(
+    List<GiftCertificateDto> findGiftCertificates(// TODO: 26.01.2021 rename
             GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, @Valid PageDto pageDto);
 
     GiftCertificateDto findGiftCertificateById(
