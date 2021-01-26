@@ -27,6 +27,7 @@ class UserDaoImplTest {
 
     private final UserDao userDao;
     private static User user1;
+    private static User user2;
     private static Page page1;
     private static Page page2;
     private static Page page3;
@@ -41,6 +42,10 @@ class UserDaoImplTest {
         user1 = User.builder()
                 .id(1L)
                 .name("Oleg")
+                .build();
+        user2 = User.builder()
+                .id(3L)
+                .name("Ivan")
                 .build();
         page1 = Page.builder()
                 .number(1)
@@ -59,6 +64,7 @@ class UserDaoImplTest {
     @AfterAll
     static void tearDown() {
         user1 = null;
+        user2 = null;
         page1 = null;
         page2 = null;
         page3 = null;
@@ -140,5 +146,14 @@ class UserDaoImplTest {
 
         // then
         assertThrows(UnsupportedOperationException.class, () -> userDao.remove(id));
+    }
+
+    @Test
+    void findByHighestCostOfAllOrdersShouldReturnUserOptionalTest() {
+        // when
+        Optional<User> actual = userDao.findByHighestCostOfAllOrders();
+
+        // then
+        assertEquals(Optional.of(user2), actual);
     }
 }

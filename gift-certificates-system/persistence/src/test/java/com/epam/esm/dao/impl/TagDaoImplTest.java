@@ -37,6 +37,7 @@ class TagDaoImplTest {
     private static Tag tag4;
     private static Tag tag5;
     private static Tag tag6;
+    private static Tag tag7;
     private static Page page1;
     private static Page page2;
     private static Page page3;
@@ -70,6 +71,10 @@ class TagDaoImplTest {
                 .id(3L)
                 .name("work")
                 .build();
+        tag7 = Tag.builder()
+                .id(2L)
+                .name("school")
+                .build();
         page1 = Page.builder()
                 .number(1)
                 .size(5)
@@ -92,6 +97,7 @@ class TagDaoImplTest {
         tag4 = null;
         tag5 = null;
         tag6 = null;
+        tag7 = null;
         page1 = null;
         page2 = null;
         page3 = null;
@@ -236,6 +242,30 @@ class TagDaoImplTest {
 
         // when
         Optional<Tag> actual = tagDao.findByName(name);
+
+        // then
+        assertFalse(actual.isPresent());
+    }
+
+    @Test
+    void findMostPopularOfUserCorrectDataShouldReturnTagOptionalTest() {
+        // given
+        long userId = 1;
+
+        // when
+        Optional<Tag> actual = tagDao.findMostPopularOfUser(userId);
+
+        // then
+        assertEquals(Optional.of(tag7), actual);
+    }
+
+    @Test
+    void findMostPopularOfUserCorrectDataShouldReturnEmptyOptionalTest() {
+        // given
+        long userId = 8;
+
+        // when
+        Optional<Tag> actual = tagDao.findMostPopularOfUser(userId);
 
         // then
         assertFalse(actual.isPresent());
