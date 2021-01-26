@@ -10,6 +10,11 @@ public class ServiceException extends RuntimeException {
         this.messageParameter = messageParameter;
     }
 
+    public ServiceException(String messageKey) {
+        this.messageKey = messageKey;
+        this.messageParameter = null;
+    }
+
     public String getMessageKey() {
         return messageKey;
     }

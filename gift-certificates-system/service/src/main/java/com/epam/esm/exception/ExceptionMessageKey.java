@@ -27,6 +27,7 @@ public class ExceptionMessageKey {
      */
     public final String TAG_NOT_FOUND_BY_ID = "tag.notFoundById";
     public final String TAG_NOT_FOUND_BY_NAME = "tag.notFoundByName";
+    public final String MOST_POPULAR_TAG_OF_USER_NOT_FOUND = "tag.mostPopular.notFoundByUser";
     public final String TAG_ALREADY_EXISTS = "tag.alreadyExists";
     public final String TAG_HAS_ID = "{tag.hasId}";
     public final String INCORRECT_TAG_ID = "{tag.incorrectId}";
@@ -36,6 +37,7 @@ public class ExceptionMessageKey {
      * Keys for exception messages associated with {@link com.epam.esm.entity.User}.
      */
     public final String USER_NOT_FOUND_BY_ID = "user.notFoundById";
+    public final String USER_NOT_FOUND_BY_HIGHEST_COST_OF_ALL_ORDERS = "user.notFoundByHighestCostOfAllOrders";
     public final String INCORRECT_USER_ID = "{user.incorrectId}";
 
     /**

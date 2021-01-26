@@ -44,4 +44,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         ExceptionMessageKey.USER_NOT_FOUND_BY_ID, String.valueOf(id)));
     }
+
+    @Override
+    public UserDto findUserByHighestCostOfAllOrders() {
+        Optional<User> foundUserOptional = userDao.findByHighestCostOfAllOrders();
+        return foundUserOptional.map(foundUser -> modelMapper.map(foundUser, UserDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ExceptionMessageKey.USER_NOT_FOUND_BY_HIGHEST_COST_OF_ALL_ORDERS));
+    }
 }

@@ -3,11 +3,14 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.TagDto;
+import com.epam.esm.dto.UserDto;
 import com.epam.esm.entity.Tag;
+import com.epam.esm.entity.User;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.epam.esm.exception.ResourceExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
+import com.epam.esm.service.UserService;
 import com.epam.esm.util.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +32,13 @@ import java.util.stream.Collectors;
 public class TagServiceImpl implements TagService {
 
     private final TagDao tagDao;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TagServiceImpl(TagDao tagDao, ModelMapper modelMapper) {
+    public TagServiceImpl(TagDao tagDao, UserService userService, ModelMapper modelMapper) {
         this.tagDao = tagDao;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
@@ -86,5 +91,16 @@ public class TagServiceImpl implements TagService {
         findTagById(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);
+    }
+
+    @Transactional
+    @Override
+    public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() {
+        UserDto foundUserDto = userService.findUserByHighestCostOfAllOrders();
+        User foundUser = modelMapper.map(foundUserDto, User.class);
+        Optional<Tag> foundTagOptional = tagDao.findMostPopularOfUser(foundUser.getId());
+        return foundTagOptional.map(foundTag -> modelMapper.map(foundTag, TagDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ExceptionMessageKey.MOST_POPULAR_TAG_OF_USER_NOT_FOUND, String.valueOf(foundUser.getId())));
     }
 }

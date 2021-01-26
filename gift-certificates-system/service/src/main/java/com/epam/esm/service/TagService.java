@@ -31,4 +31,6 @@ public interface TagService {
                      @Size(max = 100, message = ExceptionMessageKey.INCORRECT_TAG_NAME) String name);
 
     void removeTag(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id);
+
+    TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders();
 }

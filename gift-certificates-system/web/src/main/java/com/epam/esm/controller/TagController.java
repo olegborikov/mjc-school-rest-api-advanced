@@ -48,6 +48,13 @@ public class TagController {
         return foundTagDto;
     }
 
+    @GetMapping("/popular")
+    public TagDto getMostPopularTagOfUserWithHighestCostOfAllOrders() {
+        TagDto foundTagDto = tagService.findMostPopularTagOfUserWithHighestCostOfAllOrders();
+        addRelationship(foundTagDto);
+        return foundTagDto;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TagDto addTag(@RequestBody TagDto tagDto) {

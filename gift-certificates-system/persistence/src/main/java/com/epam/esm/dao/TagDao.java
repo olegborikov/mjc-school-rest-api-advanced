@@ -26,4 +26,6 @@ public interface TagDao extends CrudDao<Tag> {
      * @param id the id of tag to remove from cross table
      */
     void removeGiftCertificateHasTag(long id);
+
+    Optional<Tag> findMostPopularOfUser(long userId);
 }

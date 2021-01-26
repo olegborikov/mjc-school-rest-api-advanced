@@ -2,6 +2,7 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.entity.Tag;
+import com.epam.esm.entity.User;
 import com.epam.esm.util.Page;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,9 @@ public class TagDaoImpl implements TagDao {
     private static final String FIND_BY_NAME = "SELECT t FROM Tag t WHERE t.name = :name";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE tag_id = :tag_id";
+    private static final String FIND_MOST_POPULAR_OF_USER = "SELECT t FROM GiftCertificate g INNER JOIN g.tags t "
+            + "WHERE g.id IN (SELECT o.giftCertificateId FROM Order o "
+            + "WHERE o.userId = :userId) GROUP BY t.id ORDER BY COUNT(t.id) DESC";
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -67,6 +71,15 @@ public class TagDaoImpl implements TagDao {
     public Optional<Tag> findByName(String name) {
         return entityManager.createQuery(FIND_BY_NAME, Tag.class)
                 .setParameter("name", name)
+                .getResultList().stream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Tag> findMostPopularOfUser(long userId) {
+        return entityManager.createQuery(FIND_MOST_POPULAR_OF_USER, Tag.class)
+                .setParameter("userId", userId)
+                .setMaxResults(1)
                 .getResultList().stream()
                 .findFirst();
     }
