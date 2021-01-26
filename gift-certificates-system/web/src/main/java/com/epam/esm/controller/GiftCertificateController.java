@@ -35,7 +35,7 @@ public class GiftCertificateController {
     }
 
     @GetMapping
-    public List<GiftCertificateDto> getGiftCertificates(
+    public List<GiftCertificateDto> getGiftCertificatesByQueryParameters(
             @RequestParam(required = false) String tagName,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
@@ -47,7 +47,7 @@ public class GiftCertificateController {
                 = new GiftCertificateQueryParametersDto(tagName, name, description, sortType, orderType);
         PageDto pageDto = new PageDto(page, size);
         List<GiftCertificateDto> foundGiftCertificatesDto
-                = giftCertificateService.findGiftCertificates(giftCertificateQueryParametersDto, pageDto);
+                = giftCertificateService.findGiftCertificatesByQueryParameters(giftCertificateQueryParametersDto, pageDto);
         foundGiftCertificatesDto.forEach(this::addRelationship);
         return foundGiftCertificatesDto;
     }

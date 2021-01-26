@@ -60,7 +60,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificateDto> findGiftCertificates(
+    public List<GiftCertificateDto> findGiftCertificatesByQueryParameters(
             GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, PageDto pageDto) {
         Page page = modelMapper.map(pageDto, Page.class);
         GiftCertificateQueryParameters giftCertificateQueryParameters

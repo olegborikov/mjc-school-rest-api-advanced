@@ -1,7 +1,7 @@
 package com.epam.esm.dto;
 
-import com.epam.esm.dto.group.AddGroup;
-import com.epam.esm.dto.group.UpdateGroup;
+import com.epam.esm.dto.group.OnCreate;
+import com.epam.esm.dto.group.OnUpdate;
 import com.epam.esm.exception.ExceptionMessageKey;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -34,10 +34,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class GiftCertificateDto extends RepresentationModel<TagDto> {
+public class GiftCertificateDto extends RepresentationModel<TagDto> {// TODO: 27.01.2021 add groups to each annotation
 
-    @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID, groups = AddGroup.class)
-    @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = UpdateGroup.class)
+    @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID, groups = OnCreate.class)
+    @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = OnUpdate.class)
     private Long id;
     @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)
     @Size(max = 100, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME)
