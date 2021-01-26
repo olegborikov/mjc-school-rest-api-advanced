@@ -18,5 +18,5 @@ public interface UserService {
     UserDto findUserById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long id)
             throws ResourceNotFoundException;
 
-    UserDto findUserByHighestCostOfAllOrders();
+    UserDto findUserByHighestCostOfAllOrders() throws ResourceNotFoundException;
 }

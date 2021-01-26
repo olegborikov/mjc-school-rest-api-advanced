@@ -95,7 +95,7 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() {
+    public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() throws ResourceNotFoundException {
         UserDto foundUserDto = userService.findUserByHighestCostOfAllOrders();
         User foundUser = modelMapper.map(foundUserDto, User.class);
         Optional<Tag> foundTagOptional = tagDao.findMostPopularOfUser(foundUser.getId());

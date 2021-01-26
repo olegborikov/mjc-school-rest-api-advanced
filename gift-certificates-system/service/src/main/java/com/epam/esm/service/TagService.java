@@ -32,5 +32,5 @@ public interface TagService {
 
     void removeTag(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id);
 
-    TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders();
+    TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() throws ResourceNotFoundException;
 }
