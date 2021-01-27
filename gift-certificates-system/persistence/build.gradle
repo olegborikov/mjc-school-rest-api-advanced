@@ -5,6 +5,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    implementation 'org.hibernate:hibernate-envers:5.4.27.Final'
     implementation 'mysql:mysql-connector-java:8.0.20'
     testImplementation 'com.h2database:h2:1.4.197'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
