@@ -41,20 +41,27 @@ public class GiftCertificateDto extends RepresentationModel<TagDto> {
     @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID, groups = {OnCreate.class, OnUpdate.class})
     private Long id;
     @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME, groups = OnCreate.class)
-    @Size(max = 100, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME, groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "[\\s\\S]*\\S[\\s\\S]*", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME, groups = OnUpdate.class)
+    @Size(max = 100, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME,
+            groups = {OnCreate.class, OnUpdate.class})
+    @Pattern(regexp = "[\\s\\S]*\\S[\\s\\S]*", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_NAME,
+            groups = OnUpdate.class)
     private String name;
     @NotBlank(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION, groups = OnCreate.class)
-    @Size(max = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION, groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "[\\s\\S]*\\S[\\s\\S]*", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION, groups = OnUpdate.class)
+    @Size(max = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION,
+            groups = {OnCreate.class, OnUpdate.class})
+    @Pattern(regexp = "[\\s\\S]*\\S[\\s\\S]*", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DESCRIPTION,
+            groups = OnUpdate.class)
     private String description;
     @NotNull(message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE, groups = OnCreate.class)
-    @DecimalMin(value = "0.01", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE, groups = {OnCreate.class, OnUpdate.class})
-    @Digits(integer = 6, fraction = 2, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE, groups = {OnCreate.class, OnUpdate.class})
+    @DecimalMin(value = "0.01", message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE,
+            groups = {OnCreate.class, OnUpdate.class})
+    @Digits(integer = 6, fraction = 2, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_PRICE,
+            groups = {OnCreate.class, OnUpdate.class})
     private BigDecimal price;
     @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION, groups = OnCreate.class)
     @Min(value = 0, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION, groups = OnUpdate.class)
-    @Max(value = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION, groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 1000, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_DURATION,
+            groups = {OnCreate.class, OnUpdate.class})
     private int duration;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;

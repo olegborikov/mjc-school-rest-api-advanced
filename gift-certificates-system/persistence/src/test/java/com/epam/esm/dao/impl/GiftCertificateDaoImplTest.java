@@ -277,7 +277,7 @@ class GiftCertificateDaoImplTest {
     @Test
     void findByQueryParametersIncorrectDataShouldThrowExceptionTest() {
         // then
-        assertThrows(InvalidDataAccessApiUsageException.class, ()
-                -> giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters2, page3));
+        assertThrows(InvalidDataAccessApiUsageException.class,
+                () -> giftCertificateDao.findByQueryParameters(giftCertificateQueryParameters2, page3));
     }
 }

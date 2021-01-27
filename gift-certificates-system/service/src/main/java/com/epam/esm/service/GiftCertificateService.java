@@ -67,9 +67,8 @@ public interface GiftCertificateService {
      * @return the updated gift certificate dto
      */
     @Validated(OnUpdate.class)
-    GiftCertificateDto updateGiftCertificate(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID,
-                    groups = OnUpdate.class) long id,
+    GiftCertificateDto updateGiftCertificate(@Valid @Min(value = 1,
+            message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = OnUpdate.class) long id,
             @Valid @NotNull GiftCertificateDto giftCertificateDto);
 
     /**

@@ -57,9 +57,11 @@ public class ExceptionController {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionHandlerResponse handleConstraintViolationException(ConstraintViolationException exception) {
-        String exceptionMessage = exception.getMessage();// TODO: 24.01.2021 refactor message
+        StringBuilder exceptionMessage = new StringBuilder();
+        exception.getConstraintViolations()
+                .forEach(constraintViolation -> exceptionMessage.append(constraintViolation.getMessage()));
         log.error(exceptionMessage);
-        return new ExceptionHandlerResponse(ExceptionCode.INCORRECT_PARAMETER_VALUE, exceptionMessage);
+        return new ExceptionHandlerResponse(ExceptionCode.INCORRECT_PARAMETER_VALUE, exceptionMessage.toString());
     }
 
     /**

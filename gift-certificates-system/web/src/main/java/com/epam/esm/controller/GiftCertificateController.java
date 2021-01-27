@@ -145,7 +145,7 @@ public class GiftCertificateController {
                 .updateGiftCertificate(giftCertificateDto.getId(), giftCertificateDto)).withRel("update"));
         giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class)
                 .deleteGiftCertificate(giftCertificateDto.getId())).withRel("delete"));
-        giftCertificateDto.getTags().forEach(tagDto
-                -> tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel()));
+        giftCertificateDto.getTags().forEach(
+                tagDto -> tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel()));
     }
 }
