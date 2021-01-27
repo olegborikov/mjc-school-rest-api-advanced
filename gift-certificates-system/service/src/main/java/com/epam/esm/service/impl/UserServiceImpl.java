@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class {@code UserServiceImpl} is implementation of interface {@link UserService}
+ * and intended to work with {@link com.epam.esm.entity.User}.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

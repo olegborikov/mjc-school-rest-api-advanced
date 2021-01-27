@@ -95,7 +95,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public void removeGiftCertificate(long id) {
+    public void removeGiftCertificate(long id) throws ResourceNotFoundException{
         findGiftCertificateById(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);

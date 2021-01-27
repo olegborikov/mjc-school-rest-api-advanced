@@ -9,6 +9,13 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+/**
+ * Class {@code PageDto} is implementation of pattern DTO
+ * for transmission {@link com.epam.esm.util.Page} between service and controller.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor

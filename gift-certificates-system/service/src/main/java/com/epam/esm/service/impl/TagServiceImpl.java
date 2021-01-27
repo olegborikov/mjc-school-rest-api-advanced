@@ -87,7 +87,7 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public void removeTag(long id) {
+    public void removeTag(long id) throws ResourceNotFoundException {
         findTagById(id);
         tagDao.removeGiftCertificateHasTag(id);
         tagDao.remove(id);

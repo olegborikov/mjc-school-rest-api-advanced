@@ -22,6 +22,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class {@code OrderServiceImpl} is implementation of interface {@link OrderService}
+ * and intended to work with {@link com.epam.esm.entity.Order}.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 

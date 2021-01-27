@@ -14,6 +14,13 @@ import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Class {@code OrderDto} is implementation of pattern DTO
+ * for transmission {@link com.epam.esm.entity.Order} between service and controller.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
