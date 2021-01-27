@@ -10,6 +10,12 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class {@code UserDaoImpl} is implementation of interface {@link UserDao} and intended to work with user table.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
 

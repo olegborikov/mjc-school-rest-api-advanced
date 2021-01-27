@@ -15,6 +15,13 @@ import java.util.List;
  */
 public interface GiftCertificateDao extends CrudDao<GiftCertificate> {
 
+    /**
+     * Find gift certificates by query parameters in database.
+     *
+     * @param giftCertificateQueryParameters the gift certificate query parameters
+     * @param page                           the page containing information about pagination
+     * @return the list of found gift certificates
+     */
     List<GiftCertificate> findByQueryParameters(
             GiftCertificateQueryParameters giftCertificateQueryParameters, Page page);
 

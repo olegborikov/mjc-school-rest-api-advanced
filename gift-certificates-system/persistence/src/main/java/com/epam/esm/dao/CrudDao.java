@@ -22,6 +22,12 @@ public interface CrudDao<T> {
      */
     T add(T t);
 
+    /**
+     * Find all entities in database.
+     *
+     * @param page the page containing information about pagination
+     * @return the list of found entities
+     */
     List<T> findAll(Page page);
 
     /**

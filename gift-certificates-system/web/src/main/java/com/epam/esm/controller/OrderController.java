@@ -18,6 +18,15 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * Class {@code OrderController} is an endpoint of the API which allows to perform operations on orders.
+ * Annotated by {@link RestController} with no parameters to provide an answer in application/json.
+ * Annotated by {@link RequestMapping} with parameter value = "/orders".
+ * So that {@code OrderController} is accessed by sending request to /orders.
+ *
+ * @author Oleg Borikov
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -28,6 +37,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    /**
+     * Get order by id.
+     * Annotated by {@link GetMapping} with parameter value = "/{id}".
+     * Therefore, processes GET requests at /orders/{id}.
+     *
+     * @param id the order id which will be found. Inferred from the request URI
+     * @return the found order dto
+     */
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable long id) {
         OrderDto foundOrderDto = orderService.findOrderById(id);
@@ -35,6 +52,16 @@ public class OrderController {
         return foundOrderDto;
     }
 
+    /**
+     * Get order by user id.
+     * Annotated by {@link GetMapping} with parameter value = "/users/{userId}".
+     * Therefore, processes GET requests at /orders/users/{userId}.
+     *
+     * @param userId the user id which orders will be found. Inferred from the request URI
+     * @param page   the number of page for pagination
+     * @param size   the size of page for pagination
+     * @return the list of all user's orders dto
+     */
     @GetMapping("/users/{userId}")
     public List<OrderDto> getOrdersByUserId(@PathVariable long userId,
                                             @RequestParam(required = false, defaultValue = "1") int page,
@@ -45,6 +72,14 @@ public class OrderController {
         return foundOrdersDto;
     }
 
+    /**
+     * Add new order.
+     * Annotated by {@link PostMapping} with no parameters.
+     * Therefore, processes POST requests at /orders.
+     *
+     * @param orderDto the new order which will be added
+     * @return the new order dto
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDto addOrder(@RequestBody OrderDto orderDto) {

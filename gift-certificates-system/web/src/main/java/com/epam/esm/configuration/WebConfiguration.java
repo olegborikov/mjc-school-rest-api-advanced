@@ -10,6 +10,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -52,6 +53,12 @@ public class WebConfiguration implements WebMvcConfigurer {
         return messageSource;
     }
 
+    /**
+     * Create bean {@link LocalValidatorFactoryBean} which provides
+     * a custom {@link Validator} instead of the one created by default.
+     *
+     * @return the message source
+     */
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean() {
         LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();

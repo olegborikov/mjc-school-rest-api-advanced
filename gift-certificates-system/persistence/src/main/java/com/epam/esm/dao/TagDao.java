@@ -27,5 +27,11 @@ public interface TagDao extends CrudDao<Tag> {
      */
     void removeGiftCertificateHasTag(long id);
 
+    /**
+     * Find the most popular tag of user in database.
+     *
+     * @param userId the user id to find most popular tag
+     * @return the optional of found tag
+     */
     Optional<Tag> findMostPopularOfUser(long userId);
 }

@@ -23,6 +23,16 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * Class {@code GiftCertificateController} is an endpoint of the API
+ * which allows to perform CRUD operations on gift certificates.
+ * Annotated by {@link RestController} with no parameters to provide an answer in application/json.
+ * Annotated by {@link RequestMapping} with parameter value = "/gift-certificates".
+ * So that {@code GiftCertificateController} is accessed by sending request to /gift-certificates.
+ *
+ * @author Oleg Borikov
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/gift-certificates")
 public class GiftCertificateController {
@@ -34,6 +44,20 @@ public class GiftCertificateController {
         this.giftCertificateService = giftCertificateService;
     }
 
+    /**
+     * Get all gift certificates by query parameters.
+     * Annotated by {@link GetMapping} with no parameters.
+     * Therefore, processes GET requests at /gift-certificates.
+     *
+     * @param tagName     the tag name query parameter
+     * @param name        the name query parameter
+     * @param description the description query parameter
+     * @param sortType    the sort type query parameter
+     * @param orderType   the order type query parameter
+     * @param page        the number of page for pagination
+     * @param size        the size of page for pagination
+     * @return the list of found gift certificates dto
+     */
     @GetMapping
     public List<GiftCertificateDto> getGiftCertificatesByQueryParameters(
             @RequestParam(required = false) String tagName,
@@ -52,6 +76,14 @@ public class GiftCertificateController {
         return foundGiftCertificatesDto;
     }
 
+    /**
+     * Get gift certificate by id.
+     * Annotated by {@link GetMapping} with parameter value = "/{id}".
+     * Therefore, processes GET requests at /gift-certificates/{id}.
+     *
+     * @param id the gift certificate id which will be found. Inferred from the request URI
+     * @return the found gift certificate dto
+     */
     @GetMapping("/{id}")
     public GiftCertificateDto getGiftCertificateById(@PathVariable long id) {
         GiftCertificateDto foundGiftCertificateDto = giftCertificateService.findGiftCertificateById(id);
@@ -59,6 +91,14 @@ public class GiftCertificateController {
         return foundGiftCertificateDto;
     }
 
+    /**
+     * Add new gift certificate.
+     * Annotated by {@link PostMapping} with no parameters.
+     * Therefore, processes POST requests at /gift-certificates.
+     *
+     * @param giftCertificateDto the new gift certificate which will be added
+     * @return the added gift certificate dto
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GiftCertificateDto addGiftCertificate(@RequestBody GiftCertificateDto giftCertificateDto) {
@@ -67,6 +107,15 @@ public class GiftCertificateController {
         return addedGiftCertificateDto;
     }
 
+    /**
+     * Update gift certificate.
+     * Annotated by {@link PutMapping} with parameter value = "/{id}".
+     * Therefore, processes PUT requests at /gift-certificates/{id}.
+     *
+     * @param id                 the gift certificate id which will be updated. Inferred from the request URI
+     * @param giftCertificateDto the gift certificate with updated fields
+     * @return the updated gift certificate dto
+     */
     @PutMapping("/{id}")
     public GiftCertificateDto updateGiftCertificate(@PathVariable long id,
                                                     @RequestBody GiftCertificateDto giftCertificateDto) {
@@ -76,6 +125,13 @@ public class GiftCertificateController {
         return updatedGiftCertificateDto;
     }
 
+    /**
+     * Delete gift certificate with the specified id.
+     * Annotated by {@link DeleteMapping} with parameter value = "/{id}".
+     * Therefore, processes DELETE requests at /gift-certificates/{id}.
+     *
+     * @param id the gift certificate id which will be deleted. Inferred from the request URI
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable long id) {
         giftCertificateService.removeGiftCertificate(id);

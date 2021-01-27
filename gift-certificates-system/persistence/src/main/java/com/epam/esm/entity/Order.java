@@ -15,6 +15,12 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Class {@code Order} represents gift_certificate_order entity.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Entity
 @Table(name = "gift_certificate_order")
 @Data

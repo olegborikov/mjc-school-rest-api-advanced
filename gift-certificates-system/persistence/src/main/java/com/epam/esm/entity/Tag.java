@@ -13,6 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
+/**
+ * Class {@code Tag} represents tag entity.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Entity
 @Table(name = "tag")
 @Data

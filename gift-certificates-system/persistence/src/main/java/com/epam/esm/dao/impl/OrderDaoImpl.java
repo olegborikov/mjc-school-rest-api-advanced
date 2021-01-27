@@ -10,6 +10,13 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class {@code OrderDaoImpl} is implementation of interface
+ * {@link OrderDao} and intended to work with gift_certificate_order table.
+ *
+ * @author Oleg Borikov
+ * @version 1.0
+ */
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
