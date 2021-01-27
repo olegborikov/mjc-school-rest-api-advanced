@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ import java.util.List;
  * @version 1.0
  */
 @Entity
+@Table(name = "gift_certificate")
 @Data
 @Builder
 @NoArgsConstructor
@@ -34,23 +36,25 @@ public class GiftCertificate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gift_certificate_id")
     private Long id;
-    @Column(length = 100)
+    @Column(name = "gift_certificate_name")
     private String name;
-    @Column(length = 1000)
+    @Column(name = "description")
     private String description;
-    @Column(precision = 8, scale = 2)
+    @Column(name = "gift_certificate_price")
     private BigDecimal price;
+    @Column(name = "duration")
     private int duration;
-    @Column(columnDefinition = "datetime")
+    @Column(name = "gift_certificate_create_date")
     private LocalDateTime createDate;
-    @Column(columnDefinition = "datetime")
+    @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
     @ManyToMany
     @JoinTable(
             name = "gift_certificate_has_tag",
-            joinColumns = @JoinColumn(name = "gift_certificate_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
+            joinColumns = @JoinColumn(name = "gift_certificate_id_fk"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id_fk")
     )
     private List<Tag> tags;
 }

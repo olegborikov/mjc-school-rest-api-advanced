@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Table;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -28,16 +26,14 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gift_certificate_order_id")
     private Long id;
-    @Column(precision = 8, scale = 2)
+    @Column(name = "gift_certificate_order_price")
     private BigDecimal price;
+    @Column(name = "gift_certificate_order_create_date")
     private LocalDateTime createDate;
+    @Column(name = "user_id_fk")
     private Long userId;
+    @Column(name = "gift_certificate_id_fk")
     private Long giftCertificateId;
-    @ManyToOne
-    @Transient
-    private User user;
-    @ManyToOne
-    @Transient
-    private GiftCertificate giftCertificate;
 }

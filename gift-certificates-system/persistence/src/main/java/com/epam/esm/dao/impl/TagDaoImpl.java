@@ -2,7 +2,6 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.entity.User;
 import com.epam.esm.util.Page;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +22,7 @@ public class TagDaoImpl implements TagDao {
     private static final String FIND_ALL = "SELECT t FROM Tag t";
     private static final String FIND_BY_NAME = "SELECT t FROM Tag t WHERE t.name = :name";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
-            + "WHERE tag_id = :tag_id";
+            + "WHERE tag_id_fk = :tag_id_fk";
     private static final String FIND_MOST_POPULAR_OF_USER = "SELECT t FROM GiftCertificate g INNER JOIN g.tags t "
             + "WHERE g.id IN (SELECT o.giftCertificateId FROM Order o "
             + "WHERE o.userId = :userId) GROUP BY t.id ORDER BY COUNT(t.id) DESC";
@@ -63,7 +62,7 @@ public class TagDaoImpl implements TagDao {
     @Override
     public void removeGiftCertificateHasTag(long id) {
         entityManager.createNativeQuery(REMOVE_GIFT_CERTIFICATE_HAS_TAG)
-                .setParameter("tag_id", id)
+                .setParameter("tag_id_fk", id)
                 .executeUpdate();
     }
 

@@ -24,7 +24,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     private static final String FIND_ALL = "SELECT g FROM GiftCertificate g";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
-            + "WHERE gift_certificate_id = :gift_certificate_id";
+            + "WHERE gift_certificate_id_fk = :gift_certificate_id_fk";
     private static final String FIND_BY_QUERY_PARAMETERS = "SELECT g FROM GiftCertificate g LEFT JOIN g.tags t";
     @PersistenceContext
     private EntityManager entityManager;
@@ -62,7 +62,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public void removeGiftCertificateHasTag(long id) {
         entityManager.createNativeQuery(REMOVE_GIFT_CERTIFICATE_HAS_TAG)
-                .setParameter("gift_certificate_id", id)
+                .setParameter("gift_certificate_id_fk", id)
                 .executeUpdate();
     }
 
