@@ -8,17 +8,18 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Validated
 public interface OrderService {
 
-    OrderDto addOrder(@Valid OrderDto orderDto);
+    OrderDto addOrder(@Valid @NotNull OrderDto orderDto);
 
     OrderDto findOrderById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_ORDER_ID) long id)
             throws ResourceNotFoundException;
 
     List<OrderDto> findOrdersByUserId(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long userId,
-            @Valid PageDto pageDto);
+            @Valid @NotNull PageDto pageDto);
 }

@@ -162,7 +162,7 @@ class TagServiceImplTest {
     void findTagByIdCorrectDataShouldReturnTagDtoTest() {
         // given
         long id = 1;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
+        when(tagDao.findById(any(long.class))).thenReturn(Optional.of(tag1));
 
         // when
         TagDto actual = tagService.findTagById(id);
@@ -175,7 +175,7 @@ class TagServiceImplTest {
     void findTagByIdCorrectDataShouldThrowExceptionTest() {
         // given
         long id = 5;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(tagDao.findById(any(long.class))).thenReturn(Optional.empty());
 
         // then
         assertThrows(ResourceNotFoundException.class, () -> tagService.findTagById(id));
@@ -185,7 +185,7 @@ class TagServiceImplTest {
     void findTagByIdIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
+        when(tagDao.findById(any(long.class))).thenReturn(Optional.of(tag1));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> tagService.findTagById(id));
@@ -254,9 +254,9 @@ class TagServiceImplTest {
     void removeTagCorrectDataShouldNotThrowExceptionTest() {
         // given
         long id = 1;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
-        doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
-        doNothing().when(tagDao).remove(any(Long.class));
+        when(tagDao.findById(any(long.class))).thenReturn(Optional.of(tag1));
+        doNothing().when(tagDao).removeGiftCertificateHasTag(any(long.class));
+        doNothing().when(tagDao).remove(any(long.class));
 
         // then
         assertDoesNotThrow(() -> tagService.removeTag(id));
@@ -266,9 +266,9 @@ class TagServiceImplTest {
     void removeTagIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(tagDao.findById(any(Long.class))).thenReturn(Optional.of(tag1));
-        doNothing().when(tagDao).removeGiftCertificateHasTag(any(Long.class));
-        doNothing().when(tagDao).remove(any(Long.class));
+        when(tagDao.findById(any(long.class))).thenReturn(Optional.of(tag1));
+        doNothing().when(tagDao).removeGiftCertificateHasTag(any(long.class));
+        doNothing().when(tagDao).remove(any(long.class));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> tagService.removeTag(id));
@@ -278,7 +278,7 @@ class TagServiceImplTest {
     void findMostPopularTagOfUserWithHighestCostOfAllOrdersShouldReturnTagDtoTest() {
         // given
         when(userService.findUserByHighestCostOfAllOrders()).thenReturn(userDto1);
-        when(tagDao.findMostPopularOfUser(any(Long.class))).thenReturn(Optional.of(tag1));
+        when(tagDao.findMostPopularOfUser(any(long.class))).thenReturn(Optional.of(tag1));
 
         // when
         TagDto actual = tagService.findMostPopularTagOfUserWithHighestCostOfAllOrders();
@@ -291,7 +291,7 @@ class TagServiceImplTest {
     void findMostPopularTagOfUserWithHighestCostOfAllOrdersShouldThrowExceptionTest() {
         // given
         when(userService.findUserByHighestCostOfAllOrders()).thenReturn(userDto1);
-        when(tagDao.findMostPopularOfUser(any(Long.class))).thenReturn(Optional.empty());
+        when(tagDao.findMostPopularOfUser(any(long.class))).thenReturn(Optional.empty());
 
         // then
         assertThrows(ResourceNotFoundException.class,

@@ -8,6 +8,7 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.service.TagService;
 import com.epam.esm.util.GiftCertificateQueryParameters;
 import com.epam.esm.util.Page;
 import org.junit.jupiter.api.AfterAll;
@@ -37,10 +38,12 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ServiceConfiguration.class)
 @Import(ValidationAutoConfiguration.class)
-class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
+class GiftCertificateServiceImplTest {
 
     @MockBean
     private GiftCertificateDao giftCertificateDao;
+    @MockBean
+    private TagService tagService;
     @Autowired
     private GiftCertificateService giftCertificateService;
     private static GiftCertificate giftCertificate1;
@@ -51,7 +54,6 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     private static GiftCertificateDto giftCertificateDto4;
     private static GiftCertificateDto giftCertificateDto5;
     private static GiftCertificateDto giftCertificateDto6;
-    private static GiftCertificateDto giftCertificateDto7;
     private static GiftCertificateQueryParametersDto giftCertificateQueryParametersDto1;
     private static PageDto pageDto1;
     private static PageDto pageDto2;
@@ -116,21 +118,12 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
                 .tags(new ArrayList<>())
                 .build();
         giftCertificateDto5 = GiftCertificateDto.builder()
-                .id(1L)
                 .name("Cinema")
                 .duration(5)
                 .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         giftCertificateDto6 = GiftCertificateDto.builder()
-                .id(1L)
-                .name("Best cinema in the city")
-                .duration(5)
-                .createDate(LocalDateTime.of(2020, 12, 12, 12, 0, 0))
-                .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
-                .build();
-        giftCertificateDto7 = GiftCertificateDto.builder()
-                .id(1L)
                 .name("Cinema")
                 .duration(5)
                 .description("Nice")
@@ -163,7 +156,6 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
         giftCertificateDto4 = null;
         giftCertificateDto5 = null;
         giftCertificateDto6 = null;
-        giftCertificateDto7 = null;
         giftCertificateQueryParametersDto1 = null;
         pageDto1 = null;
         pageDto2 = null;
@@ -181,7 +173,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
         assertEquals(giftCertificateDto2, actual);
     }
 
-/*    @Test
+    @Test
     void addGiftCertificateIncorrectDataShouldThrowExceptionTest() {
         // given
         when(giftCertificateDao.add(any(GiftCertificate.class))).thenReturn(giftCertificate1);
@@ -189,7 +181,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
         // then
         assertThrows(ConstraintViolationException.class,
                 () -> giftCertificateService.addGiftCertificate(giftCertificateDto3));
-    }*/
+    }
 
     @Test
     void findGiftCertificatesByQueryParametersCorrectDataShouldReturnListOfGiftCertificateDtoTest() {
@@ -222,7 +214,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     void findGiftCertificateByIdCorrectDataShouldReturnGiftCertificateDtoTest() {
         // given
         long id = 1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate2));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate2));
 
         // when
         GiftCertificateDto actual = giftCertificateService.findGiftCertificateById(id);
@@ -235,7 +227,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     void findGiftCertificateByIdCorrectDataShouldThrowExceptionTest() {
         // given
         long id = 5;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.empty());
 
         // then
         assertThrows(ResourceNotFoundException.class, () -> giftCertificateService.findGiftCertificateById(id));
@@ -245,7 +237,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     void findGiftCertificateByIdIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate1));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate1));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> giftCertificateService.findGiftCertificateById(id));
@@ -255,7 +247,7 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     void updateGiftCertificateCorrectDataShouldReturnGiftCertificateDtoTest() {
         // given
         long id = 1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate2));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate2));
         when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
 
         // when
@@ -266,36 +258,24 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     }
 
     @Test
-    void updateGiftCertificateCorrectDataShouldThrowExceptionTest() {
-        // given
-        long id = 1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.empty());
-        when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
-
-        // then
-        assertThrows(ResourceNotFoundException.class,
-                () -> giftCertificateService.updateGiftCertificate(id, giftCertificateDto6));
-    }
-
-/*    @Test
     void updateGiftCertificateIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = 1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate2));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate2));
         when(giftCertificateDao.update(any(GiftCertificate.class))).thenReturn(giftCertificate1);
 
         // then
         assertThrows(ConstraintViolationException.class,
-                () -> giftCertificateService.updateGiftCertificate(id, giftCertificateDto7));
-    }*/
+                () -> giftCertificateService.updateGiftCertificate(id, giftCertificateDto6));
+    }
 
     @Test
     void removeGiftCertificateCorrectDataShouldNotThrowExceptionTest() {
         // given
         long id = 1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate1));
-        doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
-        doNothing().when(giftCertificateDao).remove(any(Long.class));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate1));
+        doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(long.class));
+        doNothing().when(giftCertificateDao).remove(any(long.class));
 
         // then
         assertDoesNotThrow(() -> giftCertificateService.removeGiftCertificate(id));
@@ -305,9 +285,9 @@ class GiftCertificateServiceImplTest { // TODO: 26.01.2021 refactor
     void removeGiftCertificateIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(giftCertificateDao.findById(any(Long.class))).thenReturn(Optional.of(giftCertificate1));
-        doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(Long.class));
-        doNothing().when(giftCertificateDao).remove(any(Long.class));
+        when(giftCertificateDao.findById(any(long.class))).thenReturn(Optional.of(giftCertificate1));
+        doNothing().when(giftCertificateDao).removeGiftCertificateHasTag(any(long.class));
+        doNothing().when(giftCertificateDao).remove(any(long.class));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> giftCertificateService.removeGiftCertificate(id));

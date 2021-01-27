@@ -11,16 +11,18 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Validated
 public interface GiftCertificateService {
 
     @Validated(OnCreate.class)
-    GiftCertificateDto addGiftCertificate(@Valid GiftCertificateDto giftCertificateDto);
+    GiftCertificateDto addGiftCertificate(@Valid @NotNull GiftCertificateDto giftCertificateDto);
 
     List<GiftCertificateDto> findGiftCertificatesByQueryParameters(
-            GiftCertificateQueryParametersDto giftCertificateQueryParametersDto, @Valid PageDto pageDto);
+            @NotNull GiftCertificateQueryParametersDto giftCertificateQueryParametersDto,
+            @Valid @NotNull PageDto pageDto);
 
     GiftCertificateDto findGiftCertificateById(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
@@ -28,8 +30,9 @@ public interface GiftCertificateService {
 
     @Validated(OnUpdate.class)
     GiftCertificateDto updateGiftCertificate(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id,
-            GiftCertificateDto giftCertificateDto);
+            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID,
+                    groups = OnUpdate.class) long id,
+            @Valid @NotNull GiftCertificateDto giftCertificateDto);
 
     void removeGiftCertificate(
             @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id);

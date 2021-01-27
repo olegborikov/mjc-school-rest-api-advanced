@@ -103,7 +103,7 @@ class UserServiceImplTest {
     void findUserByIdCorrectDataShouldReturnUserDtoTest() {
         // given
         long id = 1;
-        when(userDao.findById(any(Long.class))).thenReturn(Optional.of(user1));
+        when(userDao.findById(any(long.class))).thenReturn(Optional.of(user1));
 
         // when
         UserDto actual = userService.findUserById(id);
@@ -116,7 +116,7 @@ class UserServiceImplTest {
     void findUserByIdCorrectDataShouldThrowExceptionTest() {
         // given
         long id = 1;
-        when(userDao.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(userDao.findById(any(long.class))).thenReturn(Optional.empty());
 
         // then
         assertThrows(ResourceNotFoundException.class, () -> userService.findUserById(id));
@@ -126,7 +126,7 @@ class UserServiceImplTest {
     void findUserByIdIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(userDao.findById(any(Long.class))).thenReturn(Optional.of(user1));
+        when(userDao.findById(any(long.class))).thenReturn(Optional.of(user1));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> userService.findUserById(id));

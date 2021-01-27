@@ -8,12 +8,13 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Validated
 public interface UserService {
 
-    List<UserDto> findAllUsers(@Valid PageDto pageDto);
+    List<UserDto> findAllUsers(@Valid @NotNull PageDto pageDto);
 
     UserDto findUserById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long id)
             throws ResourceNotFoundException;

@@ -138,8 +138,8 @@ class OrderServiceImplTest {
     @Test
     void addOrderCorrectDataShouldReturnOrderDtoTest() {
         // given
-        when(giftCertificateService.findGiftCertificateById(any(Long.class))).thenReturn(giftCertificateDto1);
-        when(userService.findUserById(any(Long.class))).thenReturn(userDto1);
+        when(giftCertificateService.findGiftCertificateById(any(long.class))).thenReturn(giftCertificateDto1);
+        when(userService.findUserById(any(long.class))).thenReturn(userDto1);
         when(orderDao.add(any(Order.class))).thenReturn(order2);
 
         // when
@@ -152,8 +152,8 @@ class OrderServiceImplTest {
     @Test
     void addOrderCorrectDataShouldThrowExceptionTest() {
         // given
-        when(giftCertificateService.findGiftCertificateById(any(Long.class))).thenReturn(giftCertificateDto1);
-        when(userService.findUserById(any(Long.class))).thenReturn(userDto1);
+        when(giftCertificateService.findGiftCertificateById(any(long.class))).thenReturn(giftCertificateDto1);
+        when(userService.findUserById(any(long.class))).thenReturn(userDto1);
         when(orderDao.add(any(Order.class))).thenReturn(order2);
 
         // then
@@ -164,7 +164,7 @@ class OrderServiceImplTest {
     void findOrderByIdCorrectDataShouldReturnOrderDtoTest() {
         // given
         long id = 1;
-        when(orderDao.findById(any(Long.class))).thenReturn(Optional.of(order1));
+        when(orderDao.findById(any(long.class))).thenReturn(Optional.of(order1));
 
         // when
         OrderDto actual = orderService.findOrderById(id);
@@ -177,7 +177,7 @@ class OrderServiceImplTest {
     void findOrderByIdCorrectDataShouldThrowExceptionTest() {
         // given
         long id = 1;
-        when(orderDao.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(orderDao.findById(any(long.class))).thenReturn(Optional.empty());
 
         // then
         assertThrows(ResourceNotFoundException.class, () -> orderService.findOrderById(id));
@@ -187,7 +187,7 @@ class OrderServiceImplTest {
     void findOrderByIdIncorrectDataShouldThrowExceptionTest() {
         // given
         long id = -1;
-        when(orderDao.findById(any(Long.class))).thenReturn(Optional.of(order1));
+        when(orderDao.findById(any(long.class))).thenReturn(Optional.of(order1));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> orderService.findOrderById(id));
@@ -198,7 +198,7 @@ class OrderServiceImplTest {
         // given
         int expected = 2;
         long userId = 1;
-        when(orderDao.findByUserId(any(Long.class), any(Page.class))).thenReturn(Arrays.asList(order1, order2));
+        when(orderDao.findByUserId(any(long.class), any(Page.class))).thenReturn(Arrays.asList(order1, order2));
 
         // when
         List<OrderDto> actual = orderService.findOrdersByUserId(userId, pageDto1);
@@ -211,7 +211,7 @@ class OrderServiceImplTest {
     void findOrdersByUserIdIncorrectDataShouldThrowExceptionTest() {
         // given
         long userId = 1;
-        when(orderDao.findByUserId(any(Long.class), any(Page.class))).thenReturn(Arrays.asList(order1, order2));
+        when(orderDao.findByUserId(any(long.class), any(Page.class))).thenReturn(Arrays.asList(order1, order2));
 
         // then
         assertThrows(ConstraintViolationException.class, () -> orderService.findOrdersByUserId(userId, pageDto2));

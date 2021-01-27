@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto) {
         addAndSetTags(giftCertificateDto);
         GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(id);
-        @Valid GiftCertificateDto updatedFieldsGiftCertificateDto
+        GiftCertificateDto updatedFieldsGiftCertificateDto
                 = updateFields(foundGiftCertificateDto, giftCertificateDto);
         GiftCertificate updatedFieldsGiftCertificate
                 = modelMapper.map(updatedFieldsGiftCertificateDto, GiftCertificate.class);
