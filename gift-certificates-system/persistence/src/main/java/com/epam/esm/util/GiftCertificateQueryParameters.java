@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GiftCertificateQueryParameters {
 
-    private String tagName;
+    private String[] tagNames;
     private String name;
     private String description;
     private SortType sortType;

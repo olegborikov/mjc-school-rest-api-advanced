@@ -60,7 +60,7 @@ public class GiftCertificateController {
      */
     @GetMapping
     public List<GiftCertificateDto> getGiftCertificatesByQueryParameters(
-            @RequestParam(required = false) String tagName,
+            @RequestParam(required = false) String[] tagName,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) GiftCertificateQueryParametersDto.SortType sortType,

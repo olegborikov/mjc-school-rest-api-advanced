@@ -11,24 +11,24 @@ public enum SortType {
     /**
      * Name sort type.
      */
-    NAME(" ORDER BY g.name"),
+    NAME("name"),
     /**
      * Create date sort type.
      */
-    CREATE_DATE(" ORDER BY g.createDate");
+    CREATE_DATE("createDate");
 
-    private final String sqlExpression;
+    private final String sortFieldName;
 
-    SortType(String sqlExpression) {
-        this.sqlExpression = sqlExpression;
+    SortType(String sortFieldName) {
+        this.sortFieldName = sortFieldName;
     }
 
     /**
-     * Gets sql expression corresponding to enum element.
+     * Gets sort field name corresponding to enum element.
      *
-     * @return the sql expression
+     * @return the sort field name
      */
-    public String getSqlExpression() {
-        return sqlExpression;
+    public String getSortFieldName() {
+        return sortFieldName;
     }
 }

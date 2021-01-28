@@ -91,14 +91,14 @@ class GiftCertificateDaoImplTest {
                 .lastUpdateDate(LocalDateTime.of(2020, 12, 13, 12, 0, 0))
                 .build();
         giftCertificateQueryParameters1 = GiftCertificateQueryParameters.builder()
-                .tagName("school")
+                .tagNames(new String[]{"school"})
                 .name("a")
                 .description("i")
                 .sortType(SortType.NAME)
                 .orderType(OrderType.ASC)
                 .build();
         giftCertificateQueryParameters2 = GiftCertificateQueryParameters.builder()
-                .tagName("School")
+                .tagNames(new String[]{"school1"})
                 .name("a")
                 .description("i")
                 .sortType(SortType.CREATE_DATE)

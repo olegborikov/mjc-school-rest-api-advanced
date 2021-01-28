@@ -1,11 +1,19 @@
 package com.epam.esm.util;
 
+import com.epam.esm.entity.GiftCertificate;
 import lombok.experimental.UtilityClass;
 
-import java.text.MessageFormat;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Class {@code GiftCertificateQueryCreator} designed to create a selection condition.
+ * Class {@code GiftCertificateQueryCreator} designed to create a criteria builder.
  *
  * @author Oleg Borikov
  * @version 1.0
@@ -13,65 +21,74 @@ import java.text.MessageFormat;
 @UtilityClass
 public class GiftCertificateQueryCreator {
 
-    private static final String WHERE = " WHERE ";
-    private static final String AND = " AND ";
-    private static final String TAG_NAME = "t.name LIKE '%s'";
-    private static final String NAME = "g.name LIKE ''%{0}%''";
-    private static final String DESCRIPTION = "g.description LIKE ''%{0}%''";
-    private static final String GROUP_BY = " GROUP BY g.id";
+    private final String TAGS = "tags";
+    private final String NAME = "name";
+    private final String PERCENT = "%";
+    private final String DESCRIPTION = "description";
 
     /**
      * Create query from object of {@link GiftCertificateQueryParameters}.
      *
      * @param giftCertificateQueryParameters the gift certificate query parameters
-     * @return the selection condition
+     * @param criteriaBuilder                the criteria builder
+     * @return the criteria query
      */
-    public String createQuery(GiftCertificateQueryParameters giftCertificateQueryParameters) {
-        StringBuilder condition = new StringBuilder();
-        addTagName(giftCertificateQueryParameters, condition);
-        addName(giftCertificateQueryParameters, condition);
-        addDescription(giftCertificateQueryParameters, condition);
-        condition.append(GROUP_BY);
-        addSortType(giftCertificateQueryParameters, condition);
-        return condition.toString();
+    public CriteriaQuery<GiftCertificate> createQuery(GiftCertificateQueryParameters giftCertificateQueryParameters,
+                                                      CriteriaBuilder criteriaBuilder) {
+        CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
+        Root<GiftCertificate> giftCertificateRoot = criteriaQuery.from(GiftCertificate.class);
+        List<Predicate> restrictions = new ArrayList<>();
+        restrictions.addAll(addTagNames(giftCertificateQueryParameters, criteriaBuilder, giftCertificateRoot));
+        restrictions.addAll(addName(giftCertificateQueryParameters, criteriaBuilder, giftCertificateRoot));
+        restrictions.addAll(addDescription(giftCertificateQueryParameters, criteriaBuilder, giftCertificateRoot));
+        criteriaQuery.select(giftCertificateRoot)
+                .where(restrictions.toArray(new Predicate[]{}));
+        addSortType(giftCertificateQueryParameters, criteriaBuilder, criteriaQuery, giftCertificateRoot);
+        return criteriaQuery;
     }
 
-    private void addTagName(GiftCertificateQueryParameters giftCertificateQueryParameters, StringBuilder condition) {
-        if (giftCertificateQueryParameters.getTagName() != null) {
-            addOperator(condition);
-            condition.append(String.format(TAG_NAME, giftCertificateQueryParameters.getTagName()));
+    private List<Predicate> addTagNames(GiftCertificateQueryParameters giftCertificateQueryParameters,
+                                        CriteriaBuilder criteriaBuilder, Root<GiftCertificate> giftCertificateRoot) {
+        List<Predicate> restrictions = new ArrayList<>();
+        if (giftCertificateQueryParameters.getTagNames() != null) {
+            restrictions = Arrays.stream(giftCertificateQueryParameters.getTagNames())
+                    .map(tagName -> criteriaBuilder.equal(giftCertificateRoot.join(TAGS).get(NAME), tagName))
+                    .collect(Collectors.toList());
         }
+        return restrictions;
     }
 
-    private void addName(GiftCertificateQueryParameters giftCertificateQueryParameters, StringBuilder condition) {
+    private List<Predicate> addName(GiftCertificateQueryParameters giftCertificateQueryParameters,
+                                    CriteriaBuilder criteriaBuilder, Root<GiftCertificate> giftCertificateRoot) {
+        List<Predicate> restrictions = new ArrayList<>();
         if (giftCertificateQueryParameters.getName() != null) {
-            addOperator(condition);
-            condition.append(MessageFormat.format(NAME, giftCertificateQueryParameters.getName()));
+            restrictions.add(criteriaBuilder.like(giftCertificateRoot.get(NAME),
+                    PERCENT + giftCertificateQueryParameters.getName() + PERCENT));
         }
+        return restrictions;
     }
 
-    private void addDescription(GiftCertificateQueryParameters giftCertificateQueryParameters,
-                                StringBuilder condition) {
+    private List<Predicate> addDescription(GiftCertificateQueryParameters giftCertificateQueryParameters,
+                                           CriteriaBuilder criteriaBuilder, Root<GiftCertificate> giftCertificateRoot) {
+        List<Predicate> restrictions = new ArrayList<>();
         if (giftCertificateQueryParameters.getDescription() != null) {
-            addOperator(condition);
-            condition.append(MessageFormat.format(DESCRIPTION, giftCertificateQueryParameters.getDescription()));
+            restrictions.add(criteriaBuilder.like(giftCertificateRoot.get(DESCRIPTION),
+                    PERCENT + giftCertificateQueryParameters.getDescription() + PERCENT));
         }
+        return restrictions;
     }
 
-    private void addSortType(GiftCertificateQueryParameters giftCertificateQueryParameters, StringBuilder condition) {
+    private void addSortType(GiftCertificateQueryParameters giftCertificateQueryParameters,
+                             CriteriaBuilder criteriaBuilder, CriteriaQuery<GiftCertificate> criteriaQuery,
+                             Root<GiftCertificate> giftCertificateRoot) {
         if (giftCertificateQueryParameters.getSortType() != null) {
-            condition.append(giftCertificateQueryParameters.getSortType().getSqlExpression());
-            if (giftCertificateQueryParameters.getOrderType() != null) {
-                condition.append(giftCertificateQueryParameters.getOrderType().getSqlExpression());
+            String sortFieldName = giftCertificateQueryParameters.getSortType().getSortFieldName();
+            if (giftCertificateQueryParameters.getOrderType() != null
+                    && giftCertificateQueryParameters.getOrderType().equals(OrderType.DESC)) {
+                criteriaQuery.orderBy(criteriaBuilder.desc(giftCertificateRoot.get(sortFieldName)));
+            } else {
+                criteriaQuery.orderBy(criteriaBuilder.asc(giftCertificateRoot.get(sortFieldName)));
             }
-        }
-    }
-
-    private void addOperator(StringBuilder condition) {
-        if (condition.toString().isEmpty()) {
-            condition.append(WHERE);
-        } else {
-            condition.append(AND);
         }
     }
 }

@@ -93,7 +93,6 @@ public class TagServiceImpl implements TagService {
         tagDao.remove(id);
     }
 
-    @Transactional
     @Override
     public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() throws ResourceNotFoundException {
         UserDto foundUserDto = userService.findUserByHighestCostOfAllOrders();

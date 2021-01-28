@@ -11,24 +11,9 @@ public enum OrderType {
     /**
      * Asc order type.
      */
-    ASC(" ASC"),
+    ASC,
     /**
      * Desc order type.
      */
-    DESC(" DESC");
-
-    private final String sqlExpression;
-
-    OrderType(String sqlExpression) {
-        this.sqlExpression = sqlExpression;
-    }
-
-    /**
-     * Gets sql expression corresponding to enum element.
-     *
-     * @return the sql expression
-     */
-    public String getSqlExpression() {
-        return sqlExpression;
-    }
+    DESC;
 }

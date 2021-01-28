@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String FIND_ALL = "SELECT g FROM GiftCertificate g";
     private static final String REMOVE_GIFT_CERTIFICATE_HAS_TAG = "DELETE FROM gift_certificate_has_tag "
             + "WHERE gift_certificate_id_fk = :gift_certificate_id_fk";
-    private static final String FIND_BY_QUERY_PARAMETERS = "SELECT g FROM GiftCertificate g LEFT JOIN g.tags t";
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -69,8 +70,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public List<GiftCertificate> findByQueryParameters(
             GiftCertificateQueryParameters giftCertificateQueryParameters, Page page) {
-        String condition = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters);
-        return entityManager.createQuery(FIND_BY_QUERY_PARAMETERS + condition, GiftCertificate.class)
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<GiftCertificate> criteriaQuery
+                = GiftCertificateQueryCreator.createQuery(giftCertificateQueryParameters, criteriaBuilder);
+        return entityManager.createQuery(criteriaQuery)
                 .setFirstResult((page.getNumber() - 1) * page.getSize())
                 .setMaxResults(page.getSize())
                 .getResultList();
