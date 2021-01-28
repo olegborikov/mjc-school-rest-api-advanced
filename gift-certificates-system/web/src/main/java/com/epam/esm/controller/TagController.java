@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
- * Class {@code TagController} is an endpoint of the API which allows to perform CRD operations on tags.
+ * Class {@code TagController} is an endpoint of the API which allows to perform operations on tags.
  * Annotated by {@link RestController} with no parameters to provide an answer in application/json.
  * Annotated by {@link RequestMapping} with parameter value = "/tags".
  * So that {@code TagController} is accessed by sending request to /tags.
@@ -94,7 +94,7 @@ public class TagController {
      * Therefore, processes POST requests at /tags.
      *
      * @param tagDto the new tag which will be added
-     * @return the new tag dto
+     * @return the added tag dto
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

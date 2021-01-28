@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto findOrderById(long id) throws ResourceNotFoundException{
+    public OrderDto findOrderById(long id) throws ResourceNotFoundException {
         Optional<Order> foundOrderOptional = orderDao.findById(id);
         return foundOrderOptional
                 .map(foundOrder -> modelMapper.map(foundOrder, OrderDto.class))

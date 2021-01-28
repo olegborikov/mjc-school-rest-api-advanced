@@ -25,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Class {@code GiftCertificateController} is an endpoint of the API
- * which allows to perform CRUD operations on gift certificates.
+ * which allows to perform operations on gift certificates.
  * Annotated by {@link RestController} with no parameters to provide an answer in application/json.
  * Annotated by {@link RequestMapping} with parameter value = "/gift-certificates".
  * So that {@code GiftCertificateController} is accessed by sending request to /gift-certificates.
@@ -45,7 +45,7 @@ public class GiftCertificateController {
     }
 
     /**
-     * Get all gift certificates by query parameters.
+     * Get gift certificates by query parameters.
      * Annotated by {@link GetMapping} with no parameters.
      * Therefore, processes GET requests at /gift-certificates.
      *

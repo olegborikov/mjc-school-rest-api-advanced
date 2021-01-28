@@ -78,7 +78,7 @@ public class OrderController {
      * Therefore, processes POST requests at /orders.
      *
      * @param orderDto the new order which will be added
-     * @return the new order dto
+     * @return the added order dto
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

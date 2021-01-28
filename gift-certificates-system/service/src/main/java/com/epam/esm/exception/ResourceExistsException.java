@@ -1,7 +1,7 @@
 package com.epam.esm.exception;
 
 /**
- * {@code ResourceNotFoundException} is generated in case entity already exists in database.
+ * {@code ResourceExistsException} is generated in case entity already exists in database.
  *
  * @author Oleg Borikov
  * @version 1.0

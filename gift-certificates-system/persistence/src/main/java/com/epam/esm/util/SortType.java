@@ -1,7 +1,7 @@
 package com.epam.esm.util;
 
 /**
- * Enum {@code SortType} contains available types of sorting and corresponding sql expressions.
+ * Enum {@code SortType} contains available types of sorting.
  *
  * @author Oleg Borikov
  * @version 1.0

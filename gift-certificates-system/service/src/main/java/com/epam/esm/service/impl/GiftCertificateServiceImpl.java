@@ -85,17 +85,15 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto updateGiftCertificate(long id, GiftCertificateDto giftCertificateDto) {
         addAndSetTags(giftCertificateDto);
         GiftCertificateDto foundGiftCertificateDto = findGiftCertificateById(id);
-        GiftCertificateDto updatedFieldsGiftCertificateDto
-                = updateFields(foundGiftCertificateDto, giftCertificateDto);
-        GiftCertificate updatedFieldsGiftCertificate
-                = modelMapper.map(updatedFieldsGiftCertificateDto, GiftCertificate.class);
-        GiftCertificate updatedGiftCertificate = giftCertificateDao.update(updatedFieldsGiftCertificate);
+        updateFields(foundGiftCertificateDto, giftCertificateDto);
+        GiftCertificate foundGiftCertificate = modelMapper.map(foundGiftCertificateDto, GiftCertificate.class);
+        GiftCertificate updatedGiftCertificate = giftCertificateDao.update(foundGiftCertificate);
         return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
     }
 
     @Transactional
     @Override
-    public void removeGiftCertificate(long id) throws ResourceNotFoundException{
+    public void removeGiftCertificate(long id) throws ResourceNotFoundException {
         findGiftCertificateById(id);
         giftCertificateDao.removeGiftCertificateHasTag(id);
         giftCertificateDao.remove(id);
@@ -114,8 +112,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDto.setTags(tags);
     }
 
-    private GiftCertificateDto updateFields(GiftCertificateDto foundGiftCertificate,
-                                            GiftCertificateDto receivedGiftCertificate) {
+    private void updateFields(GiftCertificateDto foundGiftCertificate, GiftCertificateDto receivedGiftCertificate) {
         if (receivedGiftCertificate.getDuration() != 0) {
             foundGiftCertificate.setDuration(receivedGiftCertificate.getDuration());
         }
@@ -130,6 +127,5 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         foundGiftCertificate.setLastUpdateDate(LocalDateTime.now());
         foundGiftCertificate.setTags(receivedGiftCertificate.getTags());
-        return foundGiftCertificate;
     }
 }

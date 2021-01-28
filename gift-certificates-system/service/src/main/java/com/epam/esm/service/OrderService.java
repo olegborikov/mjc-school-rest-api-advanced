@@ -23,6 +23,7 @@ public interface OrderService {
     /**
      * Add new order.
      *
+     * @param orderDto the order dto which will be added
      * @return the added order dto
      */
     OrderDto addOrder(@Valid @NotNull OrderDto orderDto);

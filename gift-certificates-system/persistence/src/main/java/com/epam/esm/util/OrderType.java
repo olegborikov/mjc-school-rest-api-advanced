@@ -1,7 +1,7 @@
 package com.epam.esm.util;
 
 /**
- * Enum {@code OrderType} contains available types of ordering and corresponding sql expressions.
+ * Enum {@code OrderType} contains available types of ordering.
  *
  * @author Oleg Borikov
  * @version 1.0
@@ -15,5 +15,5 @@ public enum OrderType {
     /**
      * Desc order type.
      */
-    DESC;
+    DESC
 }

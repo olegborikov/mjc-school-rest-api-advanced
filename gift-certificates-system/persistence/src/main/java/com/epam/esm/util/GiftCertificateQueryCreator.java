@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class {@code GiftCertificateQueryCreator} designed to create a criteria builder.
+ * Class {@code GiftCertificateQueryCreator} designed to create a query to database.
  *
  * @author Oleg Borikov
  * @version 1.0

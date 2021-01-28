@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Class {@code GiftCertificateQueryParameters} consists parameters which are used to make selection to database.
+ * Class {@code GiftCertificateQueryParameters} consists parameters which are used to make query to database.
  *
  * @author Oleg Borikov
  * @version 1.0

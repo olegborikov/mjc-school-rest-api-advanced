@@ -36,6 +36,7 @@ public interface TagService {
     /**
      * Find all tags.
      *
+     * @param pageDto the pageDto containing information about pagination
      * @return the list of all tags dto
      */
     List<TagDto> findAllTags(@Valid @NotNull PageDto pageDto);

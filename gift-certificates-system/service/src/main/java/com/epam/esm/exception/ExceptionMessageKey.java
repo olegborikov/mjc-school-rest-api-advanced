@@ -57,6 +57,7 @@ public class ExceptionMessageKey {
      * Key for exception messages associated with internal server exceptions.
      */
     public final String INTERNAL_ERROR = "internalError";
+
     /**
      * Keys for exception messages associated with HttpMediaTypeNotSupportedException.
      */

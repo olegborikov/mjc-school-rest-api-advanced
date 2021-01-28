@@ -132,7 +132,7 @@ class GiftCertificateServiceImplTest {
                 .price(new BigDecimal("-1"))
                 .build();
         giftCertificateQueryParametersDto1 = GiftCertificateQueryParametersDto.builder()
-                .tagNames(new String[] {"Sport"})
+                .tagNames(new String[]{"Sport"})
                 .name("o")
                 .description("i")
                 .sortType(GiftCertificateQueryParametersDto.SortType.NAME)

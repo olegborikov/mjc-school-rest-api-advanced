@@ -63,13 +63,14 @@ public interface GiftCertificateService {
      * Gift certificate tags overwrite previous values.
      * If gift certificate has new tags they will be added.
      *
+     * @param id                 the id of gift certificate which will be updated
      * @param giftCertificateDto the gift certificate dto which will be updated
      * @return the updated gift certificate dto
      */
     @Validated(OnUpdate.class)
     GiftCertificateDto updateGiftCertificate(@Valid @Min(value = 1,
             message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = OnUpdate.class) long id,
-            @Valid @NotNull GiftCertificateDto giftCertificateDto);
+                                             @Valid @NotNull GiftCertificateDto giftCertificateDto);
 
     /**
      * Remove gift certificate and all recordings with such giftCertificateId in cross table.
