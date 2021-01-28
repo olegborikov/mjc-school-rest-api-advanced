@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class OrderDto extends RepresentationModel<TagDto> {
+public class OrderDto extends RepresentationModel<OrderDto> {
 
     @Null(message = ExceptionMessageKey.ORDER_HAS_ID)
     private Long id;

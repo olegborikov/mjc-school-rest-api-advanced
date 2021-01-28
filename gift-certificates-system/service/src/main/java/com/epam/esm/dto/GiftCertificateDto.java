@@ -36,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class GiftCertificateDto extends RepresentationModel<TagDto> {
+public class GiftCertificateDto extends RepresentationModel<GiftCertificateDto> {
 
     @Null(message = ExceptionMessageKey.GIFT_CERTIFICATE_HAS_ID, groups = {OnCreate.class, OnUpdate.class})
     private Long id;
