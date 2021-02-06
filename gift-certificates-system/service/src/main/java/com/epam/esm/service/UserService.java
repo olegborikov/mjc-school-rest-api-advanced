@@ -35,7 +35,7 @@ public interface UserService {
      * @return the found user dto
      * @throws ResourceNotFoundException an exception thrown in case user with such id not found
      */
-    UserDto findUserById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long id)
+    UserDto findUserById(@Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long id)
             throws ResourceNotFoundException;
 
     /**

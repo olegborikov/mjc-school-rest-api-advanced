@@ -54,7 +54,7 @@ public interface GiftCertificateService {
      * @throws ResourceNotFoundException an exception thrown in case gift certificate with such id not found
      */
     GiftCertificateDto findGiftCertificateById(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
+            @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
             throws ResourceNotFoundException;
 
     /**
@@ -68,9 +68,9 @@ public interface GiftCertificateService {
      * @return the updated gift certificate dto
      */
     @Validated(OnUpdate.class)
-    GiftCertificateDto updateGiftCertificate(@Valid @Min(value = 1,
-            message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = OnUpdate.class) long id,
-                                             @Valid @NotNull GiftCertificateDto giftCertificateDto);
+    GiftCertificateDto updateGiftCertificate(
+            @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID, groups = OnUpdate.class) long id,
+            @Valid @NotNull GiftCertificateDto giftCertificateDto);
 
     /**
      * Remove gift certificate and all recordings with such giftCertificateId in cross table.
@@ -80,6 +80,6 @@ public interface GiftCertificateService {
      *                                   {@link com.epam.esm.service.GiftCertificateService#findGiftCertificateById(long)}
      */
     void removeGiftCertificate(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
+            @Min(value = 1, message = ExceptionMessageKey.INCORRECT_GIFT_CERTIFICATE_ID) long id)
             throws ResourceNotFoundException;
 }

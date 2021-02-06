@@ -48,7 +48,7 @@ public interface TagService {
      * @return the found tag dto
      * @throws ResourceNotFoundException an exception thrown in case tag with such id not found
      */
-    TagDto findTagById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id)
+    TagDto findTagById(@Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id)
             throws ResourceNotFoundException;
 
     /**
@@ -58,7 +58,7 @@ public interface TagService {
      * @return the found tag dto
      * @throws ResourceNotFoundException an exception thrown in case tag with such name not found
      */
-    TagDto findTagByName(@Valid @NotBlank(message = ExceptionMessageKey.INCORRECT_TAG_NAME)
+    TagDto findTagByName(@NotBlank(message = ExceptionMessageKey.INCORRECT_TAG_NAME)
                          @Size(max = 100, message = ExceptionMessageKey.INCORRECT_TAG_NAME) String name)
             throws ResourceNotFoundException;
 
@@ -68,7 +68,7 @@ public interface TagService {
      * @param name the name of tag which will be searched
      * @return the boolean of tag existing
      */
-    boolean isExists(@Valid @NotBlank(message = ExceptionMessageKey.INCORRECT_TAG_NAME)
+    boolean isExists(@NotBlank(message = ExceptionMessageKey.INCORRECT_TAG_NAME)
                      @Size(max = 100, message = ExceptionMessageKey.INCORRECT_TAG_NAME) String name);
 
     /**
@@ -78,7 +78,7 @@ public interface TagService {
      * @throws ResourceNotFoundException an exception thrown by method
      *                                   {@link com.epam.esm.service.TagService#findTagById(long)} (long)}
      */
-    void removeTag(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id)
+    void removeTag(@Min(value = 1, message = ExceptionMessageKey.INCORRECT_TAG_ID) long id)
             throws ResourceNotFoundException;
 
     /**

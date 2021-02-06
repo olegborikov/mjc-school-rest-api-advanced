@@ -35,7 +35,7 @@ public interface OrderService {
      * @return the found order dto
      * @throws ResourceNotFoundException an exception thrown in case order with such id not found
      */
-    OrderDto findOrderById(@Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_ORDER_ID) long id)
+    OrderDto findOrderById(@Min(value = 1, message = ExceptionMessageKey.INCORRECT_ORDER_ID) long id)
             throws ResourceNotFoundException;
 
     /**
@@ -46,6 +46,6 @@ public interface OrderService {
      * @return the list of found orders dto
      */
     List<OrderDto> findOrdersByUserId(
-            @Valid @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long userId,
+            @Min(value = 1, message = ExceptionMessageKey.INCORRECT_USER_ID) long userId,
             @Valid @NotNull PageDto pageDto);
 }
